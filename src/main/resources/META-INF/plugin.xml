@@ -15,4 +15,15 @@
         <listener class="com.github.wesbin.intellijplugin.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
+
+    <actions>
+        <group id="MyPlugin.GreetingMenu" text="Greeting" description="Greeting Menu">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action class="com.github.wesbin.intellijplugin.HelloAction" text="Hello" description="Says Hello"/>
+        </group>
+        <group id="MyPlugin.UiTest" text="UiTest" description="Ui Text">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action class="com.github.wesbin.intellijplugin.UiTest" text="Hello UI"/>
+        </group>
+    </actions>
 </idea-plugin>
