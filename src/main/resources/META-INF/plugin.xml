@@ -5,6 +5,8 @@
     <vendor>wesbin</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.database</depends>
+    <depends>com.intellij.modules.ultimate</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.wesbin.intellijplugin.services.MyApplicationService"/>
