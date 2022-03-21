@@ -1,9 +1,7 @@
 package com.github.wesbin.intellijplugin
 
+import com.github.wesbin.intellijplugin.ui.*
 import com.github.wesbin.intellijplugin.ui.Demo
-import com.github.wesbin.intellijplugin.ui.demoBasics
-import com.github.wesbin.intellijplugin.ui.demoComponentLabels
-import com.github.wesbin.intellijplugin.ui.demoRowLayout
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
@@ -13,6 +11,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.BottomGap
 import com.intellij.ui.dsl.builder.panel
@@ -29,7 +28,13 @@ const val BASE_URL = "https://github.com/JetBrains/intellij-community/blob/maste
 val DEMOS = arrayOf(
     ::demoBasics,
     ::demoRowLayout,
-    ::demoComponentLabels
+    ::demoComponentLabels,
+    ::demoComments,
+    ::demoComponents,
+    ::demoGaps,
+    ::demoGroups,
+    ::demoAvailability,
+    ::demoTips
 )
 
 class UiTest : DumbAwareAction() {
@@ -92,7 +97,7 @@ private class UiTestDialog(val project: Project?, dialogTitle: String) :
             if (annotation.scrollbar) {
                 row {
                     dialogPanel.border = JBEmptyBorder(10)
-                    cell(dialogPanel)
+                    cell(dialogPanel, JBScrollPane(dialogPanel))
                         .horizontalAlign(HorizontalAlign.FILL)
                         .verticalAlign(VerticalAlign.FILL)
                         .resizableColumn()
