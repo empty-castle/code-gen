@@ -23,5 +23,9 @@
             <add-to-group group-id="MainMenu" anchor="last"/>
             <action class="com.github.wesbin.intellijplugin.HelloAction" text="Hello" description="Says Hello"/>
         </group>
+
+        <action id="codeGenerator" class="com.github.wesbin.intellijplugin.actions.BaseCodeGenerator" text="Base Code Generator">
+            <add-to-group group-id="DatabaseViewPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
