@@ -1,42 +1,80 @@
 package com.github.wesbin.intellijplugin.actions
 
-import com.intellij.database.model.DasColumn
-import com.intellij.database.psi.DbTable
-import com.intellij.database.util.DasUtil
+import com.github.wesbin.intellijplugin.ui.SQLGenerator
+import com.github.wesbin.intellijplugin.ui.Tab
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.DumbAwareAction
-import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.psi.PsiElement
-import com.intellij.util.containers.JBIterable
-import com.intellij.util.containers.JBIterator
+import com.intellij.ui.components.JBTabbedPane
+import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.gridLayout.HorizontalAlign
+import com.intellij.ui.dsl.gridLayout.VerticalAlign
+import java.awt.Dimension
+import javax.swing.JComponent
+import kotlin.reflect.KFunction
+import kotlin.reflect.full.findAnnotation
 
-class BaseCodeGenerator: DumbAwareAction() {
+val TABS = arrayOf(
+    ::SQLGenerator
+)
+
+lateinit var psiElement: PsiElement
+
+class BaseCodeGenerator : DumbAwareAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-        val project = e.getData(PlatformDataKeys.PROJECT)
+        psiElement = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext) ?: throw Exception("psiElement is null")
+        UiDialog(e.project, templatePresentation.text).show()
+    }
+}
 
-        val psiElement : PsiElement? = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext)
-        for (dasColumn in DasUtil.getColumns(psiElement as DbTable)) {
-            println(dasColumn.name)
+private class UiDialog(val project: Project?, dialogTitle: String) :
+    DialogWrapper(project, null, true, IdeModalityType.MODELESS, false) {
+
+    init {
+        title = dialogTitle
+        init()
+    }
+
+    override fun createCenterPanel(): JComponent {
+        val result = JBTabbedPane()
+        result.minimumSize = Dimension(400, 300)
+        result.preferredSize = Dimension(800, 600)
+
+        for (tab in TABS) {
+            addMemo(tab, result)
         }
 
-//        while (dasColumns.hasNext()) {
-//            val dasColumn = dasColumns.next()
-//            println(dasColumn.name)
-//        }
+        return result
+    }
 
-//        DasUtil.getColumns(psiElement as DbTable).get(1).name
-        //psiElement 는 우클릭한 테이블을 바라보네
+    private fun addMemo(tab: KFunction<DialogPanel>, tabbedPane: JBTabbedPane) {
+        val annotation = tab.findAnnotation<Tab>() ?: throw Exception("Tab annotation is missed for ${tab.name}")
 
-//        DbTableImpl
-//        (psiElement as DbTableImpl)
+        val content = panel {
 
-//        if (project != null) {
-//            DbPsiFacade.getInstance(project).dataSources
-//        }
+            val args = tab.parameters.associateBy(
+                { it },
+                {
+                    when (it.name) {
+                        "psiElement" -> psiElement
+                        else -> null
+                    }
+                }
+            )
 
-        Messages.showMessageDialog(project, "Hello from Kotlin!", "Greeting", Messages.getInformationIcon())
+            val dialogPanel = tab.callBy(args)
+            row {
+                cell(dialogPanel)
+                    .horizontalAlign(HorizontalAlign.FILL)
+                    .resizableColumn()
+            }
+        }
+
+        tabbedPane.add(annotation.title, content)
     }
 }
