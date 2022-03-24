@@ -1,40 +1,57 @@
 package com.github.wesbin.intellijplugin.ui
 
-import com.intellij.database.psi.DbTable
-import com.intellij.database.util.DasUtil
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.psi.PsiElement
-import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.builder.rows
-import com.intellij.ui.dsl.builder.text
+import com.intellij.ui.components.JBCheckBox
+import com.intellij.ui.components.JBRadioButton
+import com.intellij.ui.dsl.builder.*
 import com.intellij.ui.dsl.gridLayout.HorizontalAlign
-import com.intellij.ui.dsl.gridLayout.VerticalAlign
 
 @Tab(title = "SQL Generator")
 fun SQLGenerator(psiElement: PsiElement): DialogPanel {
+
+    val bindingProperties = BindingProperties()
+    // CRUD 모드 선택
+    var crud = ""
+
+
     return panel {
-        group("Columns") {
-            row {
-                checkBox("All")
-            }
-            indent {
-                rowsRange {
+        lateinit var readButton: Cell<JBRadioButton>
+        group("CRUD") {
+            panel {
+                buttonGroup({ crud }, { crud = it }) {
                     row {
-                        for (dasColumn in DasUtil.getColumns(psiElement as DbTable)) {
-                            checkBox(dasColumn.name)
-                        }
+                        radioButton("Create", "c")
+                        readButton = radioButton("Read", "r")
+                        radioButton("Update", "u")
+                        radioButton("Delete", "d")
                     }
                 }
             }
         }
 
+        group("SELECT") {
+            row {
+                checkBox("Column1")
+            }
+        }
+
+        groupRowsRange("WHERE") {
+            row {
+                checkBox("Column1")
+            }
+        }.visibleIf(readButton.selected)
+
         group("Result") {
             row {
                 textArea()
-                    .text("Test")
                     .horizontalAlign(HorizontalAlign.FILL)
-                    .rows(10)
+                    .rows(20)
             }
         }
     }
 }
+
+internal data class BindingProperties (
+    var checkBox: Boolean = true,
+)
