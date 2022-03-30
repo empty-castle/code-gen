@@ -19,13 +19,9 @@
     </applicationListeners>
 
     <actions>
-        <group id="MyPlugin.GreetingMenu" text="Greeting" description="Greeting Menu">
-            <add-to-group group-id="MainMenu" anchor="last"/>
-            <action class="com.github.wesbin.intellijplugin.HelloAction" text="Hello" description="Says Hello"/>
-        </group>
-
-        <action id="codeGenerator" class="com.github.wesbin.intellijplugin.actions.BaseCodeGenerator" text="Base Code Generator">
+        <group id="CodeGenerator.Group.Main" text="Base Code Generator" popup="true">
             <add-to-group group-id="DatabaseViewPopupMenu" anchor="last"/>
-        </action>
+            <action id="actions.SqlCodeGenerator" class="com.github.wesbin.intellijplugin.actions.SqlCodeGenerator" text="SQL"/>
+        </group>
     </actions>
 </idea-plugin>

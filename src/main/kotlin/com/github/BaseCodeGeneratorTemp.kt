@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.actions
+package com.github
 
 import com.intellij.database.psi.DbTable
 import com.intellij.database.util.DasUtil
@@ -20,6 +20,8 @@ class BaseCodeGeneratorTemp: DumbAwareAction() {
         }
 
 
+//        val project = event.getData(PlatformDataKeys.PROJECT)
+//        Messages.showMessageDialog(project, "Hello from Kotlin!", "Greeting", Messages.getInformationIcon())
 
 //        while (dasColumns.hasNext()) {
 //            val dasColumn = dasColumns.next()

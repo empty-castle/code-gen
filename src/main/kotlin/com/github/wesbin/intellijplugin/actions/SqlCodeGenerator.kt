@@ -1,7 +1,7 @@
 package com.github.wesbin.intellijplugin.actions
 
-import com.github.wesbin.intellijplugin.ui.SQLGenerator
 import com.github.wesbin.intellijplugin.ui.Tab
+import com.github.wesbin.intellijplugin.ui.sql.*
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.DumbAwareAction
@@ -12,19 +12,21 @@ import com.intellij.psi.PsiElement
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.gridLayout.HorizontalAlign
-import com.intellij.ui.dsl.gridLayout.VerticalAlign
 import java.awt.Dimension
 import javax.swing.JComponent
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.findAnnotation
 
 val TABS = arrayOf(
-    ::SQLGenerator
+    ::tabCreate,
+    ::tabRead,
+    ::tabUpdate,
+    ::tabDelete
 )
 
 lateinit var psiElement: PsiElement
 
-class BaseCodeGenerator : DumbAwareAction() {
+class SqlCodeGenerator : DumbAwareAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         psiElement = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext) ?: throw Exception("psiElement is null")
@@ -42,17 +44,17 @@ private class UiDialog(val project: Project?, dialogTitle: String) :
 
     override fun createCenterPanel(): JComponent {
         val result = JBTabbedPane()
-        result.minimumSize = Dimension(400, 300)
-        result.preferredSize = Dimension(800, 600)
+        result.minimumSize = Dimension(800, 600)
+        result.preferredSize = Dimension(1000, 800)
 
         for (tab in TABS) {
-            addMemo(tab, result)
+            addTab(tab, result)
         }
 
         return result
     }
 
-    private fun addMemo(tab: KFunction<DialogPanel>, tabbedPane: JBTabbedPane) {
+    private fun addTab(tab: KFunction<DialogPanel>, tabbedPane: JBTabbedPane) {
         val annotation = tab.findAnnotation<Tab>() ?: throw Exception("Tab annotation is missed for ${tab.name}")
 
         val content = panel {
