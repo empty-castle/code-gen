@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.ui.sql
+package com.github.wesbin.intellijplugin.ui.backup
 
 import com.github.wesbin.intellijplugin.ui.Tab
 import com.intellij.database.model.DasColumn

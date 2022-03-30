@@ -20,7 +20,7 @@
 
     <actions>
         <group id="CodeGenerator.Group.Main" text="Base Code Generator" popup="true">
-            <add-to-group group-id="DatabaseViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="MainMenu" anchor="last"/>
             <action id="actions.SqlCodeGenerator" class="com.github.wesbin.intellijplugin.actions.SqlCodeGenerator" text="SQL"/>
         </group>
     </actions>
