@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.ui.JBSplitter
 import java.awt.Dimension
 import javax.swing.JComponent
+import kotlin.properties.Delegates
 
 
 lateinit var psiElement: PsiElement
@@ -67,6 +68,8 @@ private class UiDialog(val project: Project?, dialogTitle: String) :
     }
 }
 
-data class BindingProperties (
-    var text: String = "Test"
-)
+class BindingProperties {
+    var text: String by Delegates.observable("Test") { property, oldValue, newValue ->
+        println("$oldValue[]$newValue")
+    }
+}
