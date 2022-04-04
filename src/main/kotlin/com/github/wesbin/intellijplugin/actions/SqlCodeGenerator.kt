@@ -2,6 +2,7 @@ package com.github.wesbin.intellijplugin.actions
 
 import com.github.wesbin.intellijplugin.ui.Observer
 import com.github.wesbin.intellijplugin.ui.sql.*
+import com.intellij.database.model.DasModel
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
@@ -20,9 +21,8 @@ class SqlCodeGenerator : DumbAwareAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
 
-        val dbDataSource = DbPsiFacade.getInstance(e.project as Project).dataSources[0]
-
-        val model = dbDataSource.model
+//        val dbDataSource = DbPsiFacade.getInstance(e.project as Project).dataSources[0]
+//        val model = dbDataSource.model
 
 //        model.traverser().expand { dasObject -> dasObject is DasNamespace }
 //            .filter { dasObject -> DasUtil.getSchema(dasObject) == "DENALL" }.toJB()[1]
@@ -40,15 +40,21 @@ class SqlCodeGenerator : DumbAwareAction() {
 //            .forEach { dasObject: DasObject? -> dasObject.name }
 
 //        psiElement = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext) ?: throw Exception("psiElement is null")
+
+        if (e.project == null) throw Exception("")
         UiDialog(e.project, templatePresentation.text).show()
     }
 }
 
-private class UiDialog(val project: Project?, dialogTitle: String) :
+private class UiDialog(val project: Project, dialogTitle: String) :
     DialogWrapper(project, null, true, IdeModalityType.MODELESS, false) {
+
+    val model: DasModel
 
     init {
         title = dialogTitle
+        val dbDataSource = DbPsiFacade.getInstance(project).dataSources[0]
+        model = dbDataSource.model
         init()
     }
 
@@ -61,7 +67,7 @@ private class UiDialog(val project: Project?, dialogTitle: String) :
         val observerList = mutableListOf<Observer>()
         val bindingProperties = BindingProperties(observerList)
 
-        val controlPanel = ControlPanel(bindingProperties = bindingProperties)
+        val controlPanel = ControlPanel(bindingProperties = bindingProperties, dasModel = model)
         observerList.add(controlPanel)
         jbSplitter.firstComponent = controlPanel.generatePanel()
 

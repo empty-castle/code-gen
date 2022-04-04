@@ -2,6 +2,7 @@ package com.github.wesbin.intellijplugin.ui.sql
 
 import com.github.wesbin.intellijplugin.actions.BindingProperties
 import com.github.wesbin.intellijplugin.ui.Observer
+import com.intellij.database.model.DasModel
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
@@ -9,7 +10,7 @@ import java.awt.event.ActionEvent
 import javax.swing.JLabel
 
 @Suppress("UnstableApiUsage")
-class ControlPanel(private val bindingProperties: BindingProperties): Observer {
+class ControlPanel(private val bindingProperties: BindingProperties, dasModel: DasModel): Observer {
     private lateinit var label: JLabel
 
     override fun update() {
