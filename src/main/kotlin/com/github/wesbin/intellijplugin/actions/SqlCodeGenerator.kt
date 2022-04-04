@@ -1,7 +1,7 @@
 package com.github.wesbin.intellijplugin.actions
 
-import com.github.wesbin.intellijplugin.ui.sql.controlPanel
-import com.github.wesbin.intellijplugin.ui.sql.resultPanel
+import com.github.wesbin.intellijplugin.ui.Observer
+import com.github.wesbin.intellijplugin.ui.sql.*
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
@@ -55,21 +55,26 @@ private class UiDialog(val project: Project?, dialogTitle: String) :
     override fun createCenterPanel(): JComponent {
 
         val jbSplitter = JBSplitter(false, 0.5f)
-
         jbSplitter.minimumSize = Dimension(800, 600)
         jbSplitter.preferredSize = Dimension(1000, 800)
 
-        val bindingProperties = BindingProperties()
+        val observerList = mutableListOf<Observer>()
+        val bindingProperties = BindingProperties(observerList)
 
-        jbSplitter.firstComponent = controlPanel(bindingProperties)
-        jbSplitter.secondComponent = resultPanel(bindingProperties)
+        val controlPanel = ControlPanel(bindingProperties = bindingProperties)
+        observerList.add(controlPanel)
+        jbSplitter.firstComponent = controlPanel.generatePanel()
+
+        val resultPanel = ResultPanel(bindingProperties = bindingProperties)
+        observerList.add(resultPanel)
+        jbSplitter.secondComponent = resultPanel.generatePanel()
 
         return jbSplitter;
     }
 }
 
-class BindingProperties {
-    var text: String by Delegates.observable("Test") { property, oldValue, newValue ->
-        println("$oldValue[]$newValue")
+class BindingProperties(observerList: List<Observer>) {
+    var text: String by Delegates.observable("") { property, oldValue, newValue ->
+        observerList.forEach(Observer::update)
     }
 }
