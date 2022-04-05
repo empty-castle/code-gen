@@ -5,6 +5,7 @@ import com.github.wesbin.intellijplugin.ui.sql.*
 import com.intellij.database.model.DasModel
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
@@ -41,8 +42,8 @@ class SqlCodeGenerator : DumbAwareAction() {
 
 //        psiElement = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext) ?: throw Exception("psiElement is null")
 
-        if (e.project == null) throw Exception("")
-        UiDialog(e.project, templatePresentation.text).show()
+        val project = e.project ?: throw Exception("아마도 인텔리제이가 정상적으로 실행되지 않았습니다.")
+        UiDialog(project, templatePresentation.text).show()
     }
 }
 
@@ -53,8 +54,7 @@ private class UiDialog(val project: Project, dialogTitle: String) :
 
     init {
         title = dialogTitle
-        val dbDataSource = DbPsiFacade.getInstance(project).dataSources[0]
-        model = dbDataSource.model
+        model = DbPsiFacade.getInstance(project).dataSources[0].model
         init()
     }
 
