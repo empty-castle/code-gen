@@ -34,6 +34,10 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             .toJB()
             .toArray(emptyArray())
 
+        // 현재 테이블
+//        dasModel.traverser()
+//            .filter { dasObject -> dasObject.kind == ObjectKind.TABLE && dasObject.dasParent.name == "DENALL" }.toList()
+
         panel = panel {
             row("SCHEMA") {
                 comboBox(schemaList, CellRenderer())
