@@ -10,6 +10,7 @@ import com.intellij.database.util.toJB
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.util.containers.toArray
 import java.awt.Component
 import java.awt.event.ActionEvent
 import javax.swing.JLabel
@@ -27,20 +28,36 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
     fun generatePanel(): DialogPanel {
         lateinit var panel: DialogPanel
 
-        val schemaList = dasModel
+        val expandedDasModel = dasModel
             .traverser()
             .expand { dasObject -> dasObject is DasNamespace }
-            .filter { dasObject -> dasObject.kind == ObjectKind.SCHEMA }
-            .toJB()
-            .toArray(emptyArray())
 
-        // 현재 테이블
-//        dasModel.traverser()
-//            .filter { dasObject -> dasObject.kind == ObjectKind.TABLE && dasObject.dasParent.name == "DENALL" }.toList()
+        val allTable = expandedDasModel
+            .filter { dasObject -> dasObject.kind == ObjectKind.TABLE }
+
+        val linkedSchemaList = mutableSetOf<DasObject>()
+        allTable
+            .forEach { dasObject ->
+                val parentSchema = dasObject.dasParent
+                if (parentSchema != null) {
+                    println(parentSchema.name)
+                    if (parentSchema.name == "SYSTEM") {
+                        return@forEach
+                    } else {
+                        linkedSchemaList.add(parentSchema)
+                    }
+                }
+            }
+
+//        // 스키마 리스트
+//        val schemaList = expandedDasModel
+//            .filter { dasObject -> dasObject.kind == ObjectKind.SCHEMA }
+//            .toJB()
+//            .toArray(emptyArray())
 
         panel = panel {
             row("SCHEMA") {
-                comboBox(schemaList, CellRenderer())
+                comboBox(linkedSchemaList.toArray(emptyArray()), CellRenderer())
             }
 
             row {
