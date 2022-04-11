@@ -6,10 +6,12 @@ import com.intellij.database.model.DasModel
 import com.intellij.database.model.DasNamespace
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
-import com.intellij.database.util.toJB
+import com.intellij.openapi.observable.properties.GraphProperty
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.layout.PropertyBinding
 import com.intellij.util.containers.toArray
 import java.awt.Component
 import java.awt.event.ActionEvent
@@ -40,8 +42,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             .forEach { dasObject ->
                 val parentSchema = dasObject.dasParent
                 if (parentSchema != null) {
-                    println(parentSchema.name)
-                    if (parentSchema.name == "SYSTEM") {
+                    if (parentSchema.name == "SYS" || parentSchema.name == "SYSTEM") {
                         return@forEach
                     } else {
                         linkedSchemaList.add(parentSchema)
@@ -55,9 +56,16 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
 //            .toJB()
 //            .toArray(emptyArray())
 
+//        val filteredTable = allTable
+//            .filter { dasObject -> dasObject.dasParent.name == bindingProperties.schema }
+
         panel = panel {
             row("SCHEMA") {
                 comboBox(linkedSchemaList.toArray(emptyArray()), CellRenderer())
+            }
+
+            row("TABLE") {
+//                comboBox()
             }
 
             row {
@@ -89,7 +97,6 @@ class CellRenderer: JLabel(), ListCellRenderer<DasObject?> {
         if (value != null) {
             text = value.name
         }
-
         return this
     }
 }
