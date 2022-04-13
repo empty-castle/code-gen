@@ -83,9 +83,6 @@ private class UiDialog(val project: Project, dialogTitle: String) :
 }
 
 class BindingProperties(observerList: List<Observer>) {
-    var text: String by Delegates.observable("") { property, oldValue, newValue ->
-        observerList.forEach(Observer::update)
-    }
     // 스키마
     var schema: String by Delegates.observable("") { property, oldValue, newValue ->
         observerList.forEach(Observer::update)

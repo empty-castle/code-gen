@@ -24,7 +24,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
     private lateinit var label: JLabel
 
     override fun update() {
-        label.text = bindingProperties.text
+        label.text = bindingProperties.schema
     }
 
     fun generatePanel(): DialogPanel {
@@ -37,7 +37,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
         val allTable = expandedDasModel
             .filter { dasObject -> dasObject.kind == ObjectKind.TABLE }
 
-        val linkedSchemaList = mutableSetOf<DasObject>()
+        val linkedSchemaList = mutableSetOf<String>()
         allTable
             .forEach { dasObject ->
                 val parentSchema = dasObject.dasParent
@@ -45,7 +45,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                     if (parentSchema.name == "SYS" || parentSchema.name == "SYSTEM") {
                         return@forEach
                     } else {
-                        linkedSchemaList.add(parentSchema)
+                        linkedSchemaList.add(parentSchema.name)
                     }
                 }
             }
@@ -62,6 +62,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
         panel = panel {
             row("SCHEMA") {
                 comboBox(linkedSchemaList.toArray(emptyArray()), CellRenderer())
+                    .bindItem(bindingProperties::schema)
             }
 
             row("TABLE") {
@@ -71,8 +72,8 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             row {
                 textField()
                     .label("Please")
-                    .bindText(bindingProperties::text)
-                label = label(bindingProperties.text).component
+                    .bindText(bindingProperties::schema)
+                label = label(bindingProperties.schema).component
             }
 
             row {
@@ -86,16 +87,16 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
     }
 }
 
-class CellRenderer: JLabel(), ListCellRenderer<DasObject?> {
+class CellRenderer: JLabel(), ListCellRenderer<String?> {
     override fun getListCellRendererComponent(
-        list: JList<out DasObject>?,
-        value: DasObject?,
+        list: JList<out String>?,
+        value: String?,
         index: Int,
         isSelected: Boolean,
         cellHasFocus: Boolean
     ): Component {
         if (value != null) {
-            text = value.name
+            text = value
         }
         return this
     }
