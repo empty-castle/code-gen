@@ -8,6 +8,7 @@ import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.sql.change
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.util.containers.toArray
@@ -16,15 +17,22 @@ import java.awt.event.ActionEvent
 import javax.swing.*
 
 @Suppress("UnstableApiUsage")
-class ControlPanel(private val bindingProperties: BindingProperties, private val dasModel: DasModel): Observer {
+class ControlPanel(private val bindingProperties: BindingProperties, private val dasModel: DasModel) {
+    private lateinit var panel: DialogPanel
     private lateinit var schemaLabel: JLabel
     private lateinit var tableLabel: JLabel
     private lateinit var tableCombobox: ComboBox<DasObject>
     private val groupedTable: MutableMap<String, MutableList<DasObject>> = mutableMapOf()
 
-    override fun update() {
+
+    private fun apply() {
+        panel.apply()
+
         schemaLabel.text = bindingProperties.schema
         tableLabel.text = bindingProperties.table
+
+    //        tableCombobox.item.getDasChildren(ObjectKind.COLUMN)
+    //        tableCombobox.item.getDasChildren(ObjectKind.COLUMN)[0].name
 
         val comboBoxModel = tableCombobox.model
         if (comboBoxModel.size > 0) {
@@ -38,7 +46,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
     }
 
     fun generatePanel(): DialogPanel {
-        lateinit var panel: DialogPanel
+
 
         val expandedDasModel = dasModel
             .traverser()
@@ -83,6 +91,12 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             row("SCHEMA") {
                 comboBox(linkedSchemaList.toArray(emptyArray()))
                     .bindItem(bindingProperties::schema)
+                    .component
+//                    .addActionListener {
+//                        println(it.actionCommand)
+//                    }
+//                    .addActionListener { println("addActionListener") } // 값을 선택할 때 호출된다. 하지만 같은 값이라도 호출
+//                    .onApply { println("onApply") } // panel.Apply 로 모습이 바뀔 때
             }
 
             row("TABLE") {
@@ -96,12 +110,12 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             }
 
             row("COLUMNS") {
-                
+
             }
 
             row {
                 button("Apply") { event: ActionEvent ->
-                    panel.apply()
+                    apply()
                 }
             }
 

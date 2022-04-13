@@ -11,7 +11,7 @@ class ResultPanel(private val bindingProperties: BindingProperties): Observer {
     private lateinit var textArea: JBTextArea
 
     override fun update() {
-        textArea.text = bindingProperties.schema
+        textArea.text = bindingProperties.schema + bindingProperties.table
     }
 
     fun generatePanel(): DialogPanel {
@@ -21,7 +21,7 @@ class ResultPanel(private val bindingProperties: BindingProperties): Observer {
                 textArea = textArea()
                     .rows(50)
                     .horizontalAlign(HorizontalAlign.FILL)
-                    .text(bindingProperties.schema)
+                    .text(bindingProperties.schema + bindingProperties.table)
                     .component
             }
         }

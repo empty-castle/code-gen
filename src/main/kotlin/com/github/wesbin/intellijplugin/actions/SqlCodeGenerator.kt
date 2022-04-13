@@ -73,7 +73,7 @@ private class UiDialog(val project: Project, dialogTitle: String) :
         val bindingProperties = BindingProperties(observerList)
 
         val controlPanel = ControlPanel(bindingProperties = bindingProperties, dasModel = model)
-        observerList.add(controlPanel)
+//        observerList.add(controlPanel)
         jbSplitter.firstComponent = controlPanel.generatePanel()
 
         val resultPanel = ResultPanel(bindingProperties = bindingProperties)
@@ -87,10 +87,14 @@ private class UiDialog(val project: Project, dialogTitle: String) :
 class BindingProperties(observerList: List<Observer>) {
     // 스키마
     var schema: String by Delegates.observable("") { property, oldValue, newValue ->
-        observerList.forEach(Observer::update)
+        if (oldValue != newValue) {
+            observerList.forEach(Observer::update)
+        }
     }
     // 테이블
     var table: String by Delegates.observable("") { property, oldValue, newValue ->
-        observerList.forEach(Observer::update)
+        if (oldValue != newValue) {
+            observerList.forEach(Observer::update)
+        }
     }
 }
