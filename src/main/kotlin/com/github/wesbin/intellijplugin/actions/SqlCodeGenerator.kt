@@ -5,6 +5,7 @@ import com.github.wesbin.intellijplugin.ui.sql.*
 import com.intellij.database.model.DasModel
 import com.intellij.database.model.DasObject
 import com.intellij.database.psi.DbPsiFacade
+import com.intellij.database.util.DasUtil
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.DumbAwareAction
@@ -45,6 +46,7 @@ class SqlCodeGenerator : DumbAwareAction() {
 
 //        psiElement = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext) ?: throw Exception("psiElement is null")
 
+        // fixme throw Exception 이 아니라 message 창을 출력하자
         val project = e.project ?: throw Exception("아마도 인텔리제이가 정상적으로 실행되지 않았습니다.")
         UiDialog(project, templatePresentation.text).show()
     }
