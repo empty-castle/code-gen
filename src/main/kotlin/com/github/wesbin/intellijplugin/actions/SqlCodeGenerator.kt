@@ -25,27 +25,6 @@ lateinit var psiElement: PsiElement
 class SqlCodeGenerator : DumbAwareAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-
-//        val dbDataSource = DbPsiFacade.getInstance(e.project as Project).dataSources[0]
-//        val model = dbDataSource.model
-
-//        model.traverser().expand { dasObject -> dasObject is DasNamespace }
-//            .filter { dasObject -> DasUtil.getSchema(dasObject) == "DENALL" }.toJB()[1]
-
-
-//        SCHEMA
-//        model.traverser().expand { dasObject -> dasObject is DasNamespace }
-//            .filter { dasObject -> dasObject.kind == ObjectKind.SCHEMA }.toList()
-
-
-
-//        DbPsiFacade.getInstance(e.project as Project).dataSources
-//        DbPsiFacade.getInstance(e.project as Project).dataSources[0].model.traverser()
-//            .filter { dasObject -> dasObject.kind == ObjectKind.SCHEMA }
-//            .forEach { dasObject: DasObject? -> dasObject.name }
-
-//        psiElement = CommonDataKeys.PSI_ELEMENT.getData(e.dataContext) ?: throw Exception("psiElement is null")
-
         // fixme throw Exception 이 아니라 message 창을 출력하자
         val project = e.project ?: throw Exception("아마도 인텔리제이가 정상적으로 실행되지 않았습니다.")
         UiDialog(project, templatePresentation.text).show()
