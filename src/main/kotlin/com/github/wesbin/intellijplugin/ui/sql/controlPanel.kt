@@ -115,16 +115,12 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             row {
                 button("Generator") { event: ActionEvent ->
                     panel.apply()
-//                    update("")
                 }
             }
 
             separator("TESTING")
 
             row {
-//                textField()
-//                    .label("Please")
-//                    .bindText(bindingProperties::schema)
                 schemaLabel = label(bindingProperties.schema).component
                 tableLabel = label(bindingProperties.table).component
             }

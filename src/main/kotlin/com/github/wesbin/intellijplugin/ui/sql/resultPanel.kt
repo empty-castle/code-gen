@@ -7,11 +7,14 @@ import com.intellij.ui.components.JBTextArea
 import com.intellij.ui.dsl.builder.*
 import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 
+@Suppress("UnstableApiUsage")
 class ResultPanel(private val bindingProperties: BindingProperties): Observer {
     private lateinit var textArea: JBTextArea
 
     override fun update() {
-        textArea.text = bindingProperties.schema + bindingProperties.table
+
+        // panel.Apply() 실행하면 여기로 들어온다
+        textArea.text = "SELECT * FROM ${bindingProperties.schema}.${bindingProperties.table}"
     }
 
     fun generatePanel(): DialogPanel {

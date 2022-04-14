@@ -70,6 +70,8 @@ class BindingProperties(observerList: List<Observer>) {
             observerList.forEach(Observer::update)
         }
     }
+
+    // fixme SQL Generator 를 사용하기 위해선 String 이 아니라 DasObject 가 좋지 않겠는가?
     // 테이블
     var table: String by Delegates.observable("") { property, oldValue, newValue ->
         if (oldValue != newValue) {
