@@ -39,9 +39,8 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
     private lateinit var tableLabel: JLabel
 
     private fun update(updatedLabel: String) {
-        schemaLabel.text = bindingProperties.schema
-        // fixme 스키마 panel 업데이트 이후에 table 이 업데이트 되기 때문에 값 매칭 시점에 차이가 있다
-        tableLabel.text = bindingProperties.table
+//        schemaLabel.text = bindingProperties.schema
+//        tableLabel.text = bindingProperties.table
 
         when (updatedLabel) {
             schemaRowLabel -> {
@@ -97,8 +96,8 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                     .component
                 schemaCombobox.addItemListener {
                     if (it.stateChange == ItemEvent.SELECTED) {
-                        panel.apply()
                         update(schemaRowLabel)
+                        panel.apply()
                     }
                 }
 //                    .onApply { println("onApply") } // panel.Apply 로 모습이 바뀔 때
@@ -113,6 +112,11 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                     })
                     .component
                 tableCombobox.selectedIndex = 0
+                tableCombobox.addItemListener {
+                    if (it.stateChange == ItemEvent.SELECTED) {
+                        panel.apply()
+                    }
+                }
             }
 
             row(columnRowLabel) {
@@ -125,12 +129,12 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                 }
             }
 
-            separator("TESTING")
+//            separator("TESTING")
 
-            row {
-                schemaLabel = label(bindingProperties.schema).component
-                tableLabel = label(bindingProperties.table).component
-            }
+//            row {
+//                schemaLabel = label(bindingProperties.schema).component
+//                tableLabel = label(bindingProperties.table).component
+//            }
         }
 
         return panel

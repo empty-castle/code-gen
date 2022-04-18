@@ -21,6 +21,8 @@ class ResultPanel(private val bindingProperties: BindingProperties): Observer {
 
         return panel {
             row {
+//                EditorTextField("EditorTextField")
+//                    .editor
                 textArea = textArea()
                     .rows(50)
                     .horizontalAlign(HorizontalAlign.FILL)
