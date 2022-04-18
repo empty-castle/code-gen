@@ -21,14 +21,22 @@ import javax.swing.*
 @Suppress("UnstableApiUsage")
 class ControlPanel(private val bindingProperties: BindingProperties, private val dasModel: DasModel) {
     private lateinit var panel: DialogPanel
-    private lateinit var schemaLabel: JLabel
-    private lateinit var tableLabel: JLabel
-    private lateinit var tableCombobox: ComboBox<DasObject>
-    private val groupedTable: MutableMap<String, MutableList<DasObject>> = mutableMapOf()
 
+//    Combobox
+    private lateinit var schemaCombobox: ComboBox<String>
+    private lateinit var tableCombobox: ComboBox<DasObject>
+
+//    Row Label
     private val schemaRowLabel: String = "SCHEMA"
     private val tableRowLabel: String = "TABLE"
     private val columnRowLabel: String = "COLUMNS"
+
+//    선택된 스키마에 포함된 테이블
+    private val groupedTable: MutableMap<String, MutableList<DasObject>> = mutableMapOf()
+
+//    Testing
+    private lateinit var schemaLabel: JLabel
+    private lateinit var tableLabel: JLabel
 
     private fun update(updatedLabel: String) {
         schemaLabel.text = bindingProperties.schema
@@ -49,7 +57,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
         if (comboBoxModel.size > 0) {
             (comboBoxModel as DefaultComboBoxModel).removeAllElements()
         }
-        val tableList = groupedTable[bindingProperties.schema]
+        val tableList = groupedTable[schemaCombobox.item]
         if (!tableList.isNullOrEmpty()) {
             tableList
                 .forEach { dasObject -> (comboBoxModel as MutableComboBoxModel).addElement(dasObject) }
@@ -84,16 +92,15 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
         panel = panel {
 //            fixme 로딩하면서 선택된 값 binding 되어 있지 않는다 but panel.Apply() 실행하면 정상적으로 된다.
             row(schemaRowLabel) {
-                comboBox(linkedSchemaList.toArray(emptyArray()))
+                schemaCombobox = comboBox(linkedSchemaList.toArray(emptyArray()))
                     .bindItem(bindingProperties::schema)
                     .component
-                    .addItemListener {
-                        if (it.stateChange == ItemEvent.SELECTED) {
-                            panel.apply()
-                            update(schemaRowLabel)
-                        }
+                schemaCombobox.addItemListener {
+                    if (it.stateChange == ItemEvent.SELECTED) {
+                        panel.apply()
+                        update(schemaRowLabel)
                     }
-//                    .addActionListener { println("addActionListener") } // 값을 선택할 때 호출된다. 하지만 같은 값이라도 호출
+                }
 //                    .onApply { println("onApply") } // panel.Apply 로 모습이 바뀔 때
             }
 
