@@ -1,20 +1,20 @@
 package com.github.wesbin.intellijplugin.ui.sql
 
 import com.github.wesbin.intellijplugin.actions.BindingProperties
-import com.github.wesbin.intellijplugin.ui.Observer
 import com.intellij.database.model.DasModel
 import com.intellij.database.model.DasNamespace
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
-import com.intellij.sql.change
+import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.gridLayout.Constraints
+import com.intellij.ui.dsl.gridLayout.GridLayout
 import com.intellij.util.containers.toArray
 import com.jetbrains.rd.util.first
 import java.awt.Component
-import java.awt.event.ActionEvent
 import java.awt.event.ItemEvent
 import javax.swing.*
 
@@ -27,28 +27,20 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
     private lateinit var tableCombobox: ComboBox<DasObject>
 
 //    Row Label
-    private val schemaRowLabel: String = "SCHEMA"
-    private val tableRowLabel: String = "TABLE"
-    private val columnRowLabel: String = "COLUMNS"
+    private val schemaRowLabel: String = "SCHEMA:"
+    private val tableRowLabel: String = "TABLE:"
+    private val columnRowLabel: String = "COLUMNS:"
 
 //    선택된 스키마에 포함된 테이블
     private val groupedTable: MutableMap<String, MutableList<DasObject>> = mutableMapOf()
 
-//    Testing
-    private lateinit var schemaLabel: JLabel
-    private lateinit var tableLabel: JLabel
+//    private val tableColumns: MutableList<String> = mutableListOf()
 
     private fun update(updatedLabel: String) {
-//        schemaLabel.text = bindingProperties.schema
-//        tableLabel.text = bindingProperties.table
-
         when (updatedLabel) {
-            schemaRowLabel -> {
-                schemaUpdate()
-            }
+            schemaRowLabel -> schemaUpdate()
+            tableRowLabel -> tableUpdate()
         }
-    //        tableCombobox.item.getDasChildren(ObjectKind.COLUMN)
-    //        tableCombobox.item.getDasChildren(ObjectKind.COLUMN)[0].name
     }
 
     private fun schemaUpdate() {
@@ -60,6 +52,19 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
         if (!tableList.isNullOrEmpty()) {
             tableList
                 .forEach { dasObject -> (comboBoxModel as MutableComboBoxModel).addElement(dasObject) }
+        }
+    }
+
+    private fun tableUpdate() {
+//        fixme 현재 뿌려져있는 Column Checkbox 삭제 이후에 원하는 Checkbox 를 생성하는 로직 필요
+        val lastComponent = panel.components[panel.componentCount - 1]
+        val constraints = (panel.layout as GridLayout).getConstraints(lastComponent as JComponent)
+        if (constraints != null) {
+            Constraints(constraints.grid, constraints.x, constraints.y + 1)
+            panel.add(JBCheckBox("Test", true),
+                Constraints(constraints.grid, constraints.x, constraints.y + 1))
+            panel.revalidate()
+            panel.repaint()
         }
     }
 
@@ -97,6 +102,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                 schemaCombobox.addItemListener {
                     if (it.stateChange == ItemEvent.SELECTED) {
                         update(schemaRowLabel)
+
                         panel.apply()
                     }
                 }
@@ -104,37 +110,31 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             }
 
             row(tableRowLabel) {
-                tableCombobox = comboBox(groupedTable.first().value.toArray(emptyArray<DasObject>()), DasObjectCellRenderer())
-                    .bindItem({ null }, { dasObject ->
-                        if (dasObject != null) {
-                            bindingProperties.table = dasObject.name
-                        }
-                    })
-                    .component
+                tableCombobox =
+                    comboBox(groupedTable.first().value.toArray(emptyArray()), DasObjectCellRenderer())
+                        .bindItem({ null }, { dasObject ->
+                            if (dasObject != null) {
+                                bindingProperties.table = dasObject.name
+                            }
+                        })
+                        .component
                 tableCombobox.selectedIndex = 0
                 tableCombobox.addItemListener {
                     if (it.stateChange == ItemEvent.SELECTED) {
+                        update(tableRowLabel)
                         panel.apply()
                     }
                 }
             }
 
             row(columnRowLabel) {
-
+//                val tableColumns = tableCombobox.item.getDasChildren(ObjectKind.COLUMN)
+//                if (tableColumns.isNotEmpty) {
+//                    tableColumns.forEach { dasObject ->
+//                        cell(JBCheckBox(dasObject.name, true))
+//                    }
+//                }
             }
-
-            row {
-                button("Generator") { event: ActionEvent ->
-                    panel.apply()
-                }
-            }
-
-//            separator("TESTING")
-
-//            row {
-//                schemaLabel = label(bindingProperties.schema).component
-//                tableLabel = label(bindingProperties.table).component
-//            }
         }
 
         return panel
