@@ -1,20 +1,16 @@
 package com.github.wesbin.intellijplugin.actions
 
 import com.github.wesbin.intellijplugin.ui.Observer
-import com.github.wesbin.intellijplugin.ui.sql.*
+import com.github.wesbin.intellijplugin.ui.sql.ControlPanel
+import com.github.wesbin.intellijplugin.ui.sql.ResultPanel
 import com.intellij.database.model.DasModel
-import com.intellij.database.model.DasObject
 import com.intellij.database.psi.DbPsiFacade
-import com.intellij.database.util.DasUtil
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.psi.PsiElement
 import com.intellij.ui.JBSplitter
-import com.intellij.ui.dsl.builder.Cell
 import java.awt.Dimension
 import javax.swing.JComponent
 import kotlin.properties.Delegates
@@ -79,7 +75,7 @@ class BindingProperties(observerList: List<Observer>) {
     }
 
     // 컬럼
-    var column: List<String> by Delegates.observable(mutableListOf()) { property, oldValue, newValue ->
+    var columns: MutableList<String> by Delegates.observable(mutableListOf()) { property, oldValue, newValue ->
         if (oldValue != newValue) {
             observerList.forEach(Observer::update)
         }

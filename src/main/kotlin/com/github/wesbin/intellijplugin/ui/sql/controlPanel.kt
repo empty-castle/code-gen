@@ -15,6 +15,7 @@ import com.intellij.ui.dsl.gridLayout.GridLayout
 import com.intellij.util.containers.toArray
 import com.jetbrains.rd.util.first
 import java.awt.Component
+import java.awt.event.ActionEvent
 import java.awt.event.ItemEvent
 import javax.swing.*
 
@@ -56,16 +57,58 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
     }
 
     private fun tableUpdate() {
-//        fixme 현재 뿌려져있는 Column Checkbox 삭제 이후에 원하는 Checkbox 를 생성하는 로직 필요
         val lastComponent = panel.components[panel.componentCount - 1]
         val constraints = (panel.layout as GridLayout).getConstraints(lastComponent as JComponent)
         if (constraints != null) {
-            Constraints(constraints.grid, constraints.x, constraints.y + 1)
-            panel.add(JBCheckBox("Test", true),
-                Constraints(constraints.grid, constraints.x, constraints.y + 1))
+            var y = constraints.y
+            val tableColumns = tableCombobox.item.getDasChildren(ObjectKind.COLUMN)
+            if (tableColumns.isNotEmpty) {
+                bindingProperties.columns.clear()
+                tableColumns.forEach { dasObject ->
+                    panel.add(
+                        createJBCheckBox(
+                            dasObject.name,
+                            true
+                        ) {
+                            if ((this.source as JBCheckBox).model.isSelected) {
+                                bindingProperties.columns += this.actionCommand
+                            } else {
+                                bindingProperties.columns -= this.actionCommand
+                            }
+                        },
+                        Constraints(constraints.grid, constraints.x + 1, y)
+                    )
+                    bindingProperties.columns += dasObject.name
+                    y++
+                }
+            }
             panel.revalidate()
             panel.repaint()
         }
+    }
+
+//    무조건 마지막 row 에 있는 경우에만 동작할 수 있다.
+    private fun clearColumns() {
+        val componentIterator = panel.components.iterator()
+        var isDelete = false
+        while (componentIterator.hasNext()) {
+            val component = componentIterator.next()
+            if (component is JLabel && component.text == columnRowLabel) {
+                isDelete = true
+                continue
+            }
+            if (isDelete) {
+                panel.remove(component)
+            }
+        }
+        panel.revalidate()
+        panel.repaint()
+    }
+
+    private fun createJBCheckBox(title: String, isSelected: Boolean, init: ActionEvent.() -> Unit): JBCheckBox {
+        val jbCheckBox = JBCheckBox(title, isSelected)
+        jbCheckBox.addActionListener(init)
+        return jbCheckBox
     }
 
     fun generatePanel(): DialogPanel {
@@ -102,7 +145,6 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                 schemaCombobox.addItemListener {
                     if (it.stateChange == ItemEvent.SELECTED) {
                         update(schemaRowLabel)
-
                         panel.apply()
                     }
                 }
@@ -110,6 +152,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             }
 
             row(tableRowLabel) {
+//                [groupedTable.first()] 화면이 로딩될 때 combobox 의 특성으로 첫 번쨰 schema 가 선택된다.
                 tableCombobox =
                     comboBox(groupedTable.first().value.toArray(emptyArray()), DasObjectCellRenderer())
                         .bindItem({ null }, { dasObject ->
@@ -121,21 +164,26 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                 tableCombobox.selectedIndex = 0
                 tableCombobox.addItemListener {
                     if (it.stateChange == ItemEvent.SELECTED) {
+                        clearColumns()
                         update(tableRowLabel)
                         panel.apply()
                     }
                 }
             }
 
-            row(columnRowLabel) {
-//                val tableColumns = tableCombobox.item.getDasChildren(ObjectKind.COLUMN)
-//                if (tableColumns.isNotEmpty) {
-//                    tableColumns.forEach { dasObject ->
-//                        cell(JBCheckBox(dasObject.name, true))
-//                    }
+//            row {
+//                button("TestButton") { event: ActionEvent ->
+//                    clearColumns()
 //                }
+//            }
+
+            row(columnRowLabel) {
+
             }
         }
+
+//        화면 로딩 조회를 위해 실행
+        tableUpdate()
 
         return panel
     }
