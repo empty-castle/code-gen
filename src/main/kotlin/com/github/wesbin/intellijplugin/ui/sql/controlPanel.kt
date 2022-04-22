@@ -70,15 +70,18 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                             dasObject.name,
                             true
                         ) {
+//                            fixme 순서 정렬 문제
                             if ((this.source as JBCheckBox).model.isSelected) {
-                                bindingProperties.columns += this.actionCommand
+                                bindingProperties.columns.add(this.actionCommand)
                             } else {
-                                bindingProperties.columns -= this.actionCommand
+//                                fixme index 로 해야 성능에 좋지 않을까?
+                                bindingProperties.columns.remove(this.actionCommand)
                             }
+                            bindingProperties.changeTrigger()
                         },
                         Constraints(constraints.grid, constraints.x + 1, y)
                     )
-                    bindingProperties.columns += dasObject.name
+                    bindingProperties.columns.add(dasObject.name)
                     y++
                 }
             }
@@ -137,7 +140,7 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             }
 
         panel = panel {
-//            fixme 로딩하면서 선택된 값 binding 되어 있지 않는다 but panel.Apply() 실행하면 정상적으로 된다.
+//            SCHEMA panel
             row(schemaRowLabel) {
                 schemaCombobox = comboBox(linkedSchemaList.toArray(emptyArray()))
                     .bindItem(bindingProperties::schema)
@@ -148,9 +151,9 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                         panel.apply()
                     }
                 }
-//                    .onApply { println("onApply") } // panel.Apply 로 모습이 바뀔 때
             }
 
+//            TABLE panel
             row(tableRowLabel) {
 //                [groupedTable.first()] 화면이 로딩될 때 combobox 의 특성으로 첫 번쨰 schema 가 선택된다.
                 tableCombobox =
@@ -171,19 +174,17 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                 }
             }
 
-//            row {
-//                button("TestButton") { event: ActionEvent ->
-//                    clearColumns()
-//                }
-//            }
-
+//            COLUMNS panel
             row(columnRowLabel) {
 
             }
         }
 
 //        화면 로딩 조회를 위해 실행
+//        column(checkbox) 업데이트
         tableUpdate()
+//        초기 선택 값 bindingProperties 에 적용
+        panel.apply()
 
         return panel
     }

@@ -19,14 +19,25 @@ class ResultPanel(private val bindingProperties: BindingProperties): Observer {
         if (bindingProperties.columns.size > 0) {
             val application = ApplicationManager.getApplication()
 
-            var text = """"""
-            bindingProperties.columns.forEach { column ->
-                text += """|$column"""
+            var selectColumn = """"""
+
+//            fixme 체크박스 전체를 해제 이후에 다시 추가하면 에러
+            val len = bindingProperties.columns.size
+            for (i in 0 until len) {
+                val column = bindingProperties.columns[i]
+                val tmp: String =
+                    when(i) {
+                        1, len - 1 -> """  |$column"""
+                        else -> """ |$column
+                                    |       
+                                """
+                    }
+                selectColumn += tmp.trimMargin()
             }
 
             application.runWriteAction {
                 editor.document.setText(
-                    """ |SELECT $text
+                    """ |SELECT $selectColumn
                         |FROM   ${bindingProperties.schema}.${bindingProperties.table}
                     """
                         .trimMargin()

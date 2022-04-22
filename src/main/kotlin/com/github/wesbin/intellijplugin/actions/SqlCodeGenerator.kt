@@ -47,19 +47,20 @@ private class UiDialog(val project: Project, dialogTitle: String) :
         val observerList = mutableListOf<Observer>()
         val bindingProperties = BindingProperties(observerList)
 
+        val resultPanel = ResultPanel(bindingProperties = bindingProperties)
+        observerList.add(resultPanel)
+        jbSplitter.secondComponent = resultPanel.generatePanel()
+
         val controlPanel = ControlPanel(bindingProperties = bindingProperties, dasModel = model)
 //        observerList.add(controlPanel)
         jbSplitter.firstComponent = controlPanel.generatePanel()
 
-        val resultPanel = ResultPanel(bindingProperties = bindingProperties)
-        observerList.add(resultPanel)
-        jbSplitter.secondComponent = resultPanel.generatePanel()
 
         return jbSplitter;
     }
 }
 
-class BindingProperties(observerList: List<Observer>) {
+class BindingProperties(private val observerList: List<Observer>) {
     // 스키마
     var schema: String by Delegates.observable("") { property, oldValue, newValue ->
         if (oldValue != newValue) {
@@ -75,9 +76,9 @@ class BindingProperties(observerList: List<Observer>) {
     }
 
     // 컬럼
-    var columns: MutableList<String> by Delegates.observable(mutableListOf()) { property, oldValue, newValue ->
-        if (oldValue != newValue) {
-            observerList.forEach(Observer::update)
-        }
+    var columns: MutableList<String> = mutableListOf()
+
+    fun changeTrigger() {
+        observerList.forEach(Observer::update)
     }
 }
