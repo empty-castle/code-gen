@@ -10,7 +10,6 @@ import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.gridLayout.Constraints
 import com.intellij.ui.dsl.gridLayout.GridLayout
 import com.intellij.util.containers.toArray
 import com.jetbrains.rd.util.first
@@ -65,28 +64,9 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
             if (tableColumns.isNotEmpty) {
                 bindingProperties.columns.clear()
                 tableColumns.forEach { dasObject ->
-                    panel.add(
-                        createJBCheckBox(
-                            dasObject.name,
-                            true
-                        ) {
-//                            fixme 순서 정렬 문제
-                            if ((this.source as JBCheckBox).model.isSelected) {
-                                bindingProperties.columns.add(this.actionCommand)
-                            } else {
-//                                fixme index 로 해야 성능에 좋지 않을까?
-                                bindingProperties.columns.remove(this.actionCommand)
-                            }
-                            bindingProperties.changeTrigger()
-                        },
-                        Constraints(constraints.grid, constraints.x + 1, y)
-                    )
                     bindingProperties.columns.add(dasObject.name)
-                    y++
                 }
             }
-            panel.revalidate()
-            panel.repaint()
         }
     }
 
@@ -173,17 +153,10 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                     }
                 }
             }
-
-//            COLUMNS panel
-            row(columnRowLabel) {
-
-            }
         }
 
 //        화면 로딩 조회를 위해 실행
-//        column(checkbox) 업데이트
         tableUpdate()
-//        초기 선택 값 bindingProperties 에 적용
         panel.apply()
 
         return panel
