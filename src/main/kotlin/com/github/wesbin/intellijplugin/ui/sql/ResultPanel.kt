@@ -19,15 +19,10 @@ class ResultPanel(private val bindingProperties: BindingProperties): Observer {
         if (bindingProperties.columns.size > 0) {
             val application = ApplicationManager.getApplication()
 
-            val selectColumn = QueryGen(bindingProperties.schema, bindingProperties.table, bindingProperties.columns).select()
+            val selectQuery = QueryGen(bindingProperties.schema, bindingProperties.table, bindingProperties.columns).select()
 
             application.runWriteAction {
-                editor.document.setText(
-                    """ |SELECT $selectColumn
-                        |FROM   ${bindingProperties.schema}.${bindingProperties.table}
-                    """
-                        .trimMargin()
-                )
+                editor.document.setText(selectQuery)
             }
         }
     }
