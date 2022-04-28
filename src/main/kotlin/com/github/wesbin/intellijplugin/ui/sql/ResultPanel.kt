@@ -19,10 +19,14 @@ class ResultPanel(private val bindingProperties: BindingProperties): Observer {
         if (bindingProperties.columns.size > 0) {
             val application = ApplicationManager.getApplication()
 
-            val selectQuery = QueryGen(bindingProperties.schema, bindingProperties.table, bindingProperties.columns).select()
+            val queryGen = QueryGen(
+                bindingProperties.schema,
+                bindingProperties.table,
+                bindingProperties.columns
+            )
 
             application.runWriteAction {
-                editor.document.setText(selectQuery)
+                editor.document.setText(queryGen.select())
             }
         }
     }

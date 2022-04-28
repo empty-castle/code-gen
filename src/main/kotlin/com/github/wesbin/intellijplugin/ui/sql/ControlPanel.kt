@@ -153,6 +153,16 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                     }
                 }
             }
+
+//            component1 이 열려있는 첫 번째 프로젝트를 말하는데 내가 원하는 프로젝트 찾는건 어떻게?
+//            ProjectManager.getInstance().openProjects.component1().basePath
+//            ProjectManager.getInstance().openProjects.component1().locationHash
+
+            row {
+                button("TEST") { event: ActionEvent ->
+                    println("TEST Button Click")
+                }
+            }
         }
 
 //        화면 로딩 조회를 위해 실행
