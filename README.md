@@ -9,3 +9,4 @@ Kotlin 과 [Kotlin UI DSL Version 2](https://plugins.jetbrains.com/docs/intellij
 - [ ] SQL Generator
 - [ ] Model Generator
 - [ ] Controller Generator
+- [ ] Controller + Model + SQL 통합
