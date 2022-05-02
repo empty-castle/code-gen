@@ -51,7 +51,11 @@ private class UiDialog(val project: Project, dialogTitle: String) :
         observerList.add(resultPanel)
         jbSplitter.secondComponent = resultPanel.generatePanel()
 
-        val controlPanel = ControlPanel(bindingProperties = bindingProperties, dasModel = model)
+        val controlPanel = ControlPanel(
+            bindingProperties = bindingProperties,
+            dasModel = model,
+            project = project
+        )
 //        observerList.add(controlPanel)
         jbSplitter.firstComponent = controlPanel.generatePanel()
 

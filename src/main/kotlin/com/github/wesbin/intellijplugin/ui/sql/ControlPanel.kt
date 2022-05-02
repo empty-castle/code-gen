@@ -5,6 +5,9 @@ import com.intellij.database.model.DasModel
 import com.intellij.database.model.DasNamespace
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
+import com.intellij.openapi.fileChooser.FileChooser
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBCheckBox
@@ -19,7 +22,11 @@ import java.awt.event.ItemEvent
 import javax.swing.*
 
 @Suppress("UnstableApiUsage")
-class ControlPanel(private val bindingProperties: BindingProperties, private val dasModel: DasModel) {
+class ControlPanel(
+    private val bindingProperties: BindingProperties,
+    private val dasModel: DasModel,
+    private val project: Project
+) {
     private lateinit var panel: DialogPanel
 
 //    Combobox
@@ -152,6 +159,16 @@ class ControlPanel(private val bindingProperties: BindingProperties, private val
                         panel.apply()
                     }
                 }
+            }
+
+            row {
+
+//                ControlPanel 실행과 동시에 파일 선택기가 동작한다.
+                FileChooser.chooseFiles(
+                    FileChooserDescriptorFactory.createSingleFileDescriptor(),
+                    project,
+                    null
+                )
             }
 
 //            component1 이 열려있는 첫 번째 프로젝트를 말하는데 내가 원하는 프로젝트 찾는건 어떻게?
