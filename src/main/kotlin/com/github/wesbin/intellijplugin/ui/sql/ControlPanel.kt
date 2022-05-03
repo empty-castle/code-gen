@@ -5,8 +5,8 @@ import com.intellij.database.model.DasModel
 import com.intellij.database.model.DasNamespace
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
-import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.fileChooser.FileChooserFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
@@ -162,13 +162,20 @@ class ControlPanel(
             }
 
             row {
-
+                button("ASDF") {event ->
+                    FileChooserFactory.getInstance().createFileChooser(
+                        FileChooserDescriptorFactory.createSingleFolderDescriptor(),
+                        project,
+                        panel
+                    )
+                }
 //                ControlPanel 실행과 동시에 파일 선택기가 동작한다.
-                FileChooser.chooseFiles(
-                    FileChooserDescriptorFactory.createSingleFileDescriptor(),
-                    project,
-                    null
-                )
+//                FileChooser.chooseFiles(
+//                    FileChooserDescriptorFactory.createSingleFolderDescriptor(),
+//                    project,
+//                    null,
+//
+//                )
             }
 
 //            component1 이 열려있는 첫 번째 프로젝트를 말하는데 내가 원하는 프로젝트 찾는건 어떻게?
@@ -178,6 +185,7 @@ class ControlPanel(
             row {
                 button("TEST") { event: ActionEvent ->
                     println("TEST Button Click")
+
                 }
             }
         }
