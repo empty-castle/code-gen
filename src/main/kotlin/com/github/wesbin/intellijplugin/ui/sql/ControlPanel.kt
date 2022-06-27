@@ -6,11 +6,12 @@ import com.intellij.database.model.DasNamespace
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
-import com.intellij.openapi.fileChooser.FileChooserFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBCheckBox
+import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.gridLayout.GridLayout
@@ -32,6 +33,7 @@ class ControlPanel(
 //    Combobox
     private lateinit var schemaCombobox: ComboBox<String>
     private lateinit var tableCombobox: ComboBox<DasObject>
+    private lateinit var textFieldWithBrowseButton: Cell<TextFieldWithBrowseButton>
 
 //    Row Label
     private val schemaRowLabel: String = "SCHEMA:"
@@ -162,13 +164,7 @@ class ControlPanel(
             }
 
             row {
-                button("ASDF") {event ->
-                    FileChooserFactory.getInstance().createFileChooser(
-                        FileChooserDescriptorFactory.createSingleFolderDescriptor(),
-                        project,
-                        panel
-                    )
-                }
+                textFieldWithBrowseButton = textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
 //                ControlPanel 실행과 동시에 파일 선택기가 동작한다.
 //                FileChooser.chooseFiles(
 //                    FileChooserDescriptorFactory.createSingleFolderDescriptor(),
@@ -184,8 +180,8 @@ class ControlPanel(
 
             row {
                 button("TEST") { event: ActionEvent ->
+                    val test = textFieldWithBrowseButton
                     println("TEST Button Click")
-
                 }
             }
         }
