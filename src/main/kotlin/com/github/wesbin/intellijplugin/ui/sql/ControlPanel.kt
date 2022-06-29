@@ -20,6 +20,8 @@ import com.jetbrains.rd.util.first
 import java.awt.Component
 import java.awt.event.ActionEvent
 import java.awt.event.ItemEvent
+import java.io.File
+import java.io.PrintWriter
 import javax.swing.*
 
 @Suppress("UnstableApiUsage")
@@ -185,6 +187,8 @@ class ControlPanel(
                 }
             }
         }
+
+        File("TEST.txt").printWriter().use { printWriter: PrintWriter -> printWriter.println("Please") }
 
 //        화면 로딩 조회를 위해 실행
         tableUpdate()
