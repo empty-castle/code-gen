@@ -1,5 +1,6 @@
 package com.github.wesbin.intellijplugin.actions
 
+import com.github.wesbin.intellijplugin.ui.Dialog
 import com.github.wesbin.intellijplugin.ui.Observer
 import com.github.wesbin.intellijplugin.ui.sql.ControlPanel
 import com.github.wesbin.intellijplugin.ui.sql.ResultPanel
@@ -23,7 +24,8 @@ class SqlCodeGenerator : DumbAwareAction() {
     override fun actionPerformed(e: AnActionEvent) {
         // fixme throw Exception 이 아니라 message 창을 출력하자
         val project = e.project ?: throw Exception("인텔리제이가 정상적으로 실행되지 않았습니다.")
-        UiDialog(project, templatePresentation.text).show()
+        Dialog(project, "TEST").show()
+//        UiDialog(project, templatePresentation.text).show()
     }
 }
 
