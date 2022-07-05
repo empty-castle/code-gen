@@ -3,12 +3,14 @@ package com.github.wesbin.intellijplugin.ui
 import com.github.wesbin.intellijplugin.ui.panel.LeftPanel
 import com.github.wesbin.intellijplugin.ui.panel.RightPanel
 import com.github.wesbin.intellijplugin.ui.panel.TopPanel
+import com.intellij.database.psi.DbDataSource
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.JBSplitter
 import java.awt.Dimension
 import javax.swing.JComponent
+import kotlin.properties.Delegates
 
 @Suppress("UnstableApiUsage")
 class Dialog(val project: Project, dialogTitle: String):
@@ -26,6 +28,11 @@ class Dialog(val project: Project, dialogTitle: String):
     }
 
     override fun createCenterPanel(): JComponent {
+
+        var dbDataSource: DbDataSource? by Delegates.observable(null) { property, oldValue, newValue ->
+
+        }
+
         // 하단 좌우 분리
         val horizontalSplitter = JBSplitter(false, 0.2f).apply {
             // 좌 panel 장착

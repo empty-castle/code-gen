@@ -2,7 +2,6 @@ package com.github.wesbin.intellijplugin.ui.sql
 
 import com.github.wesbin.intellijplugin.actions.BindingProperties
 import com.intellij.database.model.DasModel
-import com.intellij.database.model.DasNamespace
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
@@ -107,7 +106,7 @@ class ControlPanel(
 
         val expandedDasModel = dasModel
             .traverser()
-            .expand { dasObject -> dasObject is DasNamespace }
+//            .expand { dasObject -> dasObject is DasNamespace }
 
         val allTable = expandedDasModel
             .filter { dasObject -> dasObject.kind == ObjectKind.TABLE }
