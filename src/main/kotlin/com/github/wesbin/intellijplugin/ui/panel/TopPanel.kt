@@ -8,6 +8,7 @@ import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.columns
 import com.intellij.ui.dsl.builder.panel
 import java.awt.Component
+import java.awt.event.ItemEvent
 import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.ListCellRenderer
