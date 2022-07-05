@@ -1,6 +1,5 @@
 package com.github.wesbin.intellijplugin.ui.panel
 
-import com.intellij.database.model.DasDataSource
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.ui.DialogPanel
@@ -9,17 +8,18 @@ import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.columns
 import com.intellij.ui.dsl.builder.panel
 import java.awt.Component
-import java.awt.event.ItemEvent
 import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.ListCellRenderer
 
 @Suppress("UnstableApiUsage")
-class TopPanel(private val dataSources: List<DbDataSource>): Panel {
-
-    var dbDataSource: DasDataSource? = null
+class TopPanel(
+    private val dataSources: List<DbDataSource>,
+    private var observableProperties: ObservableProperties
+    ): Panel {
 
     override fun createPanel(): DialogPanel {
+
         return panel {
             row("DB connection:") {
                 comboBox(
@@ -43,15 +43,15 @@ class TopPanel(private val dataSources: List<DbDataSource>): Panel {
                     .apply {
                         columns(COLUMNS_LARGE)
                         bindItem(
-                            {this.component.item},
-                            {dbDataSource ->  }
+                            { this.component.item },
+                            { dbDataSource -> observableProperties.selectedDbDataSource = dbDataSource }
                         )
                     }
                     .component
                     .apply {
                         addItemListener {
                             if (it.stateChange == ItemEvent.SELECTED) {
-                                println("DB SELECTED")
+                                observableProperties.selectedDbDataSource = it.item as DbDataSource
                             }
                         }
                     }
