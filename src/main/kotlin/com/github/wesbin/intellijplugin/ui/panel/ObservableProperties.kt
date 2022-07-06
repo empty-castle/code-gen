@@ -10,4 +10,10 @@ class ObservableProperties {
             println(newValue?.name)
         }
     }
+
+    var selectedSourceRoot: String by Delegates.observable("") {property, oldValue, newValue ->
+        if (oldValue != newValue) {
+            println(newValue)
+        }
+    }
 }

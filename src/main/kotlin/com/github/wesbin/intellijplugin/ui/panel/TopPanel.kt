@@ -61,6 +61,12 @@ class TopPanel(
             row("Source root:") {
                 textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
                     .columns(COLUMNS_LARGE)
+                    .component
+                    .apply {
+                        addBrowseFolderListener {
+                            println(it)
+                        }
+                    }
             }
         }
     }
