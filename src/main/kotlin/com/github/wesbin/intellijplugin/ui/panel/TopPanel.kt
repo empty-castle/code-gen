@@ -8,6 +8,7 @@ import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.columns
 import com.intellij.ui.dsl.builder.panel
 import java.awt.Component
+import java.awt.event.ActionEvent
 import java.awt.event.ItemEvent
 import javax.swing.JLabel
 import javax.swing.JList
@@ -59,14 +60,17 @@ class TopPanel(
             }
 
             row("Source root:") {
-                textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
-                    .columns(COLUMNS_LARGE)
-                    .component
-                    .apply {
-                        addBrowseFolderListener {
-                            println(it)
-                        }
-                    }
+                observableProperties.selectedSourceRoot =
+                    textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor(),)
+                        .columns(COLUMNS_LARGE)
+//                        .text("TEST")
+                        .component
+            }
+
+            row("TEST") {
+                button("TEST") { event: ActionEvent ->
+                    println(observableProperties.selectedSourceRoot)
+                }
             }
         }
     }
