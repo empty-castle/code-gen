@@ -31,24 +31,27 @@ class Dialog(val project: Project, dialogTitle: String):
         val observableProperties = ObservableProperties()
 
         // 하단 좌우 분리
-        val horizontalSplitter = JBSplitter(false, 0.2f).apply {
-            // 좌 panel 장착
-            firstComponent = LeftPanel().createPanel()
-            // 우 panel 장착
-            secondComponent = RightPanel().createPanel()
-        }
+        val horizontalSplitter = JBSplitter(false, 0.2f)
+            .apply {
+                // 좌 panel 장착
+                firstComponent = LeftPanel().createPanel()
+                // 우 panel 장착
+                secondComponent = RightPanel().createPanel()
+            }
         // 상단 하단 분리
-        val verticalSplitter = JBSplitter(true, 0.1f).apply {
-            minimumSize = Dimension(1000, 800)
-            preferredSize = Dimension(1200, 800)
-            // 상단 장착
-            firstComponent = TopPanel(
-                DbPsiFacade.getInstance(project).dataSources,
-                observableProperties
-            ).createPanel()
-            // 하단 장착
-            secondComponent = horizontalSplitter
-        }
+        val verticalSplitter = JBSplitter(true, 0.1f)
+            .apply {
+                minimumSize = Dimension(1000, 800)
+                preferredSize = Dimension(1200, 800)
+                // 상단 장착
+                firstComponent = TopPanel(
+                    DbPsiFacade.getInstance(project).dataSources,
+                    observableProperties
+                ).createPanel()
+                // 하단 장착
+                secondComponent = horizontalSplitter
+                setHonorComponentsMinimumSize(false)
+            }
         return verticalSplitter
     }
 }
