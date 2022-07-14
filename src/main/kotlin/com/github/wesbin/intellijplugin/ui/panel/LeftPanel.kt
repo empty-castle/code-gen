@@ -33,6 +33,7 @@ class LeftPanel: Panel {
                         verticalAlign(VerticalAlign.FILL)
                     }
             }
+                .resizableRow()
         }
     }
 }
