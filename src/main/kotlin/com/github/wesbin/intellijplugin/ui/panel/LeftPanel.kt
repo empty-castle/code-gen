@@ -14,25 +14,26 @@ import javax.swing.ListSelectionModel
 @Suppress("UnstableApiUsage")
 class LeftPanel(private val observableProperties: ObservableProperties): Panel, Observer {
 
+    // todo 초기 값 설정
+    private val items: MutableList<DasObject> = mutableListOf()
+
     private lateinit var panel: DialogPanel
-    private val items: MutableList<String> = mutableListOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K")
+    private lateinit var checkBoxList: CheckBoxList<DasObject>
 
     override fun createPanel(): DialogPanel {
 
+        checkBoxList = CheckBoxList<DasObject>()
+            .apply {
+                setItems(items) { param: DasObject -> param.name }
+                selectionMode = ListSelectionModel.SINGLE_SELECTION
+                setCheckBoxListListener { index, value ->
+                    print("$index : $value")
+                }
+            }
+
         panel = panel {
             row {
-                cell(
-                    JBScrollPane(
-                        CheckBoxList<String>()
-                            .apply {
-                                setItems(items, null)
-                                selectionMode = ListSelectionModel.SINGLE_SELECTION
-                                setCheckBoxListListener { index, value ->
-                                    print("$index : $value")
-                                }
-                            }
-                    )
-                )
+                cell(JBScrollPane(checkBoxList))
                     .apply {
                         horizontalAlign(HorizontalAlign.FILL)
                         verticalAlign(VerticalAlign.FILL)
@@ -45,11 +46,9 @@ class LeftPanel(private val observableProperties: ObservableProperties): Panel, 
     }
 
     override fun update() {
-        // todo dasObjects 를 바로 setItems 할 수 있는 방법
         val dasObjects: MutableList<DasObject> = analyzeDbDataSource()
-        dasObjects.forEach { dasObject: DasObject -> items.add(dasObject.name) }
-        panel.apply()
-        panel.updateUI()
+        checkBoxList.clear()
+        checkBoxList.setItems(dasObjects) { param: DasObject -> param.name }
     }
 
     private fun analyzeDbDataSource(): MutableList<DasObject> {
