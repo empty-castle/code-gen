@@ -1,7 +1,7 @@
 package com.github.wesbin.intellijplugin.actions
 
 import com.github.wesbin.intellijplugin.ui.Dialog
-import com.github.wesbin.intellijplugin.ui.Observer
+import com.github.wesbin.intellijplugin.ui.Old_Observer
 import com.github.wesbin.intellijplugin.ui.sql.ControlPanel
 import com.github.wesbin.intellijplugin.ui.sql.ResultPanel
 import com.intellij.database.model.DasModel
@@ -46,7 +46,7 @@ private class UiDialog(val project: Project, dialogTitle: String) :
         jbSplitter.minimumSize = Dimension(800, 600)
         jbSplitter.preferredSize = Dimension(1000, 800)
 
-        val observerList = mutableListOf<Observer>()
+        val observerList = mutableListOf<Old_Observer>()
         val bindingProperties = BindingProperties(observerList)
 
         val resultPanel = ResultPanel(bindingProperties = bindingProperties)
@@ -66,18 +66,18 @@ private class UiDialog(val project: Project, dialogTitle: String) :
     }
 }
 
-class BindingProperties(private val observerList: List<Observer>) {
+class BindingProperties(private val observerList: List<Old_Observer>) {
     // 스키마
     var schema: String by Delegates.observable("") { property, oldValue, newValue ->
         if (oldValue != newValue) {
-            observerList.forEach(Observer::update)
+            observerList.forEach(Old_Observer::update)
         }
     }
 
     // 테이블
     var table: String by Delegates.observable("") { property, oldValue, newValue ->
         if (oldValue != newValue) {
-            observerList.forEach(Observer::update)
+            observerList.forEach(Old_Observer::update)
         }
     }
 
@@ -85,6 +85,6 @@ class BindingProperties(private val observerList: List<Observer>) {
     var columns: MutableList<String> = mutableListOf()
 
     fun changeTrigger() {
-        observerList.forEach(Observer::update)
+        observerList.forEach(Old_Observer::update)
     }
 }

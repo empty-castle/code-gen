@@ -1,7 +1,7 @@
 package com.github.wesbin.intellijplugin.ui.sql
 
 import com.github.wesbin.intellijplugin.actions.BindingProperties
-import com.github.wesbin.intellijplugin.ui.Observer
+import com.github.wesbin.intellijplugin.ui.Old_Observer
 import com.github.wesbin.intellijplugin.ui.utility.createEditor
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.impl.EditorImpl
@@ -12,7 +12,7 @@ import com.intellij.ui.dsl.gridLayout.VerticalAlign
 import java.awt.Dimension
 
 @Suppress("UnstableApiUsage")
-class ResultPanel(private val bindingProperties: BindingProperties): Observer {
+class ResultPanel(private val bindingProperties: BindingProperties): Old_Observer {
     private lateinit var editor: EditorImpl
 
     override fun update() {

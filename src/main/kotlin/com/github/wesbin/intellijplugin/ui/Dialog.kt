@@ -1,9 +1,6 @@
 package com.github.wesbin.intellijplugin.ui
 
-import com.github.wesbin.intellijplugin.ui.panel.LeftPanel
-import com.github.wesbin.intellijplugin.ui.panel.ObservableProperties
-import com.github.wesbin.intellijplugin.ui.panel.RightPanel
-import com.github.wesbin.intellijplugin.ui.panel.TopPanel
+import com.github.wesbin.intellijplugin.ui.panel.*
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
@@ -28,27 +25,35 @@ class Dialog(val project: Project, dialogTitle: String):
 
     override fun createCenterPanel(): JComponent {
 
-        val observableProperties = ObservableProperties()
-
+        val observers: MutableList<Observer> = mutableListOf()
+        val observableProperties = ObservableProperties(observers)
         // 하단 좌우 분리
         val horizontalSplitter = JBSplitter(false, 0.2f)
             .apply {
-                // 좌 panel 장착
-                firstComponent = LeftPanel().createPanel()
-                // 우 panel 장착
-                secondComponent = RightPanel().createPanel()
+                // 좌 panel
+                firstComponent = LeftPanel(observableProperties)
+                    .apply {
+                        observers.add(this)
+                    }
+                    .createPanel()
+                // 우 panel
+                secondComponent = RightPanel(observableProperties)
+                    .apply {
+                        observers.add(this)
+                    }
+                    .createPanel()
             }
-        // 상단 하단 분리
+        // 상하단 분리
         val verticalSplitter = JBSplitter(true, 0.1f)
             .apply {
                 minimumSize = Dimension(1000, 800)
                 preferredSize = Dimension(1200, 800)
-                // 상단 장착
+                // 상단
                 firstComponent = TopPanel(
                     DbPsiFacade.getInstance(project).dataSources,
                     observableProperties
                 ).createPanel()
-                // 하단 장착
+                // 하단
                 secondComponent = horizontalSplitter
                 setHonorComponentsMinimumSize(false)
             }

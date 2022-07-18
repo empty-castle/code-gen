@@ -58,6 +58,7 @@ class TopPanel(
                     }
             }
 
+            // todo 현재 프로젝트 소스 폴더 위치 기본 세팅
             row("Source root:") {
                 observableProperties.selectedSourceRoot =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor(),)

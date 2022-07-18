@@ -1,5 +1,5 @@
 package com.github.wesbin.intellijplugin.ui
 
-interface Observer {
+interface Old_Observer {
     fun update()
 }
