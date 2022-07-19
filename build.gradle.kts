@@ -24,7 +24,7 @@ repositories {
     mavenCentral()
 }
 
-// Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
+// Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-code-gen
 intellij {
     pluginName.set(properties("pluginName"))
     version.set(properties("platformVersion"))

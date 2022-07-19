@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# intellij-plugin Changelog
+# code-gen Changelog
 
 ## [Unreleased]
 ### Added
