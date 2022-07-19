@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.ui.utility
+package com.github.wesbin.intellijplugin.utility
 
 import com.intellij.application.options.colors.ColorAndFontOptions
 import com.intellij.openapi.editor.EditorFactory

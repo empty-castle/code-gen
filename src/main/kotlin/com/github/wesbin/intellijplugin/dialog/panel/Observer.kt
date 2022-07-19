@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.ui.panel
+package com.github.wesbin.intellijplugin.dialog.panel
 
 import kotlin.reflect.KProperty
 

@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.ui
+package com.github.wesbin.intellijplugin.backup
 
 import org.jetbrains.annotations.ApiStatus
 

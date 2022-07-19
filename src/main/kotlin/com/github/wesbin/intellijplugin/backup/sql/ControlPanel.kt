@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.ui.sql
+package com.github.wesbin.intellijplugin.backup.sql
 
 import com.github.wesbin.intellijplugin.actions.BindingProperties
 import com.intellij.database.model.DasModel

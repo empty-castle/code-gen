@@ -1,9 +1,9 @@
 package com.github.wesbin.intellijplugin.actions
 
-import com.github.wesbin.intellijplugin.ui.Dialog
-import com.github.wesbin.intellijplugin.ui.Old_Observer
-import com.github.wesbin.intellijplugin.ui.sql.ControlPanel
-import com.github.wesbin.intellijplugin.ui.sql.ResultPanel
+import com.github.wesbin.intellijplugin.dialog.Dialog
+import com.github.wesbin.intellijplugin.backup.Old_Observer
+import com.github.wesbin.intellijplugin.backup.sql.ControlPanel
+import com.github.wesbin.intellijplugin.backup.sql.ResultPanel
 import com.intellij.database.model.DasModel
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.actionSystem.AnActionEvent

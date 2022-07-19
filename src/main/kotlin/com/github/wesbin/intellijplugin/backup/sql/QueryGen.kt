@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.ui.sql
+package com.github.wesbin.intellijplugin.backup.sql
 
 class QueryGen(private val schema: String, private val table: String, private val columns: MutableList<String>) {
     private val len = columns.size

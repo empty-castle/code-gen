@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.ui.panel
+package com.github.wesbin.intellijplugin.dialog.panel
 
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject
@@ -11,6 +11,7 @@ import com.intellij.ui.dsl.gridLayout.VerticalAlign
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
+import java.awt.Color
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 import kotlin.reflect.KProperty
@@ -52,8 +53,13 @@ class RightPanel(val observableProperties: ObservableProperties): Panel, Observe
                 .resizableRow()
 
             row {
-                button("TEST") {
-                    println("TEST")
+                button("OK") {
+                    println("OK")
+                }
+                    .component
+                    .background = Color.BLUE
+                button("Cancel") {
+                    println("Cancel")
                 }
             }
         }

@@ -1,8 +1,8 @@
-package com.github.wesbin.intellijplugin.ui.sql
+package com.github.wesbin.intellijplugin.backup.sql
 
 import com.github.wesbin.intellijplugin.actions.BindingProperties
-import com.github.wesbin.intellijplugin.ui.Old_Observer
-import com.github.wesbin.intellijplugin.ui.utility.createEditor
+import com.github.wesbin.intellijplugin.backup.Old_Observer
+import com.github.wesbin.intellijplugin.utility.createEditor
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.impl.EditorImpl
 import com.intellij.openapi.ui.DialogPanel
