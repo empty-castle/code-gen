@@ -1,7 +1,7 @@
-package com.github.wesbin.intellijplugin.services
+package com.github.wesbin.codegen.services
 
 import com.intellij.openapi.project.Project
-import com.github.wesbin.intellijplugin.MyBundle
+import com.github.wesbin.codegen.MyBundle
 
 class MyProjectService(project: Project) {
 

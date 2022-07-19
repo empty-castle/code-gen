@@ -1,9 +1,9 @@
-package com.github.wesbin.intellijplugin.dialog
+package com.github.wesbin.codegen.dialog
 
-import com.github.wesbin.intellijplugin.dialog.panel.LeftPanel
-import com.github.wesbin.intellijplugin.dialog.panel.ObservableProperties
-import com.github.wesbin.intellijplugin.dialog.panel.RightPanel
-import com.github.wesbin.intellijplugin.dialog.panel.TopPanel
+import com.github.wesbin.codegen.dialog.panel.LeftPanel
+import com.github.wesbin.codegen.dialog.panel.ObservableProperties
+import com.github.wesbin.codegen.dialog.panel.RightPanel
+import com.github.wesbin.codegen.dialog.panel.TopPanel
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper

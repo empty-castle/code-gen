@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.dialog.panel
+package com.github.wesbin.codegen.dialog.panel
 
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory

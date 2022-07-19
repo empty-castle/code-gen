@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.wesbin.intellijplugin</id>
+    <id>com.github.wesbin.codegen</id>
     <name>code-gen</name>
     <vendor>wesbin</vendor>
 
@@ -9,19 +9,19 @@
     <depends>com.intellij.modules.ultimate</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.wesbin.intellijplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.wesbin.intellijplugin.services.MyProjectService"/>
+        <applicationService serviceImplementation="com.github.wesbin.codegen.services.MyApplicationService"/>
+        <projectService serviceImplementation="com.github.wesbin.codegen.services.MyProjectService"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.wesbin.intellijplugin.listeners.MyProjectManagerListener"
+        <listener class="com.github.wesbin.codegen.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
     <actions>
         <group id="CodeGenerator.Group.Main" text="Base Code Generator" popup="true">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="actions.SqlCodeGenerator" class="com.github.wesbin.intellijplugin.actions.SqlCodeGenerator" text="SQL"/>
+            <action id="actions.SqlCodeGenerator" class="com.github.wesbin.codegen.actions.SqlCodeGenerator" text="SQL"/>
         </group>
     </actions>
 </idea-plugin>

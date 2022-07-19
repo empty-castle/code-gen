@@ -1,6 +1,6 @@
-package com.github.wesbin.intellijplugin.backup.sql
+package com.github.wesbin.codegen.backup.sql
 
-import com.github.wesbin.intellijplugin.actions.BindingProperties
+import com.github.wesbin.codegen.actions.BindingProperties
 import com.intellij.database.model.DasModel
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind

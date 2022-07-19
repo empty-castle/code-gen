@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.dialog.panel
+package com.github.wesbin.codegen.dialog.panel
 
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind

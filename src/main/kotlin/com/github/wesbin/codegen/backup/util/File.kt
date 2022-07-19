@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.backup.util
+package com.github.wesbin.codegen.backup.util
 
 import com.intellij.lang.Language
 import com.intellij.openapi.application.ApplicationManager

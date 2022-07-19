@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin
+package com.github.wesbin.codegen
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

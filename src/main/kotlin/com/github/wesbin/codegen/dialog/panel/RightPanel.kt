@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.dialog.panel
+package com.github.wesbin.codegen.dialog.panel
 
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject

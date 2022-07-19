@@ -1,4 +1,4 @@
-package com.github.wesbin.intellijplugin.backup
+package com.github.wesbin.codegen.backup
 
 import org.jetbrains.annotations.ApiStatus
 
