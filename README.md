@@ -1,4 +1,4 @@
-# CodeGenerater-fromDB
+# code-gen
 
 DB 정보를 기준으로 코드를 생성해주는 프로젝트입니다.
 
