@@ -1,6 +1,9 @@
 package com.github.wesbin.intellijplugin.ui
 
-import com.github.wesbin.intellijplugin.ui.panel.*
+import com.github.wesbin.intellijplugin.ui.panel.LeftPanel
+import com.github.wesbin.intellijplugin.ui.panel.ObservableProperties
+import com.github.wesbin.intellijplugin.ui.panel.RightPanel
+import com.github.wesbin.intellijplugin.ui.panel.TopPanel
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
@@ -25,21 +28,20 @@ class Dialog(val project: Project, dialogTitle: String):
 
     override fun createCenterPanel(): JComponent {
 
-        val observers: MutableList<Observer> = mutableListOf()
-        val observableProperties = ObservableProperties(observers)
+        val observableProperties = ObservableProperties()
         // 하단 좌우 분리
         val horizontalSplitter = JBSplitter(false, 0.2f)
             .apply {
                 // 좌 panel
                 firstComponent = LeftPanel(observableProperties)
                     .apply {
-                        observers.add(this)
+                        observableProperties.leftPanel = this
                     }
                     .createPanel()
                 // 우 panel
                 secondComponent = RightPanel(observableProperties)
                     .apply {
-                        observers.add(this)
+                        observableProperties.rightPanel = this
                     }
                     .createPanel()
             }

@@ -1,5 +1,8 @@
 package com.github.wesbin.intellijplugin.ui.panel
 
+import com.intellij.database.model.DasColumn
+import com.intellij.database.model.DasObject
+import com.intellij.database.util.DasUtil
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.dsl.builder.panel
@@ -10,39 +13,12 @@ import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
-import javax.swing.table.AbstractTableModel
-import javax.swing.table.TableModel
+import kotlin.reflect.KProperty
 
 @Suppress("UnstableApiUsage")
 class RightPanel(val observableProperties: ObservableProperties): Panel, Observer {
 
-    private val tableModel: TableModel = object : AbstractTableModel() {
-
-        private val rows = mutableListOf<ColumnItem>(
-            ColumnItem("A", "A"),
-            ColumnItem("B", "B"),
-            ColumnItem("C", "C"),
-            ColumnItem("D", "D"),
-            ColumnItem("E", "E"),
-            ColumnItem("F", "F"),
-        )
-
-        override fun getRowCount(): Int {
-            return rows.size
-        }
-
-        override fun getColumnCount(): Int {
-            return 2
-        }
-
-        override fun getValueAt(rowIndex: Int, columnIndex: Int): Any {
-            return rows[rowIndex]
-        }
-
-        override fun getColumnName(column: Int): String {
-            return if (column == 0) "Name" else "Type"
-        }
-    }
+    private val tableModel: ColumnTable = ColumnTable()
 
     override fun createPanel(): DialogPanel {
 
@@ -74,11 +50,35 @@ class RightPanel(val observableProperties: ObservableProperties): Panel, Observe
                     }
             }
                 .resizableRow()
+
+            row {
+                button("TEST") {
+                    println("TEST")
+                }
+            }
         }
     }
 
-    override fun update() {
-        print("RightPanel update")
+    override fun update(property: KProperty<*>, newValue: Any?) {
+        println("RightPanel update")
+        if (property.name == "selectedTable") {
+            val selectedTable = newValue as DasObject?
+            if (selectedTable != null) {
+                tableModel.clear()
+                DasUtil.getColumns(selectedTable).forEach { dasColumn: DasColumn? ->
+                    if (dasColumn != null) {
+                        tableModel.add(
+                            ColumnRecordRaw(
+                                dasColumn.name,
+                                dasColumn.dataType.specification,
+                                dasColumn.name,
+                                dasColumn.dataType.specification
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -2,6 +2,7 @@ package com.github.wesbin.intellijplugin.ui.panel
 
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.COLUMNS_LARGE
 import com.intellij.ui.dsl.builder.bindItem
@@ -21,9 +22,11 @@ class TopPanel(
 
     override fun createPanel(): DialogPanel {
 
+        lateinit var tableCombobox: ComboBox<DbDataSource>
+
         return panel {
             row("DB connection:") {
-                comboBox(
+                tableCombobox = comboBox(
                     dataSources.toTypedArray(),
                     object: JLabel(), ListCellRenderer<DbDataSource?> {
                         override fun getListCellRendererComponent(
@@ -56,6 +59,11 @@ class TopPanel(
                             }
                         }
                     }
+            }
+
+            // tableCombobox 초기 선택 observableProperties 반영
+            if (tableCombobox.itemCount > 0) {
+                observableProperties.selectedDbDataSource = tableCombobox.item
             }
 
             // todo 현재 프로젝트 소스 폴더 위치 기본 세팅
