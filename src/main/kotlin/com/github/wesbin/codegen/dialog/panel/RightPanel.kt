@@ -1,17 +1,18 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.github.wesbin.codegen.dialog.util.StringUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject
 import com.intellij.database.util.DasUtil
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBScrollPane
+import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 import com.intellij.ui.dsl.gridLayout.VerticalAlign
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
-import java.awt.Color
 import javax.swing.JPanel
 import javax.swing.ListSelectionModel
 import kotlin.reflect.KProperty
@@ -20,6 +21,8 @@ import kotlin.reflect.KProperty
 class RightPanel(val observableProperties: ObservableProperties): Panel, Observer {
 
     private val tableModel: ColumnTable = ColumnTable()
+
+    private lateinit var classNameField: JBTextField
 
     override fun createPanel(): DialogPanel {
 
@@ -35,8 +38,9 @@ class RightPanel(val observableProperties: ObservableProperties): Panel, Observe
 
         return panel {
             row("Class name") {
-                textField()
+                classNameField = textField()
                     .horizontalAlign(HorizontalAlign.FILL)
+                    .component
             }
             row {
                 cell(
@@ -57,7 +61,6 @@ class RightPanel(val observableProperties: ObservableProperties): Panel, Observe
                     println("OK")
                 }
                     .component
-                    .background = Color.BLUE
                 button("Cancel") {
                     println("Cancel")
                 }
@@ -66,10 +69,12 @@ class RightPanel(val observableProperties: ObservableProperties): Panel, Observe
     }
 
     override fun update(property: KProperty<*>, newValue: Any?) {
+        // fixme println remove
         println("RightPanel update")
         if (property.name == "selectedTable") {
             val selectedTable = newValue as DasObject?
             if (selectedTable != null) {
+                classNameField.text = StringUtil.toPascalCase(selectedTable.name)
                 tableModel.clear()
                 DasUtil.getColumns(selectedTable).forEach { dasColumn: DasColumn? ->
                     if (dasColumn != null) {

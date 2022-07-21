@@ -52,6 +52,7 @@ class Dialog(val project: Project, dialogTitle: String):
                 preferredSize = Dimension(1200, 800)
                 // 상단
                 firstComponent = TopPanel(
+                    project,
                     DbPsiFacade.getInstance(project).dataSources,
                     observableProperties
                 ).createPanel()

@@ -10,18 +10,21 @@ class ObservableProperties() {
     lateinit var leftPanel: LeftPanel
     lateinit var rightPanel: RightPanel
 
+    // DB 정보
     var selectedDbDataSource: DbDataSource? by Delegates.observable(null) {property, oldValue, newValue ->
         if (oldValue != newValue) {
             leftPanel.update(property, newValue as Any)
         }
     }
 
+    // 파일 생성 위치 정보
     var selectedSourceRoot: TextFieldWithBrowseButton? by Delegates.observable(null) { property, oldValue, newValue ->
         if (oldValue != newValue) {
             println(newValue)
         }
     }
 
+    // 테이블 정보
     var selectedTable: DasObject? by Delegates.observable(null) { property, oldValue, newValue ->
         if (oldValue != newValue) {
             rightPanel.update(property, newValue as Any)
