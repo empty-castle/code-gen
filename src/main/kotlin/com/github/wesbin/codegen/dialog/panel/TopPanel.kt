@@ -2,20 +2,22 @@ package com.github.wesbin.codegen.dialog.panel
 
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.module.ModuleManager
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
-import com.intellij.ui.dsl.builder.COLUMNS_LARGE
-import com.intellij.ui.dsl.builder.bindItem
-import com.intellij.ui.dsl.builder.columns
-import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.*
 import java.awt.Component
 import java.awt.event.ItemEvent
+import java.nio.file.Paths
 import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.ListCellRenderer
 
 @Suppress("UnstableApiUsage")
 class TopPanel(
+    private val project: Project,
     private val dataSources: List<DbDataSource>,
     private var observableProperties: ObservableProperties
     ): Panel {
@@ -66,14 +68,24 @@ class TopPanel(
                 observableProperties.selectedDbDataSource = tableCombobox.item
             }
 
-            // todo 현재 프로젝트 소스 폴더 위치 기본 세팅
             row("Source root:") {
                 observableProperties.selectedSourceRoot =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor(),)
                         .columns(COLUMNS_LARGE)
-//                        .text("TEST")
+                        .text(findSourceRootUrl())
                         .component
             }
         }
+    }
+
+    private fun findSourceRootUrl(): String {
+        var result: String = project.basePath ?: ""
+        val moduleManager: ModuleManager = ModuleManager.getInstance(project)
+        moduleManager.modules.forEach {
+            if (it.name.endsWith("main") && it.rootManager.sourceRoots.isNotEmpty()) {
+                result = it.rootManager.sourceRoots[0].presentableUrl
+            }
+        }
+        return result
     }
 }
