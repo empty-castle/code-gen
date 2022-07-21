@@ -56,6 +56,7 @@ class RightPanel(val observableProperties: ObservableProperties): Panel, Observe
             }
                 .resizableRow()
 
+            // todo Dialog 수준으로 끌어올려야 한다 JBSplitter 3단은 안되는가? 애초에 상하단을 JBSplitter 로 분리해야 되는가?
             row {
                 button("OK") {
                     println("OK")

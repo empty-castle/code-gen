@@ -68,6 +68,7 @@ class TopPanel(
                 observableProperties.selectedDbDataSource = tableCombobox.item
             }
 
+            // todo folder 정보를 observableProperties.selectedSourceRoot 에 저장해야 한다.
             row("Source root:") {
                 observableProperties.selectedSourceRoot =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor(),)
