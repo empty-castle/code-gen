@@ -27,10 +27,20 @@ class LeftPanel(private val observableProperties: ObservableProperties): Panel, 
                 setItems(items) { param: DasObject -> param.name }
                 selectionMode = ListSelectionModel.SINGLE_SELECTION
                 setCheckBoxListListener { index, value ->
-                    // todo 하나만 선택 되게끔 변경
-                    // todo 선택 해제 되었을 경우도 동작 있어야 함
                     if (value) {
+                        // 기존 선택 초기화
+                        for (i in 0 until itemsCount) {
+                            if (i == index) {
+                                continue
+                            }
+                            if (isItemSelected(i)) {
+                                setItemSelected(getItemAt(i), false)
+                                break
+                            }
+                        }
                         observableProperties.selectedTable = this.getItemAt(index)
+                    } else {
+                        observableProperties.selectedTable = null
                     }
                 }
             }

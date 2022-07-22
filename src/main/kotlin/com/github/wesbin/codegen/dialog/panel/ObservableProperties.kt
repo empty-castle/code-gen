@@ -13,7 +13,7 @@ class ObservableProperties() {
     // DB 정보
     var selectedDbDataSource: DbDataSource? by Delegates.observable(null) {property, oldValue, newValue ->
         if (oldValue != newValue) {
-            leftPanel.update(property, newValue as Any)
+            leftPanel.update(property, newValue as Any?)
         }
     }
 
@@ -27,7 +27,7 @@ class ObservableProperties() {
     // 테이블 정보
     var selectedTable: DasObject? by Delegates.observable(null) { property, oldValue, newValue ->
         if (oldValue != newValue) {
-            rightPanel.update(property, newValue as Any)
+            rightPanel.update(property, newValue as Any?)
         }
     }
 }
