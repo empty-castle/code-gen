@@ -56,17 +56,6 @@ class RightPanel(private val observableProperties: ObservableProperties): Panel,
                     }
             }
                 .resizableRow()
-
-            row {
-                // todo create entity
-                button("OK") {
-                    println(observableProperties)
-                }
-                    .component
-                button("Cancel") {
-                    println("Cancel")
-                }
-            }
         }
     }
 

@@ -10,7 +10,6 @@ import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.*
 import java.awt.Component
 import java.awt.event.ItemEvent
-import java.nio.file.Paths
 import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.ListCellRenderer

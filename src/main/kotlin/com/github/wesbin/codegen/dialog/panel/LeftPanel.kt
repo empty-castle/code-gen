@@ -27,6 +27,7 @@ class LeftPanel(private val observableProperties: ObservableProperties): Panel, 
                 setItems(items) { param: DasObject -> param.name }
                 selectionMode = ListSelectionModel.SINGLE_SELECTION
                 setCheckBoxListListener { index, value ->
+                    // fixme too high
                     if (value) {
                         // 기존 선택 초기화
                         for (i in 0 until itemsCount) {
