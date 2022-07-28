@@ -18,6 +18,8 @@ class Dialog(val project: Project, dialogTitle: String):
         false
     ) {
 
+    private val observableProperties = ObservableProperties()
+
     init {
         title = dialogTitle
         setOKButtonText("OK")
@@ -25,8 +27,9 @@ class Dialog(val project: Project, dialogTitle: String):
         init()
     }
 
+
+    // todo JBSplitter 대신 createNorthPanel 사용해서 Dialog 구성
     override fun createCenterPanel(): JComponent {
-        val observableProperties = ObservableProperties()
         // 하단 좌우 분리
         val horizontalSplitter = JBSplitter(false, 0.2f)
             .apply {
@@ -61,7 +64,12 @@ class Dialog(val project: Project, dialogTitle: String):
         return verticalSplitter
     }
 
-//    companion object {
+    override fun doOKAction() {
+        CodeGen.genEntity(observableProperties)
+        super.doOKAction()
+    }
+
+    //    companion object {
 //        val observableProperties = ObservableProperties()
 //    }
 //
