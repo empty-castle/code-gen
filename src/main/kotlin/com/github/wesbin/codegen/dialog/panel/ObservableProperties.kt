@@ -20,6 +20,7 @@ class ObservableProperties() {
     // 파일 생성 위치 정보
     var selectedSourceRoot: TextFieldWithBrowseButton? by Delegates.observable(null) { _, oldValue, newValue ->
         if (oldValue != newValue) {
+            // fixme println remove
             println(newValue)
         }
     }

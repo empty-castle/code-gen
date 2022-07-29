@@ -4,6 +4,7 @@ import com.github.wesbin.codegen.dialog.panel.LeftPanel
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 import com.github.wesbin.codegen.dialog.panel.RightPanel
 import com.github.wesbin.codegen.dialog.panel.TopPanel
+import com.github.wesbin.codegen.dialog.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
@@ -64,8 +65,17 @@ class Dialog(val project: Project, dialogTitle: String):
         return verticalSplitter
     }
 
+//    observableProperties.selectedSourceRoot.text
+//    DasUtil.getColumns(observableProperties.selectedTable)[0]
+
     override fun doOKAction() {
-        CodeGen.genEntity(observableProperties)
+
+        FileUtil.create(
+            project,
+            title = "Title",
+            text = CodeGen.genEntity(observableProperties),
+            path = observableProperties.selectedSourceRoot?.text ?: ""
+        )
         super.doOKAction()
     }
 
