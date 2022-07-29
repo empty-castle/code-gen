@@ -18,7 +18,7 @@ object FileUtil {
             val psiFile: PsiFile? = Language.findLanguageByID("kotlin")
                 ?.let {
                     PsiFileFactory.getInstance(project)
-                        .createFileFromText(title, it, text)
+                        .createFileFromText("$title.kt", it, text)
                 }
 
             val psiDirectory: PsiDirectory? = LocalFileSystem.getInstance().findFileByPath(path)?.let {
