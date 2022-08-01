@@ -1,6 +1,5 @@
 package com.github.wesbin.codegen.dialog
 
-import com.github.wesbin.codegen.dialog.enum.ColumnType
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 import com.github.wesbin.codegen.dialog.util.TypeUtil
 import com.intellij.database.model.DasColumn
@@ -12,30 +11,50 @@ object CodeGen {
     fun genEntity(observableProperties: ObservableProperties): String {
 
         val packageName: String = observableProperties.selectedSourceRoot?.text ?: "com.wesbin.codegen"
-        val imports: List<String> = emptyList<String>()
-        val fields: List<String> = emptyList<String>()
+        var result = """
+            |package $packageName
+            |
+        """.trimMargin()
+
+        val imports: MutableList<String> = mutableListOf<String>()
+        val fields: MutableList<String> = mutableListOf<String>()
 
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
                 val importAttributeType = TypeUtil.toImportAttributeType(attributeType)
-                println("$attributeType [][] $importAttributeType")
+                importAttributeType?.let(imports::add)
+                fields.add(attributeType)
             }
         }
 
-        return """
-            package $packageName
+        imports.forEach { s: String -> result += """
+            |
+            |import $s
+        """.trimMargin() }
 
-            import com.github.wesbin.codegen.dialog.panel.ObservableProperties
+        result += """
+            |
+            |
+            |public class Test { 
+            |
+        """.trimMargin()
 
-            object CodeGen {
+        fields.forEach { s: String ->
+            result += """
+                |
+                |   private $s
+                |
+            """.trimMargin()
+        }
 
-                // todo Entity 생성
-                fun genEntity(observableProperties: ObservableProperties): String {
+        result += """
+            |
+            |}
+            |
+        """.trimMargin()
 
-                    return ""
-                }
-            }
-        """.trimIndent()
+
+        return result
     }
 }
