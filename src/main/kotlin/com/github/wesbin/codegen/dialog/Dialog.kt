@@ -65,9 +65,6 @@ class Dialog(val project: Project, dialogTitle: String):
         return verticalSplitter
     }
 
-//    observableProperties.selectedSourceRoot.text
-//    DasUtil.getColumns(observableProperties.selectedTable)[0]
-
     override fun doOKAction() {
 
         FileUtil.create(
