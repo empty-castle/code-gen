@@ -31,4 +31,7 @@ class ObservableProperties() {
             rightPanel.update(property, newValue as Any?)
         }
     }
+
+    var className: String = ""
+//    val codeData: CodeData = CodeData("")
 }

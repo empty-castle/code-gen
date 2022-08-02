@@ -8,6 +8,7 @@ import com.intellij.database.util.DasUtil
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextField
+import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 import com.intellij.ui.dsl.gridLayout.VerticalAlign
@@ -24,6 +25,7 @@ class RightPanel(private val observableProperties: ObservableProperties): Panel,
     private val tableModel: ColumnTable = ColumnTable()
 
     private lateinit var classNameField: JBTextField
+    private lateinit var panel: DialogPanel
 
     override fun createPanel(): DialogPanel {
 
@@ -41,6 +43,8 @@ class RightPanel(private val observableProperties: ObservableProperties): Panel,
             row("Class name") {
                 classNameField = textField()
                     .horizontalAlign(HorizontalAlign.FILL)
+//                    .bindText(observableProperties.codeData::className)
+                    .bindText(observableProperties::className)
                     .component
             }
             row {
@@ -57,6 +61,13 @@ class RightPanel(private val observableProperties: ObservableProperties): Panel,
             }
                 .resizableRow()
         }
+            .apply {
+                panel = this
+            }
+    }
+
+    fun apply() {
+        panel.apply()
     }
 
     override fun update(property: KProperty<*>, newValue: Any?) {

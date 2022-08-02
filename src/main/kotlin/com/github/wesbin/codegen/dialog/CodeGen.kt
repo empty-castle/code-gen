@@ -24,6 +24,7 @@ object CodeGen {
             }
         }
 
+        // fixme packageName to module path
         // start entity
         var result = """
             |package $packageName
@@ -40,7 +41,7 @@ object CodeGen {
         result += """
             |
             |
-            |public class Test { 
+            |open class ${observableProperties.className} { 
             |
         """.trimMargin()
 
@@ -48,7 +49,7 @@ object CodeGen {
         fields.forEach { (attributeType, attributeName) ->
             result += """
                 |
-                |   private $attributeType $attributeName;
+                |   open var $attributeName: $attributeType? = null
                 |
             """.trimMargin()
         }
@@ -59,7 +60,6 @@ object CodeGen {
             |}
             |
         """.trimMargin()
-
 
         return result
     }

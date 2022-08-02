@@ -47,6 +47,7 @@ class TopPanel(
                 )
                     .apply {
                         columns(COLUMNS_LARGE)
+                        // fixme 의미가 있는가?
                         bindItem(
                             { this.component.item },
                             { dbDataSource -> observableProperties.selectedDbDataSource = dbDataSource }

@@ -67,6 +67,8 @@ class Dialog(val project: Project, dialogTitle: String):
 
     override fun doOKAction() {
 
+        observableProperties.rightPanel.apply()
+
         FileUtil.create(
             project,
             title = "Title",
