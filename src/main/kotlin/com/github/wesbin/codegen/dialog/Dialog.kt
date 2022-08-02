@@ -1,16 +1,20 @@
 package com.github.wesbin.codegen.dialog
 
-import com.github.wesbin.codegen.dialog.panel.LeftPanel
-import com.github.wesbin.codegen.dialog.panel.ObservableProperties
-import com.github.wesbin.codegen.dialog.panel.RightPanel
-import com.github.wesbin.codegen.dialog.panel.TopPanel
+import com.github.wesbin.codegen.dialog.panel.*
 import com.github.wesbin.codegen.dialog.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.JBSplitter
+import com.intellij.ui.components.JBPanel
+import com.intellij.ui.components.JBTabbedPane
+import com.intellij.util.ui.components.JBComponent
+import java.awt.BorderLayout
 import java.awt.Dimension
+import java.awt.LayoutManager
+import java.awt.LayoutManager2
 import javax.swing.JComponent
+import javax.swing.JPanel
 
 @Suppress("UnstableApiUsage")
 class Dialog(val project: Project, dialogTitle: String):
@@ -28,43 +32,36 @@ class Dialog(val project: Project, dialogTitle: String):
         init()
     }
 
-    // todo JBSplitter 대신 createNorthPanel 사용해서 Dialog 구성
-    //  => 애초에 row 형태로는 불가능?
-    //  => leftPanel 과 rightPanel 이 topPanel 보다 먼저 생성되어야 한다.
-    override fun createCenterPanel(): JComponent {
-        // 하단 좌우 분리
-        val horizontalSplitter = JBSplitter(false, 0.2f)
-            .apply {
-                // 좌 panel
-                firstComponent = LeftPanel(observableProperties)
-                    .apply {
-                        observableProperties.leftPanel = this
-                    }
-                    .createPanel()
-                // 우 panel
-                secondComponent = RightPanel(observableProperties)
-                    .apply {
-                        observableProperties.rightPanel = this
-                    }
-                    .createPanel()
-            }
-        // 상하단 분리
-        val verticalSplitter = JBSplitter(true, 0.1f)
-            .apply {
-                minimumSize = Dimension(1000, 800)
-                preferredSize = Dimension(1200, 800)
-                // 상단
-                firstComponent = TopPanel(
+    override fun createCenterPanel() = JPanel(BorderLayout())
+        .apply {
+            minimumSize = Dimension(1000, 800)
+            preferredSize = Dimension(1200, 800)
+            // 하단 좌우 분리
+            val horizontalSplitter = JBSplitter(false, 0.2f)
+                .apply {
+                    // 좌 panel
+                    firstComponent = LeftPanel(observableProperties)
+                        .apply {
+                            observableProperties.leftPanel = this
+                        }
+                        .createPanel()
+                    // 우 panel
+                    secondComponent = RightPanel(observableProperties)
+                        .apply {
+                            observableProperties.rightPanel = this
+                        }
+                        .createPanel()
+                }
+            add(
+                TopPanel(
                     project,
                     DbPsiFacade.getInstance(project).dataSources,
                     observableProperties
-                ).createPanel()
-                // 하단
-                secondComponent = horizontalSplitter
-                setHonorComponentsMinimumSize(false)
-            }
-        return verticalSplitter
-    }
+                ).createPanel(),
+                BorderLayout.NORTH
+            )
+            add(horizontalSplitter)
+        }
 
     override fun doOKAction() {
 
@@ -78,33 +75,5 @@ class Dialog(val project: Project, dialogTitle: String):
         )
         super.doOKAction()
     }
-
-    //    companion object {
-//        val observableProperties = ObservableProperties()
-//    }
-//
-//    override fun createNorthPanel(): JComponent = TopPanel(
-//        project,
-//        DbPsiFacade.getInstance(project).dataSources,
-//        observableProperties
-//    )
-//        .createPanel()
-//
-//    override fun createCenterPanel(): JComponent = JBSplitter(false, 0.2f)
-//        .apply {
-//            preferredSize = Dimension(1200, 800)
-//            // 좌 panel
-//            firstComponent = LeftPanel(observableProperties)
-//                .apply {
-//                    observableProperties.leftPanel = this
-//                }
-//                .createPanel()
-//            // 우 panel
-//            secondComponent = RightPanel(observableProperties)
-//                .apply {
-//                    observableProperties.rightPanel = this
-//                }
-//                .createPanel()
-//        }
 
 }
