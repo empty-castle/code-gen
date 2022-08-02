@@ -28,8 +28,9 @@ class Dialog(val project: Project, dialogTitle: String):
         init()
     }
 
-
     // todo JBSplitter 대신 createNorthPanel 사용해서 Dialog 구성
+    //  => 애초에 row 형태로는 불가능?
+    //  => leftPanel 과 rightPanel 이 topPanel 보다 먼저 생성되어야 한다.
     override fun createCenterPanel(): JComponent {
         // 하단 좌우 분리
         val horizontalSplitter = JBSplitter(false, 0.2f)
