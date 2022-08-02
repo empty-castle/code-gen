@@ -27,19 +27,9 @@ class LeftPanel(private val observableProperties: ObservableProperties): Panel, 
                 setItems(items) { param: DasObject -> param.name }
                 selectionMode = ListSelectionModel.SINGLE_SELECTION
                 setCheckBoxListListener { index, value ->
-                    // fixme too high
                     if (value) {
-                        // 기존 선택 초기화
-                        for (i in 0 until itemsCount) {
-                            if (i == index) {
-                                continue
-                            }
-                            if (isItemSelected(i)) {
-                                setItemSelected(getItemAt(i), false)
-                                break
-                            }
-                        }
-                        observableProperties.selectedTable = this.getItemAt(index)
+                        resetOtherSelection(index)
+                        observableProperties.selectedTable = getItemAt(index)
                     } else {
                         observableProperties.selectedTable = null
                     }
@@ -58,6 +48,19 @@ class LeftPanel(private val observableProperties: ObservableProperties): Panel, 
         }
 
         return panel
+    }
+
+    // 기존 선택 초기화
+    private fun CheckBoxList<DasObject>.resetOtherSelection(index: Int) {
+        for (i in 0 until itemsCount) {
+            if (i == index) {
+                continue
+            }
+            if (isItemSelected(i)) {
+                setItemSelected(getItemAt(i), false)
+                break
+            }
+        }
     }
 
     override fun update(property: KProperty<*>, newValue: Any?) {

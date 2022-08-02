@@ -33,5 +33,4 @@ class ObservableProperties() {
     }
 
     var className: String = ""
-//    val codeData: CodeData = CodeData("")
 }

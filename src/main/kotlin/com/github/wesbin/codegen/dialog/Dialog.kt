@@ -6,14 +6,8 @@ import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.JBSplitter
-import com.intellij.ui.components.JBPanel
-import com.intellij.ui.components.JBTabbedPane
-import com.intellij.util.ui.components.JBComponent
 import java.awt.BorderLayout
 import java.awt.Dimension
-import java.awt.LayoutManager
-import java.awt.LayoutManager2
-import javax.swing.JComponent
 import javax.swing.JPanel
 
 @Suppress("UnstableApiUsage")
