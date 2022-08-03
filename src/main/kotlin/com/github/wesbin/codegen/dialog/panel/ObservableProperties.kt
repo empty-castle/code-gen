@@ -17,13 +17,11 @@ class ObservableProperties() {
         }
     }
 
-    // 파일 생성 위치 정보
-    var selectedSourceRoot: TextFieldWithBrowseButton? by Delegates.observable(null) { _, oldValue, newValue ->
-        if (oldValue != newValue) {
-            // fixme println remove
-            println(newValue)
-        }
-    }
+    // 선택 모듈 정보
+    var selectedSourceRoot: TextFieldWithBrowseButton? = null
+
+    // 선택 경로
+    var selectedPackage: TextFieldWithBrowseButton? = null
 
     // 테이블 정보
     var selectedTable: DasObject? by Delegates.observable(null) { property, oldValue, newValue ->

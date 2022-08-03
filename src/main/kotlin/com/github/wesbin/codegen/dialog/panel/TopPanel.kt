@@ -2,11 +2,14 @@ package com.github.wesbin.codegen.dialog.panel
 
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessModuleDir
 import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.dsl.builder.*
 import java.awt.Component
 import java.awt.event.ItemEvent
@@ -38,7 +41,6 @@ class TopPanel(
                             cellHasFocus: Boolean
                         ): Component {
                             if (value != null) {
-                                // why? value.localDataSource?.url ?: ""
                                 text = value.name
                             }
                             return this
@@ -47,7 +49,7 @@ class TopPanel(
                 )
                     .apply {
                         columns(COLUMNS_LARGE)
-                        // fixme 의미가 있는가?
+                        // todo 의미가 있는가?
                         bindItem(
                             { this.component.item },
                             { dbDataSource -> observableProperties.selectedDbDataSource = dbDataSource }
@@ -69,24 +71,56 @@ class TopPanel(
             }
 
             row("Source root:") {
-                observableProperties.selectedSourceRoot =
-                    textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor(),)
+                comboBox(
+                    findSourceRootUrl(),
+                    object : JLabel(), ListCellRenderer<Pair<String, String>?> {
+                        override fun getListCellRendererComponent(
+                            list: JList<out Pair<String, String>?>?,
+                            value: Pair<String, String>?,
+                            index: Int,
+                            isSelected: Boolean,
+                            cellHasFocus: Boolean
+                        ): Component {
+                            if (value != null) {
+                                text = "[ ${value.first} ] ${value.second}"
+                            }
+                            return this
+                        }
+                    }
+                )
+            }
+
+            row("Entity package") {
+                observableProperties.selectedPackage =
+                    textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
                         .columns(COLUMNS_LARGE)
-                        .text(findSourceRootUrl())
+//                        .text(findSourceRootUrl())
                         .component
             }
         }
     }
 
     // 프로젝트 소스 루트 URL 찾기
-    private fun findSourceRootUrl(): String {
-        var result: String = project.basePath ?: ""
+    private fun findSourceRootUrl(): Array<Pair<String, String>> {
         val moduleManager: ModuleManager = ModuleManager.getInstance(project)
-        moduleManager.modules.forEach {
-            if (it.name.endsWith("main") && it.rootManager.sourceRoots.isNotEmpty()) {
-                result = it.rootManager.sourceRoots[0].presentableUrl
+        val sourceRoots = mutableListOf<Pair<String, String>>()
+
+        var currentParentModule: Module? = null
+        moduleManager.modules.forEach { module: Module ->
+            if (module.rootManager.sourceRoots.isEmpty()) {
+                currentParentModule = module
+                return@forEach
+            }
+            module.rootManager.sourceRoots.forEach { virtualFile: VirtualFile ->
+                val url = currentParentModule?.let { module: Module ->
+                    module.guessModuleDir()?.let { parentModuleVFile: VirtualFile ->
+                        virtualFile.presentableUrl.replace(parentModuleVFile.presentableUrl, "")
+                    }
+                } ?: virtualFile.presentableUrl
+
+                sourceRoots.add(Pair(module.name, url))
             }
         }
-        return result
+        return sourceRoots.toTypedArray()
     }
 }

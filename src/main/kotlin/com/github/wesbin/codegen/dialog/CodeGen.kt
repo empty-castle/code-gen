@@ -24,7 +24,7 @@ object CodeGen {
             }
         }
 
-        // fixme packageName to module path
+        // todo packageName to module path
         // start entity
         var result = """
             |package $packageName
