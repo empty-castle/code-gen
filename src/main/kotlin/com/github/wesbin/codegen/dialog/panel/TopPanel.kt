@@ -90,6 +90,7 @@ class TopPanel(
                 )
             }
 
+            // todo source root 선택에 따라 text 변경
             row("Entity package") {
                 observableProperties.selectedPackage =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
@@ -107,11 +108,14 @@ class TopPanel(
 
         var currentParentModule: Module? = null
         moduleManager.modules.forEach { module: Module ->
+            // sourceRoots 가 비어 있으면 parentModule 로 판단
             if (module.rootManager.sourceRoots.isEmpty()) {
                 currentParentModule = module
                 return@forEach
             }
+
             module.rootManager.sourceRoots.forEach { virtualFile: VirtualFile ->
+                // parentModule 의 경로를 제외하고 세부 경로만 보여주기 위한 작업
                 val url = currentParentModule?.let { module: Module ->
                     module.guessModuleDir()?.let { parentModuleVFile: VirtualFile ->
                         virtualFile.presentableUrl.replace(parentModuleVFile.presentableUrl, "")
