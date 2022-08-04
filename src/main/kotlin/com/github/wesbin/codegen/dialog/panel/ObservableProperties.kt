@@ -2,6 +2,7 @@ package com.github.wesbin.codegen.dialog.panel
 
 import com.intellij.database.model.DasObject
 import com.intellij.database.psi.DbDataSource
+import com.intellij.openapi.module.Module
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import kotlin.properties.Delegates
 
@@ -18,7 +19,7 @@ class ObservableProperties() {
     }
 
     // 선택 모듈 정보
-    var selectedSourceRoot: TextFieldWithBrowseButton? = null
+    var selectedSourceRoot: Pair<Module, String>? = null
 
     // 선택 경로
     var selectedPackage: TextFieldWithBrowseButton? = null

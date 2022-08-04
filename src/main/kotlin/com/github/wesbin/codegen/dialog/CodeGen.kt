@@ -11,7 +11,7 @@ object CodeGen {
     // todo Entity 생성
     fun genEntity(observableProperties: ObservableProperties): String {
 
-        val packageName: String = observableProperties.selectedSourceRoot?.text ?: "com.wesbin.codegen"
+        val packageName: String = observableProperties.selectedSourceRoot?.first?.name ?: "com.wesbin.codegen"
         val imports: MutableList<String> = mutableListOf<String>()
         val fields: MutableList<Pair<String, String>> = mutableListOf<Pair<String, String>>()
 

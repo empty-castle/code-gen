@@ -5,7 +5,6 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.guessModuleDir
 import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
@@ -73,21 +72,30 @@ class TopPanel(
             row("Source root:") {
                 comboBox(
                     findSourceRootUrl(),
-                    object : JLabel(), ListCellRenderer<Pair<String, String>?> {
+                    object : JLabel(), ListCellRenderer<Pair<Module, String>?> {
                         override fun getListCellRendererComponent(
-                            list: JList<out Pair<String, String>?>?,
-                            value: Pair<String, String>?,
+                            list: JList<out Pair<Module, String>?>?,
+                            value: Pair<Module, String>?,
                             index: Int,
                             isSelected: Boolean,
                             cellHasFocus: Boolean
                         ): Component {
                             if (value != null) {
-                                text = "[ ${value.first} ] ${value.second}"
+                                text = "[ ${value.first.name} ] ${value.second}"
                             }
                             return this
                         }
                     }
                 )
+                    .component
+                    .apply {
+                        addItemListener {
+                            if (it.stateChange == ItemEvent.SELECTED) {
+                                observableProperties.selectedSourceRoot = it.item as Pair<Module, String>
+                                observableProperties.selectedPackage?.text = (it.item as Pair<Module, String>).second
+                            }
+                        }
+                    }
             }
 
             // todo source root 선택에 따라 text 변경
@@ -95,34 +103,19 @@ class TopPanel(
                 observableProperties.selectedPackage =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
                         .columns(COLUMNS_LARGE)
-//                        .text(findSourceRootUrl())
                         .component
             }
         }
     }
 
     // 프로젝트 소스 루트 URL 찾기
-    private fun findSourceRootUrl(): Array<Pair<String, String>> {
+    private fun findSourceRootUrl(): Array<Pair<Module, String>> {
         val moduleManager: ModuleManager = ModuleManager.getInstance(project)
-        val sourceRoots = mutableListOf<Pair<String, String>>()
+        val sourceRoots = mutableListOf<Pair<Module, String>>()
 
-        var currentParentModule: Module? = null
         moduleManager.modules.forEach { module: Module ->
-            // sourceRoots 가 비어 있으면 parentModule 로 판단
-            if (module.rootManager.sourceRoots.isEmpty()) {
-                currentParentModule = module
-                return@forEach
-            }
-
             module.rootManager.sourceRoots.forEach { virtualFile: VirtualFile ->
-                // parentModule 의 경로를 제외하고 세부 경로만 보여주기 위한 작업
-                val url = currentParentModule?.let { module: Module ->
-                    module.guessModuleDir()?.let { parentModuleVFile: VirtualFile ->
-                        virtualFile.presentableUrl.replace(parentModuleVFile.presentableUrl, "")
-                    }
-                } ?: virtualFile.presentableUrl
-
-                sourceRoots.add(Pair(module.name, url))
+                sourceRoots.add(Pair(module, virtualFile.presentableUrl))
             }
         }
         return sourceRoots.toTypedArray()
