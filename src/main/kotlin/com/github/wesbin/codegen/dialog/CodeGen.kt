@@ -8,7 +8,6 @@ import com.intellij.database.util.DasUtil
 
 object CodeGen {
 
-    // todo Entity 생성
     fun genEntity(observableProperties: ObservableProperties): String {
 
         val packageName: String =
@@ -21,8 +20,8 @@ object CodeGen {
                 }
             } ?: "com.wesbin.code-gen"
 
-        val imports: MutableList<String> = mutableListOf<String>()
-        val fields: MutableList<Pair<String, String>> = mutableListOf<Pair<String, String>>()
+        val imports: MutableSet<String> = mutableSetOf()
+        val fields: MutableList<Pair<String, String>> = mutableListOf()
 
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {

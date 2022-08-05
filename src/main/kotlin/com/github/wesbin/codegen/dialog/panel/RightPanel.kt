@@ -71,8 +71,6 @@ class RightPanel(private val observableProperties: ObservableProperties): Panel,
     }
 
     override fun update(property: KProperty<*>, newValue: Any?) {
-        // fixme println remove
-        println("RightPanel update")
         if (property.name == "selectedTable") {
             val selectedTable = newValue as DasObject?
             tableModel.clear()

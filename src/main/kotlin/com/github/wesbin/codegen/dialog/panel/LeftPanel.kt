@@ -64,8 +64,6 @@ class LeftPanel(private val observableProperties: ObservableProperties): Panel, 
     }
 
     override fun update(property: KProperty<*>, newValue: Any?) {
-        // fixme println remove
-        println("LeftPanel update")
         if (property.name == "selectedDbDataSource") {
             val dasObjects: MutableList<DasObject> = analyzeDbDataSource(newValue as DbDataSource?)
             checkBoxList.clear()

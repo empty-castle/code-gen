@@ -1,5 +1,6 @@
 package com.github.wesbin.codegen.dialog.util
 
+import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.Language
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
@@ -11,7 +12,6 @@ import com.intellij.psi.PsiManager
 
 object FileUtil {
 
-    // todo 같은 이름의 파일이 있는 경우
     fun create(project: Project, title: String, text: String, path: String) {
 
         ApplicationManager.getApplication().runWriteAction {
@@ -26,10 +26,10 @@ object FileUtil {
                 PsiManager.getInstance(project).findDirectory(it)
             }
 
-            if (psiDirectory != null) {
-                psiFile?.let {
-                    psiDirectory.add(it)
-                }
+            if (psiDirectory != null && psiFile != null) {
+                psiDirectory.children
+                    .find { (it as PsiFileBase).name == psiFile.name }
+                    ?: psiDirectory.add(psiFile)
             }
         }
     }
