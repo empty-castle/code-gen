@@ -11,11 +11,13 @@ object CodeGen {
     // todo Entity 생성
     fun genEntity(observableProperties: ObservableProperties): String {
 
-        // todo is best?
         val packageName: String =
             observableProperties.selectedPackage?.let { selectedPackage ->
                 observableProperties.selectedSourceRoot?.let { selectedSourceRoot ->
-                    selectedPackage.text.replace(selectedSourceRoot.second, "")
+                    selectedPackage.text
+                        .replace(selectedSourceRoot.second, "")
+                        .replace("\\", ".")
+                        .substring(1)
                 }
             } ?: "com.wesbin.code-gen"
 
@@ -31,7 +33,10 @@ object CodeGen {
             }
         }
 
-        // todo packageName to module path
+        // use lombok
+        imports.add("lombok.Getter")
+        imports.add("lombok.Setter")
+
         // start entity
         var result = """
             |package $packageName
@@ -48,6 +53,8 @@ object CodeGen {
         result += """
             |
             |
+            |@Getter
+            |@Setter
             |open class ${observableProperties.className} { 
             |
         """.trimMargin()

@@ -26,6 +26,7 @@ class TopPanel(
     override fun createPanel(): DialogPanel {
 
         lateinit var tableCombobox: ComboBox<DbDataSource>
+        lateinit var sourceRootComboBox: ComboBox<Pair<Module, String>>
 
         return panel {
             row("DB connection:") {
@@ -70,7 +71,7 @@ class TopPanel(
             }
 
             row("Source root:") {
-                comboBox(
+                sourceRootComboBox = comboBox(
                     findSourceRootUrl(),
                     object : JLabel(), ListCellRenderer<Pair<Module, String>?> {
                         override fun getListCellRendererComponent(
@@ -98,11 +99,15 @@ class TopPanel(
                     }
             }
 
+
             row("Entity package") {
                 observableProperties.selectedPackage =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
                         .columns(COLUMNS_LARGE)
                         .component
+                        .apply {
+                            text = sourceRootComboBox.item.second
+                        }
             }
         }
     }

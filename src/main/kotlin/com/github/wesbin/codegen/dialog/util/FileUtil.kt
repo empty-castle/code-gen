@@ -11,6 +11,7 @@ import com.intellij.psi.PsiManager
 
 object FileUtil {
 
+    // todo 같은 이름의 파일이 있는 경우
     fun create(project: Project, title: String, text: String, path: String) {
 
         ApplicationManager.getApplication().runWriteAction {

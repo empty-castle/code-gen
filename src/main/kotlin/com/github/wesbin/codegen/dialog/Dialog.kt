@@ -63,7 +63,7 @@ class Dialog(val project: Project, dialogTitle: String):
 
         FileUtil.create(
             project,
-            title = "Title",
+            title = observableProperties.className,
             text = CodeGen.genEntity(observableProperties),
             path = observableProperties.selectedPackage!!.text
         )
