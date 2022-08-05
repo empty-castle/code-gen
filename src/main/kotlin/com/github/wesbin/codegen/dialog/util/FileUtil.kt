@@ -26,11 +26,11 @@ object FileUtil {
                 PsiManager.getInstance(project).findDirectory(it)
             }
 
-            if (psiDirectory != null && psiFile != null) {
-                psiDirectory.children
-                    .find { (it as PsiFileBase).name == psiFile.name }
-                    ?: psiDirectory.add(psiFile)
-            }
+//            if (psiDirectory != null && psiFile != null) {
+//                psiDirectory.children
+//                    .find { (it as PsiFileBase).name == psiFile.name }
+//                    ?: psiDirectory.add(psiFile)
+//            }
         }
     }
 }

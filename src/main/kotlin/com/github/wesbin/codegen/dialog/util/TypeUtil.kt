@@ -4,6 +4,7 @@ import com.github.wesbin.codegen.dialog.enum.ColumnType
 import com.github.wesbin.codegen.dialog.enum.ImportColumnType
 import com.intellij.database.model.DataType
 
+// todo to singleton pattern for maria, oracle column type
 object TypeUtil {
 
     fun toAttributeType(type: DataType): String {

@@ -92,12 +92,3 @@ class RightPanel(private val observableProperties: ObservableProperties): Panel,
         }
     }
 }
-
-// 컬럼 크기 조절
-//                            val width: Int = this.getFontMetrics(this.font).stringWidth("DIRECTORY") + 10
-//                            columnModel.getColumn(0)
-//                                .apply {
-//                                    this.preferredWidth = width
-//                                    this.maxWidth = width
-//                                    this.minWidth = width
-//                                }
