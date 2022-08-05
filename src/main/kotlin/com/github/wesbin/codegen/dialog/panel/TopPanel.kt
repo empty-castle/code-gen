@@ -98,7 +98,6 @@ class TopPanel(
                     }
             }
 
-            // todo source root 선택에 따라 text 변경
             row("Entity package") {
                 observableProperties.selectedPackage =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())

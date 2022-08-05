@@ -65,7 +65,7 @@ class Dialog(val project: Project, dialogTitle: String):
             project,
             title = "Title",
             text = CodeGen.genEntity(observableProperties),
-            path = observableProperties.selectedSourceRoot?.first?.name ?: ""
+            path = observableProperties.selectedPackage!!.text
         )
         super.doOKAction()
     }
