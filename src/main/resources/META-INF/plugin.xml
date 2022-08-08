@@ -19,9 +19,9 @@
     </applicationListeners>
 
     <actions>
-        <group id="CodeGenerator.Group.Main" text="Base Code Generator" popup="true">
+        <group id="CodeGenerator.Group.Main" text="Code Gen" popup="true">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="actions.SqlCodeGenerator" class="com.github.wesbin.codegen.actions.SqlCodeGenerator" text="SQL"/>
+            <action id="actions.SqlCodeGenerator" class="com.github.wesbin.codegen.actions.CreateEntity" text="Entity"/>
         </group>
     </actions>
 </idea-plugin>

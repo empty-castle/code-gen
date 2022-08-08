@@ -19,7 +19,7 @@ import kotlin.properties.Delegates
 
 lateinit var psiElement: PsiElement
 
-class SqlCodeGenerator : DumbAwareAction() {
+class CreateEntity : DumbAwareAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         // fixme throw Exception 대신 CustomException 을 만들어서 활용하자

@@ -33,11 +33,10 @@ class ObservableProperties() {
 
     var className: String = ""
 
-    fun checkValues(): Boolean {
-        return selectedDbDataSource != null
-                && selectedSourceRoot != null
-                && selectedPackage != null
-                && selectedTable != null
-                && className.isNotEmpty()
-    }
+    fun checkValues(): Boolean =
+        selectedDbDataSource != null
+            && selectedSourceRoot != null
+            && selectedPackage != null
+            && selectedTable != null
+            && className.isNotEmpty()
 }

@@ -94,7 +94,7 @@ class TopPanel(
                     }
             }
 
-
+            // todo https://intellij-support.jetbrains.com/hc/en-us/community/posts/206786785-Swing-component-for-choosing-Java-package-
             row("Entity package") {
                 observableProperties.selectedPackage =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())

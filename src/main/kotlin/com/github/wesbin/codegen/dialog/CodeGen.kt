@@ -22,22 +22,23 @@ object CodeGen {
         val fields: MutableList<EntityColumnData> = mutableListOf()
 
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
+            println("isPrimary? ${DasUtil.isPrimary(dasColumn)}")
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
                 val importAttributeType = TypeUtil.toImportAttributeType(attributeType)
                 importAttributeType?.let(imports::add)
-                fields.add(EntityColumnData(
-                    dasColumn.name,
-                    attributeType,
-                    StringUtil.toCamelCase(dasColumn.name)
-                ))
+                fields.add(
+                    EntityColumnData(
+                        DasUtil.isPrimary(dasColumn),
+                        dasColumn.name,
+                        attributeType,
+                        StringUtil.toCamelCase(dasColumn.name)
+                    )
+                )
             }
         }
 
         /*
-        *
-        * primary key
-        * (DasUtil.getPrimaryKey(observableProperties.selectedTable!!) as OraImplModel.Key).colNames[0]
         *
         * type size
         * DasUtil.getColumns(observableProperties.selectedTable)[6].dataType.size
@@ -77,9 +78,11 @@ object CodeGen {
         """.trimMargin()
 
         // set field
-        fields.forEach { (columnName, attributeType, attributeName) ->
+        fields.forEach { (isPrimary, columnName, attributeType, attributeName) ->
             result += """
-                |   
+                ${if (isPrimary) """
+                    |
+                    |   @Id""".trimMargin() else ""}
                 |   @Column(name = "$columnName")
                 |   open var $attributeName: $attributeType? = null
                 |
