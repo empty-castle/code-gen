@@ -61,12 +61,17 @@ class Dialog(val project: Project, dialogTitle: String):
 
         observableProperties.rightPanel.apply()
 
-        FileUtil.create(
-            project,
-            title = observableProperties.className,
-            text = CodeGen.genEntity(observableProperties),
-            path = observableProperties.selectedPackage!!.text
-        )
+        if (observableProperties.checkValues()) {
+            FileUtil.create(
+                project,
+                title = observableProperties.className,
+                text = CodeGen.genEntity(observableProperties),
+                path = observableProperties.selectedPackage!!.text
+            )
+        } else {
+            // todo action
+        }
+
         super.doOKAction()
     }
 

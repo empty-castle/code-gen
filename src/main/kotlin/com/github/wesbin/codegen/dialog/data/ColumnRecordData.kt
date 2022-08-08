@@ -1,6 +1,6 @@
-package com.github.wesbin.codegen.dialog.panel
+package com.github.wesbin.codegen.dialog.data
 
-data class ColumnRecordRaw(
+data class ColumnRecordData(
     val columnName: String,
     val columnType: String,
     val attributeName: String,

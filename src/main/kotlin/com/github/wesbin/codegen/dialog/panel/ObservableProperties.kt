@@ -12,7 +12,7 @@ class ObservableProperties() {
     lateinit var rightPanel: RightPanel
 
     // DB 정보
-    var selectedDbDataSource: DbDataSource? by Delegates.observable(null) {property, oldValue, newValue ->
+    var selectedDbDataSource: DbDataSource? by Delegates.observable(null) { property, oldValue, newValue ->
         if (oldValue != newValue) {
             leftPanel.update(property, newValue as Any?)
         }
@@ -32,4 +32,12 @@ class ObservableProperties() {
     }
 
     var className: String = ""
+
+    fun checkValues(): Boolean {
+        return selectedDbDataSource != null
+                && selectedSourceRoot != null
+                && selectedPackage != null
+                && selectedTable != null
+                && className.isNotEmpty()
+    }
 }

@@ -1,10 +1,11 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.github.wesbin.codegen.dialog.data.ColumnRecordData
 import javax.swing.table.AbstractTableModel
 
 class ColumnTable : AbstractTableModel() {
 
-    private val rows = mutableListOf<ColumnRecordRaw>()
+    private val rows = mutableListOf<ColumnRecordData>()
 
     override fun getRowCount(): Int {
         return rows.size
@@ -35,7 +36,7 @@ class ColumnTable : AbstractTableModel() {
         }
     }
 
-    fun add(item: ColumnRecordRaw) {
+    fun add(item: ColumnRecordData) {
         val lastRow: Int = rows.size
         rows.add(item)
         fireTableRowsInserted(lastRow, lastRow)
