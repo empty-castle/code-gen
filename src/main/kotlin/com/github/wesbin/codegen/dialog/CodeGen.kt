@@ -1,6 +1,8 @@
 package com.github.wesbin.codegen.dialog
 
 import com.github.wesbin.codegen.dialog.data.EntityColumnData
+import com.github.wesbin.codegen.dialog.data.EntityColumnDataFactory
+import com.github.wesbin.codegen.dialog.data.SimpleColumn
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 import com.github.wesbin.codegen.dialog.util.StringUtil
 import com.github.wesbin.codegen.dialog.util.TypeUtil
@@ -21,20 +23,14 @@ object CodeGen {
         val imports: MutableSet<String> = mutableSetOf()
         val fields: MutableList<EntityColumnData> = mutableListOf()
 
+        val entityColumnDataFactory = EntityColumnDataFactory()
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             println("isPrimary? ${DasUtil.isPrimary(dasColumn)}")
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
                 val importAttributeType = TypeUtil.toImportAttributeType(attributeType)
                 importAttributeType?.let(imports::add)
-                fields.add(
-                    EntityColumnData(
-                        DasUtil.isPrimary(dasColumn),
-                        dasColumn.name,
-                        attributeType,
-                        StringUtil.toCamelCase(dasColumn.name)
-                    )
-                )
+                fields.add(entityColumnDataFactory.createEntityColumnData(dasColumn, attributeType))
             }
         }
 
@@ -75,32 +71,14 @@ object CodeGen {
             |@Setter
             |open class ${observableProperties.className} { 
             |
+            |
         """.trimMargin()
 
         // set field
-//        fields.forEach { entityColumnData ->
-//            result += """
-//                ${if (entityColumnData.isPrimary) """
-//                    |
-//                    |   @Id""".trimMargin() else ""}
-//                |   ${entityColumnData.getColumn()}
-//                |   open var ${entityColumnData.attributeName}: ${entityColumnData.attributeType}? = null
-//                |
-//            """.trimMargin()
-//        }
-
-        fields.forEach { entityColumnData ->
-            result += """
-                |
-                |   ${entityColumnData.getAllAnnotation()}
-                |   open var ${entityColumnData.attributeName}: ${entityColumnData.attributeType}? = null
-                |
-            """.trimMargin()
-        }
+        fields.forEach { columnData -> result += "${columnData.getField()}\n"}
 
         // end class
         result += """
-            |
             |}
             |
         """.trimMargin()

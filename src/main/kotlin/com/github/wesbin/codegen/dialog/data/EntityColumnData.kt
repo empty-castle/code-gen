@@ -1,25 +1,32 @@
 package com.github.wesbin.codegen.dialog.data
 
-data class EntityColumnData(
-    val isPrimary: Boolean,
-    val columnName: String,
-    val attributeType: String,
-    val attributeName: String,
-) {
+abstract class EntityColumnData() {
+
+    open val isPrimary: Boolean = false
+    open val columnName: String = ""
+    open val attributeType: String = ""
+    open val attributeName: String = ""
+
     fun getId(): String? {
         return if (isPrimary) "@Id" else null
     }
 
-    fun getColumn(): String {
-        return """| @Column(name = "$columnName")""".trimMargin()
+    open fun getColumn(): String {
+        return """@Column(name = "$columnName")"""
     }
 
-    fun getAllAnnotation(): String {
-        var result = """"""
+    fun getAnnotations(): String {
+        var result = ""
         getId()?.let {
-            result += it
+            result += "    $it\n"
         }
-        result += getColumn()
+        result += "    ${getColumn()}"
+        return result
+    }
+
+    fun getField(): String {
+        var result = "${getAnnotations()}\n"
+        result += "    open var $attributeName: $attributeType? = null\n"
         return result
     }
 }
