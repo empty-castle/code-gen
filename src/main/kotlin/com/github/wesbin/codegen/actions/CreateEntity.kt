@@ -29,6 +29,7 @@ class CreateEntity : DumbAwareAction() {
     }
 }
 
+// todo delete
 private class UiDialog(val project: Project, dialogTitle: String) :
     DialogWrapper(project, null, true, IdeModalityType.MODELESS, false) {
 
