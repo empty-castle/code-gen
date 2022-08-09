@@ -78,13 +78,22 @@ object CodeGen {
         """.trimMargin()
 
         // set field
-        fields.forEach { (isPrimary, columnName, attributeType, attributeName) ->
+//        fields.forEach { entityColumnData ->
+//            result += """
+//                ${if (entityColumnData.isPrimary) """
+//                    |
+//                    |   @Id""".trimMargin() else ""}
+//                |   ${entityColumnData.getColumn()}
+//                |   open var ${entityColumnData.attributeName}: ${entityColumnData.attributeType}? = null
+//                |
+//            """.trimMargin()
+//        }
+
+        fields.forEach { entityColumnData ->
             result += """
-                ${if (isPrimary) """
-                    |
-                    |   @Id""".trimMargin() else ""}
-                |   @Column(name = "$columnName")
-                |   open var $attributeName: $attributeType? = null
+                |
+                |   ${entityColumnData.getAllAnnotation()}
+                |   open var ${entityColumnData.attributeName}: ${entityColumnData.attributeType}? = null
                 |
             """.trimMargin()
         }
