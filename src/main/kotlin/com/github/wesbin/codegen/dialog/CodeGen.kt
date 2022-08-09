@@ -2,9 +2,7 @@ package com.github.wesbin.codegen.dialog
 
 import com.github.wesbin.codegen.dialog.data.EntityColumnData
 import com.github.wesbin.codegen.dialog.data.EntityColumnDataFactory
-import com.github.wesbin.codegen.dialog.data.SimpleColumn
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
-import com.github.wesbin.codegen.dialog.util.StringUtil
 import com.github.wesbin.codegen.dialog.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
@@ -25,7 +23,6 @@ object CodeGen {
 
         val entityColumnDataFactory = EntityColumnDataFactory()
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
-            println("isPrimary? ${DasUtil.isPrimary(dasColumn)}")
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
                 val importAttributeType = TypeUtil.toImportAttributeType(attributeType)
@@ -33,16 +30,6 @@ object CodeGen {
                 fields.add(entityColumnDataFactory.createEntityColumnData(dasColumn, attributeType))
             }
         }
-
-        /*
-        *
-        * type size
-        * DasUtil.getColumns(observableProperties.selectedTable)[6].dataType.size
-        *
-        * type scale
-        * DasUtil.getColumns(observableProperties.selectedTable)[6].dataType.scale
-        *
-        * */
 
         // use lombok
         imports.add("lombok.Getter")
