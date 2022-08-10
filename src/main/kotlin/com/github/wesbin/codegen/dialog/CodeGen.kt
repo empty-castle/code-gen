@@ -9,8 +9,7 @@ import com.intellij.database.util.DasUtil
 
 object CodeGen {
 
-    // todo result 를 import, fields 부분으로 나눠서 작업
-    // todo id, notnull 등 annotation 붙이는 작업 해야 함
+    // todo notnull
     fun genEntity(observableProperties: ObservableProperties): String {
 
         val packageName: String = observableProperties.selectedPackage!!.text
