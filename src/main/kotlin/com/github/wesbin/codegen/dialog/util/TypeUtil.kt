@@ -11,7 +11,7 @@ object TypeUtil {
         return columnType?.attributeType ?: "[Error]TypeUtil.toAttributeType: Not founded ${type.typeName} from ColumnType Enum Class"
     }
 
-    fun toImportAttributeType(attributeType: String): String? {
+    fun getAssociatedImport(attributeType: String): String? {
         return ImportColumnType.values().find { it.name == attributeType.uppercase() }?.importCode
     }
 }

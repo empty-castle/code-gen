@@ -1,7 +1,7 @@
 package com.github.wesbin.codegen.dialog
 
-import com.github.wesbin.codegen.dialog.data.EntityColumnData
-import com.github.wesbin.codegen.dialog.data.EntityColumnDataFactory
+import com.github.wesbin.codegen.dialog.data.EntityField
+import com.github.wesbin.codegen.dialog.data.EntityFieldFactory
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 import com.github.wesbin.codegen.dialog.util.TypeUtil
 import com.intellij.database.model.DasColumn
@@ -18,15 +18,16 @@ object CodeGen {
             .substring(1)
 
         val imports: MutableSet<String> = mutableSetOf()
-        val fields: MutableList<EntityColumnData> = mutableListOf()
+        val fields: MutableList<EntityField> = mutableListOf()
 
-        val entityColumnDataFactory = EntityColumnDataFactory()
+        val entityFieldFactory = EntityFieldFactory()
+        // todo refactoring
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
-                val importAttributeType = TypeUtil.toImportAttributeType(attributeType)
-                importAttributeType?.let(imports::add)
-                fields.add(entityColumnDataFactory.createEntityColumnData(dasColumn, attributeType))
+                val associatedImport = TypeUtil.getAssociatedImport(attributeType)
+                associatedImport?.let(imports::add)
+                fields.add(entityFieldFactory.createEntityField(dasColumn, attributeType))
             }
         }
 

@@ -9,6 +9,7 @@ import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.refactoring.ui.PackageNameReferenceEditorCombo
 import com.intellij.ui.dsl.builder.*
 import java.awt.Component
 import java.awt.event.ItemEvent
@@ -22,6 +23,10 @@ class TopPanel(
     private val dataSources: List<DbDataSource>,
     private var observableProperties: ObservableProperties
     ): Panel {
+
+    companion object {
+        const val RECENTS_KEY = "TopPanel.RecentsKey"
+    }
 
     override fun createPanel(): DialogPanel {
 
@@ -94,7 +99,6 @@ class TopPanel(
                     }
             }
 
-            // todo PackageChooserDialog
             row("Entity package") {
                 observableProperties.selectedPackage =
                     textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
@@ -103,6 +107,15 @@ class TopPanel(
                         .apply {
                             text = sourceRootComboBox.item.second
                         }
+            }
+
+            row("New Entity package") {
+                cell(
+                    PackageNameReferenceEditorCombo("", project, RECENTS_KEY, "??")
+                        .apply {
+                            setTextFieldPreferredWidth(40)
+                        }
+                )
             }
         }
     }
