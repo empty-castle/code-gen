@@ -13,7 +13,16 @@ abstract class EntityField(private val dasColumn: DasColumn, private val attribu
     }
 
     open fun getColumn(): String {
-        return """@Column(name = "${dasColumn.name}")"""
+        var result = "@Column("
+        val params: MutableMap<String, Any> = mutableMapOf()
+        params["name"] = dasColumn.name
+        params["nullable"] = !dasColumn.isNotNull
+        result += params.entries.joinToString(separator = ", ") {
+            if (it.value is String) """${it.key} = "${it.value}""""
+            else """${it.key} = ${it.value}"""
+        }
+        result += ")"
+        return result
     }
 
     private fun getAnnotations(): String {

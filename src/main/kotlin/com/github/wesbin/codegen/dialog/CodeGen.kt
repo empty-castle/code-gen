@@ -21,7 +21,6 @@ object CodeGen {
         val fields: MutableList<EntityField> = mutableListOf()
 
         val entityFieldFactory = EntityFieldFactory()
-        // todo refactoring
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
@@ -66,7 +65,7 @@ object CodeGen {
 
         // end class
         result += """
-            |}
+            |} 
             |
         """.trimMargin()
 
