@@ -1,4 +1,4 @@
-package com.github.wesbin.codegen.dialog.enum
+package com.github.wesbin.codegen.core.type
 
 enum class ImportColumnType(val importCode: String) {
 

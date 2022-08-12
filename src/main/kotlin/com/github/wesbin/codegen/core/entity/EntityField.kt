@@ -1,6 +1,6 @@
-package com.github.wesbin.codegen.dialog.data
+package com.github.wesbin.codegen.core.entity
 
-import com.github.wesbin.codegen.dialog.util.StringUtil
+import com.github.wesbin.codegen.util.StringUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 

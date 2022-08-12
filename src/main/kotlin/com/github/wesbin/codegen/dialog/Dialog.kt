@@ -1,7 +1,8 @@
 package com.github.wesbin.codegen.dialog
 
+import com.github.wesbin.codegen.core.CodeGen
 import com.github.wesbin.codegen.dialog.panel.*
-import com.github.wesbin.codegen.dialog.util.FileUtil
+import com.github.wesbin.codegen.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper

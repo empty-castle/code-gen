@@ -1,4 +1,4 @@
-package com.github.wesbin.codegen.dialog.data
+package com.github.wesbin.codegen.core.entity
 
 import com.intellij.database.model.DasColumn
 

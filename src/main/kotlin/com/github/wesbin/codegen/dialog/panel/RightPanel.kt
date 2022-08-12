@@ -1,8 +1,9 @@
 package com.github.wesbin.codegen.dialog.panel
 
-import com.github.wesbin.codegen.dialog.data.ColumnRecordData
-import com.github.wesbin.codegen.dialog.util.StringUtil
-import com.github.wesbin.codegen.dialog.util.TypeUtil
+import com.github.wesbin.codegen.dialog.panel.table.ColumnTableRecordData
+import com.github.wesbin.codegen.dialog.panel.table.ColumnTable
+import com.github.wesbin.codegen.util.StringUtil
+import com.github.wesbin.codegen.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject
 import com.intellij.database.util.DasUtil
@@ -80,7 +81,7 @@ class RightPanel(private val observableProperties: ObservableProperties): Panel,
                 DasUtil.getColumns(selectedTable).forEach { dasColumn: DasColumn? ->
                     if (dasColumn != null) {
                         tableModel.add(
-                            ColumnRecordData(
+                            ColumnTableRecordData(
                                 dasColumn.name,
                                 dasColumn.dataType.specification,
                                 StringUtil.toCamelCase(dasColumn.name),

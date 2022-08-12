@@ -1,4 +1,4 @@
-package com.github.wesbin.codegen.dialog.util
+package com.github.wesbin.codegen.util
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.Language

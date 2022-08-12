@@ -1,9 +1,9 @@
-package com.github.wesbin.codegen.dialog
+package com.github.wesbin.codegen.core
 
-import com.github.wesbin.codegen.dialog.data.EntityField
-import com.github.wesbin.codegen.dialog.data.EntityFieldFactory
+import com.github.wesbin.codegen.core.entity.EntityField
+import com.github.wesbin.codegen.core.entity.EntityFieldFactory
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
-import com.github.wesbin.codegen.dialog.util.TypeUtil
+import com.github.wesbin.codegen.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 

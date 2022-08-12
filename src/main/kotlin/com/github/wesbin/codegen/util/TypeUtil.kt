@@ -1,7 +1,7 @@
-package com.github.wesbin.codegen.dialog.util
+package com.github.wesbin.codegen.util
 
-import com.github.wesbin.codegen.dialog.enum.ColumnType
-import com.github.wesbin.codegen.dialog.enum.ImportColumnType
+import com.github.wesbin.codegen.core.type.ColumnType
+import com.github.wesbin.codegen.core.type.ImportColumnType
 import com.intellij.database.model.DataType
 
 object TypeUtil {
