@@ -10,7 +10,10 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.refactoring.ui.PackageNameReferenceEditorCombo
-import com.intellij.ui.dsl.builder.*
+import com.intellij.ui.ReferenceEditorComboWithBrowseButton
+import com.intellij.ui.dsl.builder.COLUMNS_LARGE
+import com.intellij.ui.dsl.builder.columns
+import com.intellij.ui.dsl.builder.panel
 import java.awt.Component
 import java.awt.event.ItemEvent
 import javax.swing.JLabel
@@ -21,8 +24,8 @@ import javax.swing.ListCellRenderer
 class TopPanel(
     private val project: Project,
     private val dataSources: List<DbDataSource>,
-    private var observableProperties: ObservableProperties
-    ): Panel {
+    private var observableProperties: ObservableProperties,
+): Panel {
 
     companion object {
         const val RECENTS_KEY = "TopPanel.RecentsKey"
@@ -32,6 +35,7 @@ class TopPanel(
 
         lateinit var tableCombobox: ComboBox<DbDataSource>
         lateinit var sourceRootComboBox: ComboBox<Pair<Module, String>>
+        lateinit var packageComboBox: PackageNameReferenceEditorCombo
 
         return panel {
             row("DB connection:") {
@@ -43,7 +47,7 @@ class TopPanel(
                             value: DbDataSource?,
                             index: Int,
                             isSelected: Boolean,
-                            cellHasFocus: Boolean
+                            cellHasFocus: Boolean,
                         ): Component {
                             if (value != null) {
                                 text = value.name
@@ -79,7 +83,7 @@ class TopPanel(
                             value: Pair<Module, String>?,
                             index: Int,
                             isSelected: Boolean,
-                            cellHasFocus: Boolean
+                            cellHasFocus: Boolean,
                         ): Component {
                             if (value != null) {
                                 text = "[ ${value.first.name} ] ${value.second}"
@@ -109,13 +113,13 @@ class TopPanel(
                         }
             }
 
-            row("New Entity package") {
-                cell(
+            row("Package") {
+                packageComboBox = cell(
                     PackageNameReferenceEditorCombo("", project, RECENTS_KEY, "??")
                         .apply {
                             setTextFieldPreferredWidth(40)
                         }
-                )
+                ).component
             }
         }
     }

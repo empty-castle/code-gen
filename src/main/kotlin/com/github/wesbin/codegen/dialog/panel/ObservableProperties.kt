@@ -31,6 +31,8 @@ class ObservableProperties() {
         }
     }
 
+//    lateinit var packageComboBox: PackageNameReferenceEditorCombo
+
     var className: String = ""
 
     fun checkValues(): Boolean =

@@ -69,14 +69,14 @@ private class UiDialog(val project: Project, dialogTitle: String) :
 
 class BindingProperties(private val observerList: List<Old_Observer>) {
     // 스키마
-    var schema: String by Delegates.observable("") { property, oldValue, newValue ->
+    var schema: String by Delegates.observable("") { _, oldValue, newValue ->
         if (oldValue != newValue) {
             observerList.forEach(Old_Observer::update)
         }
     }
 
     // 테이블
-    var table: String by Delegates.observable("") { property, oldValue, newValue ->
+    var table: String by Delegates.observable("") { _, oldValue, newValue ->
         if (oldValue != newValue) {
             observerList.forEach(Old_Observer::update)
         }
