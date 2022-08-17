@@ -4,6 +4,7 @@ import com.intellij.database.model.DasObject
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
+import com.intellij.refactoring.ui.PackageNameReferenceEditorCombo
 import kotlin.properties.Delegates
 
 class ObservableProperties() {
@@ -31,7 +32,10 @@ class ObservableProperties() {
         }
     }
 
-//    lateinit var packageComboBox: PackageNameReferenceEditorCombo
+    // 패키지 정보
+    var packageComboBox: PackageNameReferenceEditorCombo? = null
+
+//    PsiPackageImpl (PsiManager.getInstance(project), observableProperties.packageComboBox.text).directories[0]
 
     var className: String = ""
 

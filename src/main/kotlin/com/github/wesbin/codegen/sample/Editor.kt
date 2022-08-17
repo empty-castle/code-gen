@@ -1,10 +1,48 @@
-package com.github.wesbin.codegen.utility
+package com.github.wesbin.codegen.sample
 
 import com.intellij.application.options.colors.ColorAndFontOptions
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.editor.impl.EditorImpl
+
+/*
+* class ResultPanel(private val bindingProperties: BindingProperties): Old_Observer {
+    private lateinit var editor: EditorImpl
+
+    override fun update() {
+        if (bindingProperties.columns.size > 0) {
+            val application = ApplicationManager.getApplication()
+
+            val queryGen = QueryGen(
+                bindingProperties.schema,
+                bindingProperties.table,
+                bindingProperties.columns
+            )
+
+            application.runWriteAction {
+                editor.document.setText(queryGen.select())
+            }
+        }
+    }
+
+    fun generatePanel(): DialogPanel {
+
+        editor = createEditor("")
+        val editorPanel = editor.component
+        editorPanel.preferredSize = Dimension(500, 800)
+
+        return panel {
+            row {
+                cell(editorPanel)
+                    .horizontalAlign(HorizontalAlign.FILL)
+                    .verticalAlign(VerticalAlign.FILL)
+            }
+        }
+    }
+}
+*
+* */
 
 fun createEditor(text: String): EditorImpl {
 

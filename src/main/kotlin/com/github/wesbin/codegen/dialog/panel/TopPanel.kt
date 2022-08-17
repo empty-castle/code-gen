@@ -1,5 +1,6 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.intellij.application.options.ModulesComboBox
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.module.Module
@@ -10,7 +11,6 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.refactoring.ui.PackageNameReferenceEditorCombo
-import com.intellij.ui.ReferenceEditorComboWithBrowseButton
 import com.intellij.ui.dsl.builder.COLUMNS_LARGE
 import com.intellij.ui.dsl.builder.columns
 import com.intellij.ui.dsl.builder.panel
@@ -24,7 +24,7 @@ import javax.swing.ListCellRenderer
 class TopPanel(
     private val project: Project,
     private val dataSources: List<DbDataSource>,
-    private var observableProperties: ObservableProperties,
+    override var observableProperties: ObservableProperties,
 ): Panel {
 
     companion object {
@@ -35,7 +35,6 @@ class TopPanel(
 
         lateinit var tableCombobox: ComboBox<DbDataSource>
         lateinit var sourceRootComboBox: ComboBox<Pair<Module, String>>
-        lateinit var packageComboBox: PackageNameReferenceEditorCombo
 
         return panel {
             row("DB connection:") {
@@ -113,14 +112,25 @@ class TopPanel(
                         }
             }
 
+            row("Module") {
+                cell(
+                    ModulesComboBox()
+                        .apply {
+                            setModules(ModuleManager.getInstance(project).modules.toList())
+                            selectedIndex = 0
+                        }
+                )
+            }
+
             row("Package") {
-                packageComboBox = cell(
+                observableProperties.packageComboBox = cell(
                     PackageNameReferenceEditorCombo("", project, RECENTS_KEY, "??")
                         .apply {
                             setTextFieldPreferredWidth(40)
                         }
                 ).component
             }
+
         }
     }
 

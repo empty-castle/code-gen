@@ -22,7 +22,7 @@ import javax.swing.ListSelectionModel
 import kotlin.reflect.KProperty
 
 @Suppress("UnstableApiUsage")
-class RightPanel(private val observableProperties: ObservableProperties): Panel, Observer {
+class RightPanel(override val observableProperties: ObservableProperties): Panel, Observer {
 
     private val tableModel: ColumnTable = ColumnTable()
 

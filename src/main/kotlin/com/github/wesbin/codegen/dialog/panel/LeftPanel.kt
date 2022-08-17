@@ -13,7 +13,7 @@ import javax.swing.ListSelectionModel
 import kotlin.reflect.KProperty
 
 @Suppress("UnstableApiUsage")
-class LeftPanel(private val observableProperties: ObservableProperties): Panel, Observer {
+class LeftPanel(override val observableProperties: ObservableProperties): Panel, Observer {
 
     private val items: MutableList<DasObject> = mutableListOf()
 

@@ -1,9 +1,7 @@
 package com.github.wesbin.codegen.actions
 
 import com.github.wesbin.codegen.dialog.Dialog
-import com.github.wesbin.codegen.backup.Old_Observer
 import com.github.wesbin.codegen.backup.sql.ControlPanel
-import com.github.wesbin.codegen.backup.sql.ResultPanel
 import com.intellij.database.model.DasModel
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.actionSystem.AnActionEvent
