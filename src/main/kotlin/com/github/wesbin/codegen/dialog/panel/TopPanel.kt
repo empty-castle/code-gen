@@ -124,7 +124,7 @@ class TopPanel(
 
             row("Package") {
                 observableProperties.packageComboBox = cell(
-                    PackageNameReferenceEditorCombo("", project, RECENTS_KEY, "??")
+                    PackageNameReferenceEditorCombo("", project, RECENTS_KEY, "Choose Package")
                         .apply {
                             setTextFieldPreferredWidth(40)
                         }

@@ -1,0 +1,9 @@
+row("Entity package") {
+    observableProperties.selectedPackage =
+        textFieldWithBrowseButton(fileChooserDescriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor())
+            .columns(COLUMNS_LARGE)
+            .component
+            .apply {
+                text = sourceRootComboBox.item.second
+            }
+}
