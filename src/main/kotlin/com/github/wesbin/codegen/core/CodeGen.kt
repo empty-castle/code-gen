@@ -12,10 +12,7 @@ object CodeGen {
     // todo notnull
     fun genEntity(observableProperties: ObservableProperties): String {
 
-        val packageName: String = observableProperties.selectedPackage!!.text
-            .replace(observableProperties.selectedSourceRoot!!.second, "")
-            .replace("\\", ".")
-            .substring(1)
+        val packageName: String = observableProperties.packageComboBox!!.text
 
         val imports: MutableSet<String> = mutableSetOf()
         val fields: MutableList<EntityField> = mutableListOf()

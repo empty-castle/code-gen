@@ -5,14 +5,18 @@ import com.github.wesbin.codegen.dialog.panel.*
 import com.github.wesbin.codegen.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiManager
+import com.intellij.psi.impl.file.PsiPackageImpl
 import com.intellij.ui.JBSplitter
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JPanel
 
 @Suppress("UnstableApiUsage")
-class Dialog(val project: Project, dialogTitle: String):
+class Dialog(val project: Project, dialogTitle: String) :
     DialogWrapper(
         project,
         false
@@ -63,17 +67,28 @@ class Dialog(val project: Project, dialogTitle: String):
         observableProperties.rightPanel.apply()
 
         if (observableProperties.checkValues()) {
-            FileUtil.create(
-                project,
-                title = observableProperties.className,
-                text = CodeGen.genEntity(observableProperties),
-                path = observableProperties.selectedPackage!!.text
-            )
+
+            val selectedModuleUrl =
+                observableProperties.modulesComboBox!!.selectedModule!!.rootManager.contentRoots[0].presentableUrl
+
+            val psiDirectory: PsiDirectory? =
+                PsiPackageImpl(PsiManager.getInstance(project), observableProperties.packageComboBox!!.text)
+                    .directories.find { it.virtualFile.presentableUrl.startsWith(selectedModuleUrl) }
+
+            if (psiDirectory != null) {
+                FileUtil.create(
+                    project,
+                    title = observableProperties.className,
+                    text = CodeGen.genEntity(observableProperties),
+                    psiDirectory
+                )
+            } else {
+                // todo action
+            }
         } else {
             // todo action
         }
 
         super.doOKAction()
     }
-
 }

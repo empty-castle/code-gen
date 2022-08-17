@@ -1,5 +1,6 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.intellij.application.options.ModulesComboBox
 import com.intellij.database.model.DasObject
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.module.Module
@@ -19,12 +20,6 @@ class ObservableProperties() {
         }
     }
 
-    // 선택 모듈 정보
-    var selectedSourceRoot: Pair<Module, String>? = null
-
-    // 선택 경로
-    var selectedPackage: TextFieldWithBrowseButton? = null
-
     // 테이블 정보
     var selectedTable: DasObject? by Delegates.observable(null) { property, oldValue, newValue ->
         if (oldValue != newValue) {
@@ -32,17 +27,19 @@ class ObservableProperties() {
         }
     }
 
+    // 모듈 정보
+    var modulesComboBox: ModulesComboBox? = null
+
     // 패키지 정보
     var packageComboBox: PackageNameReferenceEditorCombo? = null
-
 //    PsiPackageImpl (PsiManager.getInstance(project), observableProperties.packageComboBox.text).directories[0]
 
     var className: String = ""
 
     fun checkValues(): Boolean =
         selectedDbDataSource != null
-            && selectedSourceRoot != null
-            && selectedPackage != null
             && selectedTable != null
+            && modulesComboBox != null
+            && packageComboBox != null
             && className.isNotEmpty()
 }

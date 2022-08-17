@@ -4,15 +4,13 @@ import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.Language
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.PsiManager
 
 object FileUtil {
 
-    fun create(project: Project, title: String, text: String, path: String) {
+    fun create(project: Project, title: String, text: String, psiDirectory: PsiDirectory) {
 
         ApplicationManager.getApplication().runWriteAction {
 
@@ -22,15 +20,11 @@ object FileUtil {
                         .createFileFromText("$title.kt", it, text)
                 }
 
-            val psiDirectory: PsiDirectory? = LocalFileSystem.getInstance().findFileByPath(path)?.let {
-                PsiManager.getInstance(project).findDirectory(it)
+            if (psiFile != null) {
+                psiDirectory.children
+                    .find { (it as PsiFileBase).name == psiFile.name }
+                    ?: psiDirectory.add(psiFile)
             }
-
-//            if (psiDirectory != null && psiFile != null) {
-//                psiDirectory.children
-//                    .find { (it as PsiFileBase).name == psiFile.name }
-//                    ?: psiDirectory.add(psiFile)
-//            }
         }
     }
 }
