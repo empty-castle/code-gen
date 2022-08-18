@@ -21,7 +21,8 @@
     <actions>
         <group id="CodeGenerator.Group.Main" text="Code Gen" popup="true">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="actions.SqlCodeGenerator" class="com.github.wesbin.codegen.actions.CreateEntity" text="Entity"/>
+            <action id="actions.entity" class="com.github.wesbin.codegen.actions.CreateEntity" text="Create Entity"/>
+            <action id="actions.model" class="com.github.wesbin.codegen.actions.CreateModel" text="Create Model"/>
         </group>
     </actions>
 </idea-plugin>

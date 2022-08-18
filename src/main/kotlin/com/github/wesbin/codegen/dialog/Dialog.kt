@@ -16,7 +16,7 @@ import java.awt.Dimension
 import javax.swing.JPanel
 
 @Suppress("UnstableApiUsage")
-class Dialog(val project: Project, dialogTitle: String) :
+class Dialog(val project: Project, dialogTitle: String, actionId: String) :
     DialogWrapper(
         project,
         false
