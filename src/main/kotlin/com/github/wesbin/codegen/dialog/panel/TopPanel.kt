@@ -8,6 +8,7 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.refactoring.ui.PackageNameReferenceEditorCombo
 import com.intellij.ui.dsl.builder.COLUMNS_LARGE
+import com.intellij.ui.dsl.builder.COLUMNS_MEDIUM
 import com.intellij.ui.dsl.builder.columns
 import com.intellij.ui.dsl.builder.panel
 import java.awt.Component
@@ -72,6 +73,7 @@ class TopPanel(
                 observableProperties.modulesComboBox = cell(
                     ModulesComboBox()
                         .apply {
+                            columns(COLUMNS_MEDIUM)
                             setModules(ModuleManager.getInstance(project).modules.toList())
                             selectedIndex = 0
                         }
