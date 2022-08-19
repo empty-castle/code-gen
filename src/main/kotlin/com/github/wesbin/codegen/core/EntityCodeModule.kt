@@ -7,11 +7,9 @@ import com.github.wesbin.codegen.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 
-object CodeGen {
+class EntityCodeModule: CodeGeneratorModule {
 
-    // todo notnull
-    fun genEntity(observableProperties: ObservableProperties): String {
-
+    override fun generate(observableProperties: ObservableProperties): String {
         val packageName: String = observableProperties.packageComboBox!!.text
 
         val imports: MutableSet<String> = mutableSetOf()
@@ -39,10 +37,12 @@ object CodeGen {
         """.trimMargin()
 
         // set import
-        imports.forEach { s: String -> result += """
+        imports.forEach { s: String ->
+            result += """
             |
             |import $s
-        """.trimMargin() }
+        """.trimMargin()
+        }
 
         // start class
         result += """
@@ -58,7 +58,7 @@ object CodeGen {
         """.trimMargin()
 
         // set field
-        fields.forEach { columnData -> result += "${columnData.getField()}\n"}
+        fields.forEach { columnData -> result += "${columnData.getField()}\n" }
 
         // end class
         result += """

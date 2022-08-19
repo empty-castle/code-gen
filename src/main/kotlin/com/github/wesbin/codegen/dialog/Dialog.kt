@@ -1,6 +1,6 @@
 package com.github.wesbin.codegen.dialog
 
-import com.github.wesbin.codegen.core.CodeGen
+import com.github.wesbin.codegen.core.CodeGenerator
 import com.github.wesbin.codegen.dialog.panel.*
 import com.github.wesbin.codegen.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
@@ -16,7 +16,7 @@ import java.awt.Dimension
 import javax.swing.JPanel
 
 @Suppress("UnstableApiUsage")
-class Dialog(val project: Project, dialogTitle: String, actionId: String) :
+class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
     DialogWrapper(
         project,
         false
@@ -79,7 +79,7 @@ class Dialog(val project: Project, dialogTitle: String, actionId: String) :
                 FileUtil.create(
                     project,
                     title = observableProperties.className,
-                    text = CodeGen.genEntity(observableProperties),
+                    text = CodeGenerator(actionId).generate(observableProperties),
                     psiDirectory
                 )
             } else {
