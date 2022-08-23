@@ -1,6 +1,6 @@
 package com.github.wesbin.codegen.core.codeModule
 
-import com.github.wesbin.codegen.core.field.entity.EntityField
+import com.github.wesbin.codegen.core.field.Field
 import com.github.wesbin.codegen.core.field.entity.EntityFieldFactory
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 import com.github.wesbin.codegen.util.TypeUtil
@@ -13,7 +13,7 @@ class EntityCodeModule: CodeGeneratorModule {
         val packageName: String = observableProperties.packageComboBox!!.text
 
         val imports: MutableSet<String> = mutableSetOf()
-        val fields: MutableList<EntityField> = mutableListOf()
+        val fields: MutableList<Field> = mutableListOf()
 
         val entityFieldFactory = EntityFieldFactory()
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
@@ -21,7 +21,7 @@ class EntityCodeModule: CodeGeneratorModule {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
                 val associatedImport = TypeUtil.getAssociatedImport(attributeType)
                 associatedImport?.let(imports::add)
-                fields.add(entityFieldFactory.createEntityField(dasColumn, attributeType))
+                fields.add(entityFieldFactory.createTypeField(dasColumn, attributeType))
             }
         }
 
