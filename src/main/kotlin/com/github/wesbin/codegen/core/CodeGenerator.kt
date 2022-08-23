@@ -1,5 +1,8 @@
 package com.github.wesbin.codegen.core
 
+import com.github.wesbin.codegen.core.codeModule.CodeGeneratorModule
+import com.github.wesbin.codegen.core.codeModule.EntityCodeModule
+import com.github.wesbin.codegen.core.codeModule.ModelCodeModule
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 
 class CodeGenerator(actionId: String) {

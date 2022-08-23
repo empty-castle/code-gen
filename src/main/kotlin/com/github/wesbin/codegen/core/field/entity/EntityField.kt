@@ -1,18 +1,20 @@
-package com.github.wesbin.codegen.core.entity
+package com.github.wesbin.codegen.core.field.entity
 
+import com.github.wesbin.codegen.core.field.Field
 import com.github.wesbin.codegen.util.StringUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 
-abstract class EntityField(private val dasColumn: DasColumn, private val attributeType: String) {
+abstract class EntityField(private val dasColumn: DasColumn, private val attributeType: String):
+    Field(dasColumn, attributeType) {
 
     private val attributeName: String = StringUtil.toCamelCase(dasColumn.name)
 
-    private fun getId(): String? {
+    override fun getId(): String? {
         return if (DasUtil.isPrimary(dasColumn)) "@Id" else null
     }
 
-    open fun getColumn(): String {
+    override fun getColumn(): String {
         var result = "@Column("
         val params: MutableMap<String, Any> = mutableMapOf()
         params["name"] = dasColumn.name
@@ -25,7 +27,7 @@ abstract class EntityField(private val dasColumn: DasColumn, private val attribu
         return result
     }
 
-    private fun getAnnotations(): String {
+    override fun getAnnotations(): String {
         var result = ""
         getId()?.let {
             result += "    $it\n"
@@ -34,7 +36,7 @@ abstract class EntityField(private val dasColumn: DasColumn, private val attribu
         return result
     }
 
-    fun getField(): String {
+    override fun getField(): String {
         var result = "${getAnnotations()}\n"
         result += "    open var $attributeName: $attributeType? = null\n"
         return result
