@@ -1,13 +1,13 @@
 package com.github.wesbin.codegen.core.codeModule
 
 import com.github.wesbin.codegen.core.field.Field
-import com.github.wesbin.codegen.core.field.entity.EntityFieldFactory
+import com.github.wesbin.codegen.core.field.entity.EntityFieldModule
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 import com.github.wesbin.codegen.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 
-class EntityCodeModule: CodeGeneratorModule {
+class EntityCodeModule: CodeModule {
 
     override fun generate(observableProperties: ObservableProperties): String {
         val packageName: String = observableProperties.packageComboBox!!.text
@@ -15,7 +15,7 @@ class EntityCodeModule: CodeGeneratorModule {
         val imports: MutableSet<String> = mutableSetOf()
         val fields: MutableList<Field> = mutableListOf()
 
-        val entityFieldFactory = EntityFieldFactory()
+        val entityFieldFactory = EntityFieldModule()
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)

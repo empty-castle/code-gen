@@ -2,7 +2,7 @@ package com.github.wesbin.codegen.core.codeModule
 
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
 
-interface CodeGeneratorModule {
+interface CodeModule {
 
     fun generate(observableProperties: ObservableProperties): String
 }

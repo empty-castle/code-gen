@@ -2,7 +2,7 @@ package com.github.wesbin.codegen.core.field.entity
 
 import com.intellij.database.model.DasColumn
 
-data class EntityNumberField(val dasColumn: DasColumn, val attributeType: String)
+data class NumberEntityField(val dasColumn: DasColumn, val attributeType: String)
     : EntityField(dasColumn, attributeType) {
 
     private val precision: Int = dasColumn.dataType.size
