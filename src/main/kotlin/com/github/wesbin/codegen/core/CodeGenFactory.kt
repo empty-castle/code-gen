@@ -2,12 +2,11 @@ package com.github.wesbin.codegen.core
 
 import com.github.wesbin.codegen.core.codeModule.CodeModule
 import com.github.wesbin.codegen.core.field.FieldModule
-import com.github.wesbin.codegen.core.type.TypeModule
-import com.github.wesbin.codegen.core.type.entity.EntityTypeMappingData
+import com.github.wesbin.codegen.core.type.DataTypeMap
 
-interface CodeGenFactory {
+abstract class CodeGenFactory {
 
-    fun code(): CodeModule
-    fun field(): FieldModule
-    val type: Array<TypeModule>
+    abstract fun code(): CodeModule
+    abstract fun field(): FieldModule
+    val type: DataTypeMap = DataTypeMap()
 }

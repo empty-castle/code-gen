@@ -63,19 +63,20 @@ class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
         }
 
     override fun doOKAction() {
-
+        // 우측 패널 내용 적용
         observableProperties.rightPanel.apply()
 
         if (observableProperties.checkValues()) {
-
+            // 선택한 모듈 URL
             val selectedModuleUrl =
                 observableProperties.modulesComboBox!!.selectedModule!!.rootManager.contentRoots[0].presentableUrl
-
+            // 선택한 폴더
             val psiDirectory: PsiDirectory? =
                 PsiPackageImpl(PsiManager.getInstance(project), observableProperties.packageComboBox!!.text)
                     .directories.find { it.virtualFile.presentableUrl.startsWith(selectedModuleUrl) }
 
             if (psiDirectory != null) {
+                // todo CodeGenerator module 사용으로 전환
                 FileUtil.create(
                     project,
                     title = observableProperties.className,
