@@ -1,4 +1,4 @@
-package com.github.wesbin.codegen.core.type.entity.kind
+package com.github.wesbin.codegen.core.type.kind
 
 import com.github.wesbin.codegen.core.type.DataType
 
@@ -9,7 +9,7 @@ class IntType private constructor(): DataType(){
     }
 
     override val name: String = "INT"
-    override val mappingTypeList: List<String> = listOf(
+    override val entityMappingTypes: List<String> = listOf(
         "Integer"
     )
 }

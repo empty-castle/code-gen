@@ -16,6 +16,4 @@ class EntityDataTypeMap: DataTypeMap() {
             "VARCHAR2" to "String",
             "TEXT" to "String",
         )
-
-
 }

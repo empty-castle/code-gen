@@ -1,8 +1,6 @@
 package com.github.wesbin.codegen.dialog
 
 import com.github.wesbin.codegen.core.CodeGenerator
-import com.github.wesbin.codegen.core.type.entity.EntityTypeMappingData
-import com.github.wesbin.codegen.core.type.entity.kind.NumberType
 import com.github.wesbin.codegen.dialog.panel.*
 import com.github.wesbin.codegen.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade

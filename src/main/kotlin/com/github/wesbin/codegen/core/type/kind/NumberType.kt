@@ -1,4 +1,4 @@
-package com.github.wesbin.codegen.core.type.entity.kind
+package com.github.wesbin.codegen.core.type.kind
 
 import com.github.wesbin.codegen.core.type.DataType
 
@@ -9,7 +9,7 @@ class NumberType private constructor(): DataType() {
     }
 
     override val name: String = "NUMBER"
-    override val mappingTypeList: List<String> = listOf(
+    override val entityMappingTypes: List<String> = listOf(
         "java.math.BigDecimal"
     )
 }
