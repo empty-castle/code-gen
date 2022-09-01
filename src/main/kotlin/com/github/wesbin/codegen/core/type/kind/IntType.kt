@@ -1,15 +1,16 @@
 package com.github.wesbin.codegen.core.type.kind
 
-import com.github.wesbin.codegen.core.type.DataType
+import com.github.wesbin.codegen.core.type.MappingDataType
+import com.github.wesbin.codegen.core.type.MappingTypeCollection
 
-class IntType private constructor(): DataType(){
+class IntType private constructor(): MappingDataType(){
 
     companion object {
         val INSTANCE = IntType()
     }
 
     override val name: String = "INT"
-    override val entityMappingTypes: List<String> = listOf(
-        "Integer"
+    override val mappingTypes: List<MappingTypeCollection> = listOf(
+        MappingTypeCollection.Integer
     )
 }

@@ -1,15 +1,16 @@
 package com.github.wesbin.codegen.core.type.kind
 
-import com.github.wesbin.codegen.core.type.DataType
+import com.github.wesbin.codegen.core.type.MappingDataType
+import com.github.wesbin.codegen.core.type.MappingTypeCollection
 
-class NumberType private constructor(): DataType() {
+class NumberType private constructor(): MappingDataType() {
 
     companion object {
         val INSTANCE = NumberType()
     }
 
     override val name: String = "NUMBER"
-    override val entityMappingTypes: List<String> = listOf(
-        "java.math.BigDecimal"
+    override val mappingTypes: List<MappingTypeCollection> = listOf(
+        MappingTypeCollection.BigDecimal
     )
 }

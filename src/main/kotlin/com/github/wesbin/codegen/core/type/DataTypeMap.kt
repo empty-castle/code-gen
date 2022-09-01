@@ -1,8 +1,21 @@
 package com.github.wesbin.codegen.core.type
 
-abstract class DataTypeMap {
+import com.github.wesbin.codegen.core.type.kind.*
+import com.intellij.database.model.DataType
 
-    abstract val mappingData: Map<String, String>
+class DataTypeMap {
 
-//    fun getMappingData(type: DataType)
+    private val mappingData: List<MappingDataType> = listOf(
+        BigintType.INSTANCE,
+        DateTimeType.INSTANCE,
+        DateType.INSTANCE,
+        DecimalType.INSTANCE,
+        IntType.INSTANCE,
+        NumberType.INSTANCE,
+        TextType.INSTANCE,
+        Varchar2Type.INSTANCE,
+        VarcharType.INSTANCE,
+    )
+
+    fun getMappingDataType(type: DataType): MappingDataType? = mappingData.find { it.name == type.typeName.uppercase() }
 }

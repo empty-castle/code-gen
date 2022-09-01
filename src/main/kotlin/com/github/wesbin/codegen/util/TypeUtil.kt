@@ -7,7 +7,7 @@ import com.intellij.database.model.DataType
 object TypeUtil {
 
     fun toAttributeType(type: DataType): String {
-        val entityColumnType: EntityTypeMappingData? = EntityTypeMappingData.values().find { it.name == type.typeName.uppercase() }\
+        val entityColumnType: EntityTypeMappingData? = EntityTypeMappingData.values().find { it.name == type.typeName.uppercase() }
         return entityColumnType?.attributeType ?: "[Error]TypeUtil.toAttributeType: Not founded ${type.typeName} from ColumnType Enum Class"
     }
 

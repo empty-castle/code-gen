@@ -1,11 +1,16 @@
 package com.github.wesbin.codegen.core.type.kind
 
-import com.github.wesbin.codegen.core.type.DataType
+import com.github.wesbin.codegen.core.type.MappingDataType
+import com.github.wesbin.codegen.core.type.MappingTypeCollection
 
-class TextType private constructor(): DataType(){
+class TextType private constructor(): MappingDataType(){
+
+    companion object {
+        val INSTANCE = TextType()
+    }
 
     override val name: String = "TEXT"
-    override val entityMappingTypes: List<String> = listOf(
-        "String"
+    override val mappingTypes: List<MappingTypeCollection> = listOf(
+        MappingTypeCollection.String
     )
 }
