@@ -7,6 +7,6 @@ import com.github.wesbin.codegen.core.field.entity.EntityFieldModule
 
 class ModelCodeGenModules: CodeGenModules() {
 
-    override fun code(): CodeModule = ModelCodeModule()
-    override fun field(): FieldModule = EntityFieldModule()
+    override fun code(): CodeModule = ModelCodeModule.INSTANCE
+    override fun field(): FieldModule = EntityFieldModule.INSTANCE
 }

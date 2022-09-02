@@ -3,7 +3,11 @@ package com.github.wesbin.codegen.core.type
 import com.github.wesbin.codegen.core.type.kind.*
 import com.intellij.database.model.DataType
 
-class DataTypeMap {
+class DataTypeMap private constructor() {
+
+    companion object {
+        val INSTANCE = DataTypeMap()
+    }
 
     private val mappingData: List<MappingDataType> = listOf(
         BigintType.INSTANCE,

@@ -8,5 +8,5 @@ abstract class CodeGenModules {
 
     abstract fun code(): CodeModule
     abstract fun field(): FieldModule
-    val type: DataTypeMap = DataTypeMap()
+    val type: DataTypeMap = DataTypeMap.INSTANCE
 }

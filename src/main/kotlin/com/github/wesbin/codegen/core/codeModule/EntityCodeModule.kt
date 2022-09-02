@@ -7,7 +7,11 @@ import com.github.wesbin.codegen.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 
-class EntityCodeModule: CodeModule {
+class EntityCodeModule private constructor(): CodeModule {
+
+    companion object {
+        val INSTANCE = EntityCodeModule()
+    }
 
     override fun generate(observableProperties: ObservableProperties): String {
         val packageName: String = observableProperties.packageComboBox!!.text
