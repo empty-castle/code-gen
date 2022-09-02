@@ -1,5 +1,6 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.github.wesbin.codegen.core.CodeGenModules
 import com.intellij.openapi.ui.DialogPanel
 
 interface Panel {

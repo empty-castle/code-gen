@@ -1,5 +1,6 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.github.wesbin.codegen.core.CodeGenModules
 import com.intellij.application.options.ModulesComboBox
 import com.intellij.database.psi.DbDataSource
 import com.intellij.openapi.module.ModuleManager

@@ -1,5 +1,7 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.github.wesbin.codegen.core.CodeGenModules
+import com.github.wesbin.codegen.core.EntityCodeGenModules
 import com.github.wesbin.codegen.dialog.panel.table.ColumnTableRecordData
 import com.github.wesbin.codegen.dialog.panel.table.ColumnTable
 import com.github.wesbin.codegen.util.StringUtil
@@ -22,7 +24,8 @@ import javax.swing.ListSelectionModel
 import kotlin.reflect.KProperty
 
 @Suppress("UnstableApiUsage")
-class RightPanel(override val observableProperties: ObservableProperties): Panel, Observer {
+class RightPanel(override val observableProperties: ObservableProperties, val codeGenModules: CodeGenModules):
+    Panel, Observer {
 
     private val tableModel: ColumnTable = ColumnTable()
 

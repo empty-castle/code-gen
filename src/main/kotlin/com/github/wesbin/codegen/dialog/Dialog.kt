@@ -1,6 +1,9 @@
 package com.github.wesbin.codegen.dialog
 
+import com.github.wesbin.codegen.core.CodeGenModules
 import com.github.wesbin.codegen.core.CodeGenerator
+import com.github.wesbin.codegen.core.EntityCodeGenModules
+import com.github.wesbin.codegen.core.ModelCodeGenModules
 import com.github.wesbin.codegen.dialog.panel.*
 import com.github.wesbin.codegen.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
@@ -22,9 +25,18 @@ class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
         false
     ) {
 
-    private val observableProperties = ObservableProperties()
+    val observableProperties = ObservableProperties(actionId)
+    var codeGenModules: CodeGenModules? = when (actionId) {
+        "entity" -> EntityCodeGenModules()
+        "model" -> ModelCodeGenModules()
+        else -> null
+    }
 
     init {
+        if (codeGenModules == null) {
+            // todo custom Exception
+            throw Exception()
+        }
         title = dialogTitle
         setOKButtonText("OK")
         setCancelButtonText("Cancel")
@@ -45,7 +57,7 @@ class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
                         }
                         .createPanel()
                     // 우 panel
-                    secondComponent = RightPanel(observableProperties)
+                    secondComponent = RightPanel(observableProperties, codeGenModules!!)
                         .apply {
                             observableProperties.rightPanel = this
                         }

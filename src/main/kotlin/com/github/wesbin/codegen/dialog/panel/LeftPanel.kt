@@ -1,5 +1,6 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.github.wesbin.codegen.core.CodeGenModules
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
 import com.intellij.database.psi.DbDataSource
@@ -13,7 +14,8 @@ import javax.swing.ListSelectionModel
 import kotlin.reflect.KProperty
 
 @Suppress("UnstableApiUsage")
-class LeftPanel(override val observableProperties: ObservableProperties): Panel, Observer {
+class LeftPanel(override val observableProperties: ObservableProperties):
+    Panel, Observer {
 
     private val items: MutableList<DasObject> = mutableListOf()
 
