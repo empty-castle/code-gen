@@ -19,7 +19,7 @@ class EntityCodeModule private constructor(): CodeModule {
         val imports: MutableSet<String> = mutableSetOf()
         val fields: MutableList<Field> = mutableListOf()
 
-        val entityFieldFactory = EntityFieldModule()
+        val entityFieldFactory = EntityFieldModule.INSTANCE
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {
                 val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)

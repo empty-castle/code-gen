@@ -1,11 +1,10 @@
 package com.github.wesbin.codegen.dialog.panel
 
 import com.github.wesbin.codegen.core.CodeGenModules
-import com.github.wesbin.codegen.core.EntityCodeGenModules
+import com.github.wesbin.codegen.core.type.MappingDataType
 import com.github.wesbin.codegen.dialog.panel.table.ColumnTableRecordData
 import com.github.wesbin.codegen.dialog.panel.table.ColumnTable
 import com.github.wesbin.codegen.util.StringUtil
-import com.github.wesbin.codegen.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject
 import com.intellij.database.util.DasUtil
@@ -83,12 +82,16 @@ class RightPanel(override val observableProperties: ObservableProperties, val co
             if (selectedTable != null) {
                 DasUtil.getColumns(selectedTable).forEach { dasColumn: DasColumn? ->
                     if (dasColumn != null) {
+                        val attributeType: String
+                        val mappingDataType: MappingDataType? = codeGenModules.type.getMappingDataType(dasColumn.dataType)
+                        attributeType = mappingDataType?.getType()?.name ?: "[UNIDENTIFIED]${dasColumn.dataType}"
                         tableModel.add(
                             ColumnTableRecordData(
                                 dasColumn.name,
                                 dasColumn.dataType.specification,
                                 StringUtil.toCamelCase(dasColumn.name),
-                                TypeUtil.toAttributeType(dasColumn.dataType)
+                                attributeType
+//                                TypeUtil.toAttributeType(dasColumn.dataType)
                             )
                         )
                     }

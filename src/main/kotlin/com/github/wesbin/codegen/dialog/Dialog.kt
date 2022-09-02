@@ -25,18 +25,14 @@ class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
         false
     ) {
 
-    val observableProperties = ObservableProperties(actionId)
-    var codeGenModules: CodeGenModules? = when (actionId) {
+    val observableProperties: ObservableProperties = ObservableProperties(actionId)
+    var codeGenModules: CodeGenModules = when (actionId.split(".")[1]) {
         "entity" -> EntityCodeGenModules()
         "model" -> ModelCodeGenModules()
-        else -> null
+        else -> throw Exception()
     }
 
     init {
-        if (codeGenModules == null) {
-            // todo custom Exception
-            throw Exception()
-        }
         title = dialogTitle
         setOKButtonText("OK")
         setCancelButtonText("Cancel")
@@ -57,7 +53,7 @@ class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
                         }
                         .createPanel()
                     // 우 panel
-                    secondComponent = RightPanel(observableProperties, codeGenModules!!)
+                    secondComponent = RightPanel(observableProperties, codeGenModules)
                         .apply {
                             observableProperties.rightPanel = this
                         }

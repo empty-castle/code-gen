@@ -12,8 +12,8 @@ class CodeGenerator(actionId: String) {
     init {
          generatorModule =
             when (actionId.split(".")[1]) {
-                "entity" -> EntityCodeModule()
-                "model" -> ModelCodeModule()
+                "entity" -> EntityCodeModule.INSTANCE
+                "model" -> ModelCodeModule.INSTANCE
                 else -> null
             }
     }
