@@ -1,5 +1,7 @@
-package com.github.wesbin.codegen.dialog.panel
+package com.github.wesbin.codegen.dialog.observer
 
+import com.github.wesbin.codegen.dialog.panel.LeftPanel
+import com.github.wesbin.codegen.dialog.panel.RightPanel
 import com.intellij.application.options.ModulesComboBox
 import com.intellij.database.model.DasObject
 import com.intellij.database.psi.DbDataSource

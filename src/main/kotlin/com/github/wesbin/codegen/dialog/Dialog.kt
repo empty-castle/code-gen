@@ -1,9 +1,9 @@
 package com.github.wesbin.codegen.dialog
 
+import com.github.wesbin.codegen.core.code.CodeGen
 import com.github.wesbin.codegen.core.code.EntityCodeGen
-import com.github.wesbin.codegen.core.modules.CodeGenModules
-import com.github.wesbin.codegen.core.modules.EntityCodeGenModules
-import com.github.wesbin.codegen.core.modules.ModelCodeGenModules
+import com.github.wesbin.codegen.core.code.ModelCodeGen
+import com.github.wesbin.codegen.dialog.observer.ObservableProperties
 import com.github.wesbin.codegen.dialog.panel.*
 import com.github.wesbin.codegen.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
@@ -26,9 +26,9 @@ class Dialog(val project: Project, dialogTitle: String, actionId: String) :
     ) {
 
     val observableProperties: ObservableProperties = ObservableProperties(actionId)
-    private var codeGenModules: CodeGenModules = when (actionId.split(".")[1]) {
-        "entity" -> EntityCodeGenModules()
-        "model" -> ModelCodeGenModules()
+    private var codeGen: CodeGen = when (actionId.split(".")[1]) {
+        "entity" -> EntityCodeGen()
+        "model" -> ModelCodeGen()
         else -> throw Exception()
     }
 
@@ -53,7 +53,7 @@ class Dialog(val project: Project, dialogTitle: String, actionId: String) :
                         }
                         .createPanel()
                     // 우 panel
-                    secondComponent = RightPanel(observableProperties, codeGenModules)
+                    secondComponent = RightPanel(observableProperties, codeGen.typeModule)
                         .apply {
                             observableProperties.rightPanel = this
                         }
@@ -87,7 +87,7 @@ class Dialog(val project: Project, dialogTitle: String, actionId: String) :
                 FileUtil.create(
                     project,
                     title = observableProperties.className,
-                    text = EntityCodeGen.INSTANCE.generate(codeGenModules, observableProperties),
+                    text = codeGen.generate(observableProperties),
                     psiDirectory
                 )
             } else {

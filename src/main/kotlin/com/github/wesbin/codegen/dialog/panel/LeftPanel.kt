@@ -1,5 +1,7 @@
 package com.github.wesbin.codegen.dialog.panel
 
+import com.github.wesbin.codegen.dialog.observer.ObservableProperties
+import com.github.wesbin.codegen.dialog.observer.Observer
 import com.intellij.database.model.DasObject
 import com.intellij.database.model.ObjectKind
 import com.intellij.database.psi.DbDataSource

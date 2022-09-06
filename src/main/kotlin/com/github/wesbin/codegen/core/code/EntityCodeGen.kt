@@ -1,32 +1,29 @@
 package com.github.wesbin.codegen.core.code
 
-import com.github.wesbin.codegen.core.modules.CodeGenModules
 import com.github.wesbin.codegen.core.modules.field.Field
+import com.github.wesbin.codegen.core.modules.field.FieldModule
 import com.github.wesbin.codegen.core.modules.field.entity.EntityFieldModule
-import com.github.wesbin.codegen.core.modules.type.mapping.MappingType
-import com.github.wesbin.codegen.dialog.panel.ObservableProperties
+import com.github.wesbin.codegen.core.modules.type.mapping.CodeGenMappingType
+import com.github.wesbin.codegen.dialog.observer.ObservableProperties
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 
-class EntityCodeGen private constructor(): CodeGen {
+class EntityCodeGen(): CodeGen() {
 
-    companion object {
-        val INSTANCE = EntityCodeGen()
-    }
+    override val fieldModule: FieldModule = EntityFieldModule.INSTANCE
 
-    override fun generate(codeGenModules: CodeGenModules, observableProperties: ObservableProperties): String {
+    override fun generate(observableProperties: ObservableProperties): String {
         val packageName: String = observableProperties.packageComboBox!!.text
 
         val imports: MutableSet<String> = mutableSetOf()
         val fields: MutableList<Field> = mutableListOf()
 
-        val entityFieldFactory: EntityFieldModule = EntityFieldModule.INSTANCE
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {
-                val mappingType: MappingType =
-                    codeGenModules.type.getMappingDataType(dasColumn.dataType)?.getType() ?: throw Exception()
-                mappingType.importPath?.let(imports::add)
-                fields.add(entityFieldFactory.createTypeField(dasColumn, mappingType.name))
+                val codeGenMappingType: CodeGenMappingType =
+                    typeModule.getMappingDataType(dasColumn.dataType)?.getType() ?: throw Exception()
+                codeGenMappingType.importPath?.let(imports::add)
+                fields.add(fieldModule.createTypeField(dasColumn, codeGenMappingType.name))
             }
         }
 

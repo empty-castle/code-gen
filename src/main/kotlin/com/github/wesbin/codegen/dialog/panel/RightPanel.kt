@@ -1,9 +1,11 @@
 package com.github.wesbin.codegen.dialog.panel
 
-import com.github.wesbin.codegen.core.modules.CodeGenModules
-import com.github.wesbin.codegen.core.modules.type.MappingDataType
-import com.github.wesbin.codegen.dialog.panel.table.ColumnTableRecordData
-import com.github.wesbin.codegen.dialog.panel.table.ColumnTable
+import com.github.wesbin.codegen.core.modules.type.TypeModule
+import com.github.wesbin.codegen.core.modules.type.CodeGenDataType
+import com.github.wesbin.codegen.dialog.observer.ObservableProperties
+import com.github.wesbin.codegen.dialog.observer.Observer
+import com.github.wesbin.codegen.dialog.ui.table.ColumnTableRecordData
+import com.github.wesbin.codegen.dialog.ui.table.ColumnTable
 import com.github.wesbin.codegen.util.StringUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.model.DasObject
@@ -23,7 +25,7 @@ import javax.swing.ListSelectionModel
 import kotlin.reflect.KProperty
 
 @Suppress("UnstableApiUsage")
-class RightPanel(override val observableProperties: ObservableProperties, private val codeGenModules: CodeGenModules):
+class RightPanel(override val observableProperties: ObservableProperties, private val typeModule: TypeModule):
     Panel, Observer {
 
     private val tableModel: ColumnTable = ColumnTable()
@@ -82,8 +84,8 @@ class RightPanel(override val observableProperties: ObservableProperties, privat
             if (selectedTable != null) {
                 DasUtil.getColumns(selectedTable).forEach { dasColumn: DasColumn? ->
                     if (dasColumn != null) {
-                        val mappingDataType: MappingDataType? = codeGenModules.type.getMappingDataType(dasColumn.dataType)
-                        val attributeType: String = mappingDataType?.getType()?.name ?: "[UNIDENTIFIED]${dasColumn.dataType}"
+                        val codeGenDataType: CodeGenDataType? = typeModule.getMappingDataType(dasColumn.dataType)
+                        val attributeType: String = codeGenDataType?.getType()?.name ?: "[UNIDENTIFIED]${dasColumn.dataType}"
                         tableModel.add(
                             ColumnTableRecordData(
                                 dasColumn.name,

@@ -1,9 +1,13 @@
 package com.github.wesbin.codegen.core.code
 
-import com.github.wesbin.codegen.core.modules.CodeGenModules
-import com.github.wesbin.codegen.dialog.panel.ObservableProperties
+import com.github.wesbin.codegen.core.modules.field.FieldModule
+import com.github.wesbin.codegen.core.modules.type.TypeModule
+import com.github.wesbin.codegen.dialog.observer.ObservableProperties
 
-interface CodeGen {
+abstract class CodeGen {
 
-    fun generate(codeGenModules: CodeGenModules, observableProperties: ObservableProperties): String
+    val typeModule: TypeModule = TypeModule.INSTANCE
+
+    abstract val fieldModule: FieldModule
+    abstract fun generate(observableProperties: ObservableProperties): String
 }

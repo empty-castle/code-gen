@@ -1,4 +1,4 @@
-package com.github.wesbin.codegen.dialog.panel
+package com.github.wesbin.codegen.dialog.observer
 
 import kotlin.reflect.KProperty
 

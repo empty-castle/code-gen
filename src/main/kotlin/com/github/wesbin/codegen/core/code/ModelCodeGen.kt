@@ -1,16 +1,15 @@
 package com.github.wesbin.codegen.core.code
 
-import com.github.wesbin.codegen.core.modules.CodeGenModules
 import com.github.wesbin.codegen.core.modules.field.Field
-import com.github.wesbin.codegen.dialog.panel.ObservableProperties
+import com.github.wesbin.codegen.core.modules.field.FieldModule
+import com.github.wesbin.codegen.core.modules.field.model.ModelFieldModule
+import com.github.wesbin.codegen.dialog.observer.ObservableProperties
 
-class ModelCodeGen private constructor(): CodeGen {
+class ModelCodeGen(): CodeGen() {
 
-    companion object {
-        val INSTANCE = ModelCodeGen()
-    }
+    override val fieldModule: FieldModule = ModelFieldModule.INSTANCE
 
-    override fun generate(codeGenModules: CodeGenModules, observableProperties: ObservableProperties): String {
+    override fun generate(observableProperties: ObservableProperties): String {
         val packageName: String = observableProperties.packageComboBox!!.text
 
         val imports: MutableSet<String> = mutableSetOf()

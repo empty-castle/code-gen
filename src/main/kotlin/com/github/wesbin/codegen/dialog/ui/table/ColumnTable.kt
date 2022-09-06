@@ -1,4 +1,4 @@
-package com.github.wesbin.codegen.dialog.panel.table
+package com.github.wesbin.codegen.dialog.ui.table
 
 import javax.swing.table.AbstractTableModel
 

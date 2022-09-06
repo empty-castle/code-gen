@@ -1,16 +1,16 @@
 package com.github.wesbin.codegen.core.modules.type.kind
 
-import com.github.wesbin.codegen.core.modules.type.MappingDataType
-import com.github.wesbin.codegen.core.modules.type.mapping.MappingType
+import com.github.wesbin.codegen.core.modules.type.CodeGenDataType
+import com.github.wesbin.codegen.core.modules.type.mapping.CodeGenMappingType
 
-class DateTimeType private constructor(): MappingDataType(){
+class DateTimeType private constructor(): CodeGenDataType(){
 
     companion object {
         val INSTANCE = DateTimeType()
     }
 
     override val name: String = "DATETIME"
-    override val mappingTypes: List<MappingType> = listOf(
-        MappingType.LocalDate
+    override val codeGenMappingTypes: List<CodeGenMappingType> = listOf(
+        CodeGenMappingType.LocalDate
     )
 }
