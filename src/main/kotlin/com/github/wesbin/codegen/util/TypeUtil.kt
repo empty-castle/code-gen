@@ -1,7 +1,7 @@
 package com.github.wesbin.codegen.util
 
-import com.github.wesbin.codegen.core.type.entity.EntityTypeMappingData
-import com.github.wesbin.codegen.core.type.entity.ImportEntityColumnType
+import com.github.wesbin.codegen.core.modules.type.entity.EntityTypeMappingData
+import com.github.wesbin.codegen.core.modules.type.entity.ImportEntityColumnType
 import com.intellij.database.model.DataType
 
 object TypeUtil {

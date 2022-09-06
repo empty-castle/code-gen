@@ -1,9 +1,9 @@
 package com.github.wesbin.codegen.dialog
 
-import com.github.wesbin.codegen.core.CodeGenModules
-import com.github.wesbin.codegen.core.CodeGenerator
-import com.github.wesbin.codegen.core.EntityCodeGenModules
-import com.github.wesbin.codegen.core.ModelCodeGenModules
+import com.github.wesbin.codegen.core.code.EntityCodeGen
+import com.github.wesbin.codegen.core.modules.CodeGenModules
+import com.github.wesbin.codegen.core.modules.EntityCodeGenModules
+import com.github.wesbin.codegen.core.modules.ModelCodeGenModules
 import com.github.wesbin.codegen.dialog.panel.*
 import com.github.wesbin.codegen.util.FileUtil
 import com.intellij.database.psi.DbPsiFacade
@@ -19,14 +19,14 @@ import java.awt.Dimension
 import javax.swing.JPanel
 
 @Suppress("UnstableApiUsage")
-class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
+class Dialog(val project: Project, dialogTitle: String, actionId: String) :
     DialogWrapper(
         project,
         false
     ) {
 
     val observableProperties: ObservableProperties = ObservableProperties(actionId)
-    var codeGenModules: CodeGenModules = when (actionId.split(".")[1]) {
+    private var codeGenModules: CodeGenModules = when (actionId.split(".")[1]) {
         "entity" -> EntityCodeGenModules()
         "model" -> ModelCodeGenModules()
         else -> throw Exception()
@@ -84,11 +84,10 @@ class Dialog(val project: Project, dialogTitle: String, val actionId: String) :
                     .directories.find { it.virtualFile.presentableUrl.startsWith(selectedModuleUrl) }
 
             if (psiDirectory != null) {
-                // todo CodeGenerator module 사용으로 전환
                 FileUtil.create(
                     project,
                     title = observableProperties.className,
-                    text = CodeGenerator(actionId).generate(observableProperties),
+                    text = EntityCodeGen.INSTANCE.generate(codeGenModules, observableProperties),
                     psiDirectory
                 )
             } else {
