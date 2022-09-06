@@ -3,8 +3,8 @@ package com.github.wesbin.codegen.core.code
 import com.github.wesbin.codegen.core.modules.CodeGenModules
 import com.github.wesbin.codegen.core.modules.field.Field
 import com.github.wesbin.codegen.core.modules.field.entity.EntityFieldModule
+import com.github.wesbin.codegen.core.modules.type.mapping.MappingType
 import com.github.wesbin.codegen.dialog.panel.ObservableProperties
-import com.github.wesbin.codegen.util.TypeUtil
 import com.intellij.database.model.DasColumn
 import com.intellij.database.util.DasUtil
 
@@ -20,13 +20,13 @@ class EntityCodeGen private constructor(): CodeGen {
         val imports: MutableSet<String> = mutableSetOf()
         val fields: MutableList<Field> = mutableListOf()
 
-        val entityFieldFactory = EntityFieldModule.INSTANCE
+        val entityFieldFactory: EntityFieldModule = EntityFieldModule.INSTANCE
         DasUtil.getColumns(observableProperties.selectedTable).forEach { dasColumn: DasColumn? ->
             if (dasColumn != null) {
-                val attributeType = TypeUtil.toAttributeType(dasColumn.dataType)
-                val associatedImport = TypeUtil.getAssociatedImport(attributeType)
-                associatedImport?.let(imports::add)
-                fields.add(entityFieldFactory.createTypeField(dasColumn, attributeType))
+                val mappingType: MappingType =
+                    codeGenModules.type.getMappingDataType(dasColumn.dataType)?.getType() ?: throw Exception()
+                mappingType.importPath?.let(imports::add)
+                fields.add(entityFieldFactory.createTypeField(dasColumn, mappingType.name))
             }
         }
 

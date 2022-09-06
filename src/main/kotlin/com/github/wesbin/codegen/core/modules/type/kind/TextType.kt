@@ -1,7 +1,7 @@
 package com.github.wesbin.codegen.core.modules.type.kind
 
 import com.github.wesbin.codegen.core.modules.type.MappingDataType
-import com.github.wesbin.codegen.core.modules.type.MappingTypeCollection
+import com.github.wesbin.codegen.core.modules.type.mapping.MappingType
 
 class TextType private constructor(): MappingDataType(){
 
@@ -10,7 +10,7 @@ class TextType private constructor(): MappingDataType(){
     }
 
     override val name: String = "TEXT"
-    override val mappingTypes: List<MappingTypeCollection> = listOf(
-        MappingTypeCollection.String
+    override val mappingTypes: List<MappingType> = listOf(
+        MappingType.String
     )
 }

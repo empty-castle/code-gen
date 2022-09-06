@@ -82,16 +82,14 @@ class RightPanel(override val observableProperties: ObservableProperties, privat
             if (selectedTable != null) {
                 DasUtil.getColumns(selectedTable).forEach { dasColumn: DasColumn? ->
                     if (dasColumn != null) {
-                        val attributeType: String
                         val mappingDataType: MappingDataType? = codeGenModules.type.getMappingDataType(dasColumn.dataType)
-                        attributeType = mappingDataType?.getType()?.name ?: "[UNIDENTIFIED]${dasColumn.dataType}"
+                        val attributeType: String = mappingDataType?.getType()?.name ?: "[UNIDENTIFIED]${dasColumn.dataType}"
                         tableModel.add(
                             ColumnTableRecordData(
                                 dasColumn.name,
                                 dasColumn.dataType.specification,
                                 StringUtil.toCamelCase(dasColumn.name),
                                 attributeType
-//                                TypeUtil.toAttributeType(dasColumn.dataType)
                             )
                         )
                     }

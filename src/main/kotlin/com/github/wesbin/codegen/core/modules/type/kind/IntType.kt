@@ -1,7 +1,7 @@
 package com.github.wesbin.codegen.core.modules.type.kind
 
 import com.github.wesbin.codegen.core.modules.type.MappingDataType
-import com.github.wesbin.codegen.core.modules.type.MappingTypeCollection
+import com.github.wesbin.codegen.core.modules.type.mapping.MappingType
 
 class IntType private constructor(): MappingDataType(){
 
@@ -10,7 +10,7 @@ class IntType private constructor(): MappingDataType(){
     }
 
     override val name: String = "INT"
-    override val mappingTypes: List<MappingTypeCollection> = listOf(
-        MappingTypeCollection.Integer
+    override val mappingTypes: List<MappingType> = listOf(
+        MappingType.Integer
     )
 }
