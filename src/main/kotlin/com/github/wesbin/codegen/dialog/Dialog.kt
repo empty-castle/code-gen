@@ -27,9 +27,17 @@ class Dialog(val project: Project, dialogTitle: String, actionId: String) :
 
     val observableProperties: ObservableProperties = ObservableProperties(actionId)
     private var codeGen: CodeGen = when (actionId.split(".")[1]) {
-        "entity" -> EntityCodeGen()
-        "model" -> ModelCodeGen()
-        else -> throw Exception()
+        "entity" -> {
+            observableProperties.extension = "kt"
+            EntityCodeGen()
+        }
+        "model" -> {
+            observableProperties.extension = "java"
+            ModelCodeGen()
+        }
+        else -> {
+            throw Exception()
+        }
     }
 
     init {
@@ -86,7 +94,7 @@ class Dialog(val project: Project, dialogTitle: String, actionId: String) :
             if (psiDirectory != null) {
                 FileUtil.create(
                     project,
-                    title = observableProperties.className,
+                    title = "${observableProperties.className}.${observableProperties.extension}",
                     text = codeGen.generate(observableProperties),
                     psiDirectory
                 )

@@ -1,6 +1,6 @@
 package com.github.wesbin.codegen.util
 
-import com.intellij.extapi.psi.PsiFileBase
+import  com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.Language
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
@@ -17,7 +17,7 @@ object FileUtil {
             val psiFile: PsiFile? = Language.findLanguageByID("kotlin")
                 ?.let {
                     PsiFileFactory.getInstance(project)
-                        .createFileFromText("$title.kt", it, text)
+                        .createFileFromText(title, it, text)
                 }
 
             if (psiFile != null) {

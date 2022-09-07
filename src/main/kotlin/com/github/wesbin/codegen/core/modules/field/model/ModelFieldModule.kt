@@ -11,6 +11,6 @@ class ModelFieldModule private constructor(): FieldModule {
     }
 
     override fun createTypeField(dasColumn: DasColumn, attributeType: String): Field {
-        TODO("Not yet implemented")
+        return ModelField(dasColumn, attributeType)
     }
 }

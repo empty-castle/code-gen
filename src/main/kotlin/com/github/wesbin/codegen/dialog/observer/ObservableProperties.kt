@@ -34,6 +34,7 @@ class ObservableProperties(actionId: String) {
     var packageComboBox: PackageNameReferenceEditorCombo? = null
 
     var className: String = ""
+    var extension: String = ""
 
     fun checkValues(): Boolean =
         selectedDbDataSource != null
