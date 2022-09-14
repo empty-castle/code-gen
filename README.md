@@ -8,7 +8,7 @@ Kotlin 과 [Kotlin UI DSL Version 2](https://plugins.jetbrains.com/docs/intellij
 
 ## 세부 목표
 
-- [ ] JPA Entity
+- [x] JPA Entity
 - [ ] SQL Generator
-- [ ] Model Generator
+- [x] Model Generator
 - [ ] Controller Generator
