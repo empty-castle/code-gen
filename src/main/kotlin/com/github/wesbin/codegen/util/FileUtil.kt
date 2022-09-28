@@ -22,7 +22,7 @@ object FileUtil {
 
             if (psiFile != null) {
                 psiDirectory.children
-                    .find { (it as PsiFileBase).name == psiFile.name }
+                    .find { it is PsiFileBase && it.name == psiFile.name }
                     ?: psiDirectory.add(psiFile)
             }
         }
