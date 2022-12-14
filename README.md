@@ -8,12 +8,12 @@ Kotlin 과 [Kotlin UI DSL Version 2](https://plugins.jetbrains.com/docs/intellij
 
 ## 버전 정보
 
-### v0.1.0
+### v0.0.1
 
 - JPA Entity
 - Model
 
-생성 기능 작성을 완료했습니다.
+일부 생성 기능 작성을 완료했습니다.
 
 ## 업데이트 계획
 
